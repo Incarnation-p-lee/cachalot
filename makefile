@@ -12,7 +12,6 @@ test:$(go_coverages)
 
 $(go_coverages):%/coverage:%/
 	$(GO) test -covermode=atomic -coverprofile=$@ ./$<
-
-clean:
+	@cat $@ >> coverage.txt
 	$(RM) $(go_coverages)
 
