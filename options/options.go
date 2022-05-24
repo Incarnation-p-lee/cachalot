@@ -22,24 +22,24 @@ func CreateOptions() *Options {
 }
 
 // AppendOption will append the Option to the Options.
-func (this *Options) AppendOption(option Option) {
-    this.allOptions = append(this.allOptions, option)
+func (ops *Options) AppendOption(option Option) {
+    ops.allOptions = append(ops.allOptions, option)
 }
 
 // GetOption will return the option by index, out of range will return error.
-func (this *Options) GetOption(index int) (Option, error) {
-    limit := len(this.allOptions)
+func (ops *Options) GetOption(index int) (Option, error) {
+    limit := len(ops.allOptions)
 
     if index >= limit {
         msg := fmt.Sprintf("Requred index %d is out of limit %d.", index, limit)
         return Option {}, errors.New(msg)
     }
 
-    return this.allOptions[index], nil
+    return ops.allOptions[index], nil
 }
 
 // OptionsCount will return the total count of all Options.
-func (this *Options) OptionsCount() int {
-    return len(this.allOptions)
+func (ops *Options) OptionsCount() int {
+    return len(ops.allOptions)
 }
 
