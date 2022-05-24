@@ -14,7 +14,7 @@ type Options struct {
     allOptions []Option
 }
 
-// CreateOptions will create the object of Options and return its' pointer.
+// CreateOptions will create the object of Options and return the pointer.
 func CreateOptions() *Options {
     return &Options {
         allOptions: []Option {},
@@ -26,7 +26,7 @@ func (this *Options) AppendOption(option Option) {
     this.allOptions = append(this.allOptions, option)
 }
 
-// GetOption will return the option by index, or error will be return if out of range.
+// GetOption will return the option by index, out of range will return error.
 func (this *Options) GetOption(index int) (Option, error) {
     limit := len(this.allOptions)
 
@@ -38,7 +38,7 @@ func (this *Options) GetOption(index int) (Option, error) {
     return this.allOptions[index], nil
 }
 
-// OptionsCount will return the total count of this Options.
+// OptionsCount will return the total count of all Options.
 func (this *Options) OptionsCount() int {
     return len(this.allOptions)
 }
