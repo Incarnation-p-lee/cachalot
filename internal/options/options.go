@@ -14,6 +14,20 @@ type Options struct {
     allOptions []Option
 }
 
+const (
+    SamplingCount = "sampling-count"
+    SamplingInterval = "sampling-interval"
+)
+
+// CreateEnabledOption will create option enabled with given key.
+func CreateEnabledOption(key, val string) Option {
+    return Option {
+        Key: key,
+        Val: val,
+        Enabled: true,
+    }
+}
+
 // CreateOptions will create the object of Options and return the pointer.
 func CreateOptions() *Options {
     return &Options {
@@ -41,5 +55,13 @@ func (ops *Options) GetOption(index int) (Option, error) {
 // OptionsCount will return the total count of all Options.
 func (ops *Options) OptionsCount() int {
     return len(ops.allOptions)
+}
+
+func (op *Option) IsSamplingCount() bool {
+    return op.Key == SamplingCount
+}
+
+func (op *Option) IsSamplingInterval() bool {
+    return op.Key == SamplingInterval
 }
 

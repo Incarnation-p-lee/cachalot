@@ -5,10 +5,17 @@ import (
     "pkg/assert"
 )
 
+func TestCreateEnabledOption(t *testing.T) {
+    option := CreateEnabledOption("", "")
+
+    assert.IsNotNil(t, option, "option should not be null.")
+    assert.IsTrue(t, option.Enabled, "option should be enabled.")
+}
+
 func TestCreateOptions(t *testing.T) {
     options := CreateOptions()
 
-    assert.IsNotNil(t, options, "options cannot be null.")
+    assert.IsNotNil(t, options, "options should not be null.")
     assert.IsNotNil(t, options.allOptions, "allOptions of options cannot be null.")
 }
 
@@ -51,5 +58,21 @@ func TestOptionsCount(t *testing.T) {
     options.AppendOption(Option {})
 
     assert.IsEqual(t, 2, options.OptionsCount(), "optionsCount should be 2.")
+}
+
+func TestIsSamplingCount(t *testing.T) {
+    countOption := Option { Key: SamplingCount, }
+    intervalOption := Option { Key: SamplingInterval, }
+
+    assert.IsTrue(t, countOption.IsSamplingCount(), "option should be sampling count.");
+    assert.IsFalse(t, intervalOption.IsSamplingCount(), "option should not be sampling count.");
+}
+
+func TestIsSamplingInterval(t *testing.T) {
+    countOption := Option { Key: SamplingCount, }
+    intervalOption := Option { Key: SamplingInterval, }
+
+    assert.IsTrue(t, intervalOption.IsSamplingInterval(), "option should be sampling interval.");
+    assert.IsFalse(t, countOption.IsSamplingInterval(), "option should not be sampling interval.");
 }
 
