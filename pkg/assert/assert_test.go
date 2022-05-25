@@ -19,3 +19,12 @@ func TestIsFalse(t *testing.T) {
     IsFalse(t, false, "test assert false")
 }
 
+func TestIsNil(t *testing.T) {
+    IsNil(t, nil, "test assert is nil")
+}
+
+func TestIsNotNil(t *testing.T) {
+    IsNotNil(t, map[string]int {}, "test assert is not nil")
+    IsNotNil(t, []string {}, "test assert is not nil")
+}
+

@@ -41,6 +41,36 @@ func IsTrue(t *testing.T, actual bool, message string) {
     logAndFail(t, msg)
 }
 
+// IsNil will check actual is nil, or it will fail the test.
+func IsNil(t *testing.T, actual interface{}, message string) {
+    if actual == nil {
+        return
+    }
+
+    msg := message
+
+    if len(msg) == 0 {
+        msg = fmt.Sprintf("assert is nil failed, actual %+v", actual)
+    }
+
+    logAndFail(t, msg)
+}
+
+// IsNotNil will check actual is not nil, or it will fail the test.
+func IsNotNil(t *testing.T, actual interface{}, message string) {
+    if actual != nil {
+        return
+    }
+
+    msg := message
+
+    if len(msg) == 0 {
+        msg = fmt.Sprintf("assert is not nil failed, actual %+v", actual)
+    }
+
+    logAndFail(t, msg)
+}
+
 // IsFalse will check actual is false, or it will fail the test.
 func IsFalse(t *testing.T, actual bool, message string) {
     if !actual {
