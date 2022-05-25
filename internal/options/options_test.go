@@ -2,15 +2,14 @@ package options
 
 import (
     "testing"
+    "pkg/assert"
 )
 
 func TestCreateOptions(t *testing.T) {
     options := CreateOptions()
 
-    if options == nil || options.allOptions == nil {
-        t.Logf("Options cann be null.")
-        t.Fail()
-    }
+    assert.IsNotNil(t, options, "options cannot be null.")
+    assert.IsNotNil(t, options.allOptions, "allOptions of options cannot be null.")
 }
 
 func TestAppendOption(t *testing.T) {
@@ -18,10 +17,7 @@ func TestAppendOption(t *testing.T) {
 
     options.AppendOption(Option {})
 
-    if options.OptionsCount() != 1 {
-        t.Logf("OptionsCount should be 1.")
-        t.Fail()
-    }
+    assert.IsEqual(t, 1, options.OptionsCount(), "optionsCount should be 1.")
 }
 
 func TestGetOption(t *testing.T) {
@@ -30,22 +26,19 @@ func TestGetOption(t *testing.T) {
     options.AppendOption(Option {
         Enabled: true,
     })
+
     options.AppendOption(Option {
         Enabled: false,
     })
 
-    if option, err := options.GetOption(0); err != nil {
-        t.Logf("GetOption by 1 should has no error.")
-        t.Fail()
-    } else if option.Enabled == false {
-        t.Logf("GetOption by 1 should be enabled.")
-        t.Fail()
-    }
+    option, err := options.GetOption(0)
 
-    if _, err := options.GetOption(2); err == nil {
-        t.Logf("GetOption by 2 should has error.")
-        t.Fail()
-    }
+    assert.IsNil(t, err, "getOption should have no error.")
+    assert.IsTrue(t, option.Enabled, "option should be enabled.")
+
+    _, err = options.GetOption(2)
+
+    assert.IsNotNil(t, err, "getOption should have error.")
 }
 
 func TestOptionsCount(t *testing.T) {
@@ -53,16 +46,10 @@ func TestOptionsCount(t *testing.T) {
 
     options.AppendOption(Option {})
 
-    if options.OptionsCount() != 1 {
-        t.Logf("OptionCount should be 1.")
-        t.Fail()
-    }
+    assert.IsEqual(t, 1, options.OptionsCount(), "optionsCount should be 1.")
 
     options.AppendOption(Option {})
 
-    if options.OptionsCount() != 2 {
-        t.Logf("OptionCount should be 1.")
-        t.Fail()
-    }
+    assert.IsEqual(t, 2, options.OptionsCount(), "optionsCount should be 2.")
 }
 
