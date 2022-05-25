@@ -10,7 +10,7 @@ func logAndFail(t *testing.T, message string) {
     t.Fail()
 }
 
-// AssertEqual will check actual is the same as expect, or it will fail the test.
+// IsEqual will check actual is the same as expect, or it will fail the test.
 func IsEqual(t *testing.T, expect, actual interface{}, message string) {
     if expect == actual {
         return
@@ -26,7 +26,7 @@ func IsEqual(t *testing.T, expect, actual interface{}, message string) {
     logAndFail(t, msg)
 }
 
-// AssertTrue will check actual is true, or it will fail the test.
+// IsTrue will check actual is true, or it will fail the test.
 func IsTrue(t *testing.T, actual bool, message string) {
     if actual {
         return
@@ -41,7 +41,7 @@ func IsTrue(t *testing.T, actual bool, message string) {
     logAndFail(t, msg)
 }
 
-// AssertFalse will check actual is false, or it will fail the test.
+// IsFalse will check actual is false, or it will fail the test.
 func IsFalse(t *testing.T, actual bool, message string) {
     if !actual {
         return
