@@ -28,7 +28,7 @@ func AssertEqual(t *testing.T, expect, actual interface{}, message string) {
 
 // AssertFalse will check actual is true, or it will fail the test.
 func AssertTrue(t *testing.T, actual bool, message string) {
-    if actual == true {
+    if actual {
         return
     }
 
@@ -43,7 +43,7 @@ func AssertTrue(t *testing.T, actual bool, message string) {
 
 // AssertFalse will check actual is false, or it will fail the test.
 func AssertFalse(t *testing.T, actual bool, message string) {
-    if actual == false {
+    if !actual {
         return
     }
 
