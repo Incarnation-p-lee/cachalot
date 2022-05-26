@@ -17,7 +17,9 @@ type Options struct {
 }
 
 const (
+    // SamplingCount indicates how many count will be sampled.
     SamplingCount = "sampling-count"
+    // SamplingInterval indicates the interval for each sampling, count in seconds.
     SamplingInterval = "sampling-interval"
 )
 
@@ -64,7 +66,7 @@ func (op *Option) IsSamplingCount() bool {
     return op.Key == SamplingCount
 }
 
-// IsSamplingCount indicates if the option is sampling interval.
+// IsSamplingInterval indicates if the option is sampling interval.
 func (op *Option) IsSamplingInterval() bool {
     return op.Key == SamplingInterval
 }
