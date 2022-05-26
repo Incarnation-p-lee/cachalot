@@ -5,11 +5,13 @@ import (
     "fmt"
 )
 
+// Option compose of key-value pair for one option, it also has one flag for enabled or not.
 type Option struct {
     Key, Val string
     Enabled bool
 }
 
+// Options is the collection of Option.
 type Options struct {
     allOptions []Option
 }
@@ -57,10 +59,12 @@ func (ops *Options) OptionsCount() int {
     return len(ops.allOptions)
 }
 
+// IsSamplingCount indicates if the option is sampling count.
 func (op *Option) IsSamplingCount() bool {
     return op.Key == SamplingCount
 }
 
+// IsSamplingCount indicates if the option is sampling interval.
 func (op *Option) IsSamplingInterval() bool {
     return op.Key == SamplingInterval
 }
