@@ -1,4 +1,4 @@
-module options
+module internal/options
 
 go 1.18
 
