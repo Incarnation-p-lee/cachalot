@@ -1,4 +1,4 @@
-package cachalot
+package main
 
 import (
     "internal/options"
