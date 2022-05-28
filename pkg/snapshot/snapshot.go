@@ -13,11 +13,11 @@ type Snapshot struct {
 // Process indicates the process related data.
 type Process struct {
     CmdLine string
-    Cpu CpuStat
+    CPU CPUStat
 }
 
-// CpuStat indicates the data for cpu stat.
-type CpuStat struct {
+// CPUStat indicates the data for cpu stat.
+type CPUStat struct {
     MCoreUsed, MCoreLimited float64
     UsageInPercentage float64
 }
@@ -37,20 +37,20 @@ func CreateProcess(cmdLine string) Process {
     }
 }
 
-// CreateCpuStat will create one object with cpu usage and limit, count in mCore.
-func CreateCpuStat(mCoreUsed, mCoreLimited float64) CpuStat {
+// CreateCPUStat will create one object with cpu usage and limit, count in mCore.
+func CreateCPUStat(mCoreUsed, mCoreLimited float64) CPUStat {
     usageInPercentage := (mCoreUsed / mCoreLimited) * 100.0
 
-    return CpuStat {
+    return CPUStat {
         MCoreUsed: mCoreUsed,
         MCoreLimited: mCoreLimited,
         UsageInPercentage: usageInPercentage,
     }
 }
 
-// SetCpuStat will set the cpu usage.
-func (process *Process) SetCpuStat(cpuStat CpuStat) {
-    process.Cpu = cpuStat 
+// SetCPUStat will set the cpu usage.
+func (process *Process) SetCPUStat(cpuStat CPUStat) {
+    process.CPU = cpuStat
 }
 
 // AppendProcess will add given process to the process silic of snapshot.
