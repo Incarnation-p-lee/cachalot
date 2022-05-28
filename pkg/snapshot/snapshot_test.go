@@ -20,9 +20,9 @@ func TestCreateProcess(t *testing.T) {
     assert.IsEqual(t, cmdLine, process.CmdLine, "process should have the same cmd line.")
 }
 
-func TestCreateCpuStat(t *testing.T) {
+func TestCreateCPUStat(t *testing.T) {
     used, limited := 250.0, 500.0
-    stat := CreateCpuStat(used, limited)
+    stat := CreateCPUStat(used, limited)
 
     assert.IsEqual(t, used, stat.MCoreUsed, "cpu stat should have the same used value.") 
     assert.IsEqual(t, limited, stat.MCoreLimited, "cpu stat should have the same limited value.") 
@@ -33,14 +33,14 @@ func TestCreateCpuStat(t *testing.T) {
 func TestSetUsage(t *testing.T) {
     process := CreateProcess("ls -l")
 
-    assert.IsEqual(t, 0.0, process.Cpu.UsageInPercentage, "process cpu stat should be zero.")
+    assert.IsEqual(t, 0.0, process.CPU.UsageInPercentage, "process cpu stat should be zero.")
 
     used, limited := 250.0, 500.0
-    stat := CreateCpuStat(used, limited)
+    stat := CreateCPUStat(used, limited)
 
-    process.SetCpuStat(stat)
+    process.SetCPUStat(stat)
 
-    assert.IsEqual(t, used * 100.0 / limited, process.Cpu.UsageInPercentage,
+    assert.IsEqual(t, used * 100.0 / limited, process.CPU.UsageInPercentage,
         "cpu stat should have the same percentage value.") 
 }
 
