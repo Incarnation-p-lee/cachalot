@@ -5,6 +5,7 @@
 *.so
 *.dylib
 *coverage*
+cmd/cachalot/cachalot
 
 # Test binary, built with `go test -c`
 *.test
