@@ -2,8 +2,8 @@ package cmdflags
 
 import (
     "testing"
-    "pkg/assert"
     "internal/options"
+    "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
 func TestParseOptions(t *testing.T) {

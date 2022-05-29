@@ -3,7 +3,7 @@ package snapshot
 import (
     "time"
     "testing"
-    "pkg/assert"
+    "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
 func TestCreateSnapshot(t *testing.T) {
