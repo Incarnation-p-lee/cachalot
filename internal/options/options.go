@@ -3,6 +3,7 @@ package options
 import (
     "errors"
     "fmt"
+    "strconv"
 )
 
 // Option compose of key-value pair for one option, it also has one flag for enabled or not.
@@ -42,6 +43,39 @@ func CreateOptions() *Options {
 // AppendOption will append the Option to the Options.
 func (ops *Options) AppendOption(option Option) {
     ops.allOptions = append(ops.allOptions, option)
+}
+
+func (ops *Options) getOptionVal(key string) string {
+    val := ""
+
+    for _, op := range ops.allOptions {
+        if op.Key == key {
+            val = op.Val
+            break
+        }
+    }
+
+    return val
+}
+
+func (ops *Options) getIntOption(key string) int {
+    val := ops.getOptionVal(key)
+
+    if intVal, err := strconv.Atoi(val); err != nil {
+        return 0
+    } else {
+        return intVal
+    }
+}
+
+// GetSamplingCount will return the sampling count, or zero if not found or any error.
+func (ops *Options) GetSamplingCount() int {
+    return ops.getIntOption(SamplingCount)
+}
+
+// GetSamplingInterval will return the sampling interval, or zero if not found or any error.
+func (ops *Options) GetSamplingInterval() int {
+    return ops.getIntOption(SamplingInterval)
 }
 
 // GetOption will return the option by index, out of range will return error.

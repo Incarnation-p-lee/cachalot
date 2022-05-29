@@ -4,6 +4,7 @@ CAT                     :=$(if $(V), cat, @cat)
 CD                      :=$(if $(V), cd, @cd)
 ECHO                    :=$(if $(V), echo, @echo)
 
+package_prefix          :=github.com/Incarnation-p-lee/cachalot/
 coverage_file           :=coverage.txt
 
 go_tmp                  :=$(shell find . -name "*.go" | grep -v cachalot.go)
@@ -27,10 +28,12 @@ test:$(go_coverages_files)
 
 $(go_coverages_files):%/coverage.txt:%
 	$(ECHO) "Test      $<"
-	$(CD) $< && go test -covermode=atomic -coverprofile=$(notdir $@) $< && cd -> /dev/null
+	$(CD) $< && go test -covermode=atomic -coverprofile=$(notdir $@) \
+		$(if $(filter pkg/%, $<), $(package_prefix), )$< \
+		&& cd -> /dev/null
 	$(CAT) $@ >> coverage.txt
 	$(RM) $@
 
 clean:
-	$(RM) $(cmd) $(go_coverages_files)
+	$(RM) $(cmd) $(go_coverages_files) $(coverage_file)
 

@@ -2,7 +2,7 @@ package options
 
 import (
     "testing"
-    "pkg/assert"
+    "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
 func TestCreateEnabledOption(t *testing.T) {
@@ -74,5 +74,49 @@ func TestIsSamplingInterval(t *testing.T) {
 
     assert.IsTrue(t, intervalOption.IsSamplingInterval(), "option should be sampling interval.");
     assert.IsFalse(t, countOption.IsSamplingInterval(), "option should not be sampling interval.");
+}
+
+func TestGetSamplingCountNormal(t *testing.T) {
+    options := CreateOptions()
+
+    options.AppendOption(Option {
+        Key: SamplingCount,
+        Val: "123",
+    })
+
+    assert.IsEqual(t, 123, options.GetSamplingCount(), "should have same sampling count")
+}
+
+func TestGetSamplingCountInvalid(t *testing.T) {
+    options := CreateOptions()
+
+    options.AppendOption(Option {
+        Key: SamplingCount,
+        Val: "invalid-number",
+    })
+
+    assert.IsEqual(t, 0, options.GetSamplingCount(), "should have same sampling count")
+}
+
+func TestGetSamplingIntervalNormal(t *testing.T) {
+    options := CreateOptions()
+
+    options.AppendOption(Option {
+        Key: SamplingInterval,
+        Val: "123",
+    })
+
+    assert.IsEqual(t, 123, options.GetSamplingInterval(), "should have same sampling count")
+}
+
+func TestGetSamplingIntervalInvalid(t *testing.T) {
+    options := CreateOptions()
+
+    options.AppendOption(Option {
+        Key: SamplingInterval,
+        Val: "invalid-number",
+    })
+
+    assert.IsEqual(t, 0, options.GetSamplingInterval(), "should have same sampling count")
 }
 
