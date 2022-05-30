@@ -28,12 +28,15 @@ test:$(go_coverages_files)
 
 $(go_coverages_files):%/coverage.txt:%
 	$(ECHO) "Test      $<"
-	$(CD) $< && go test -covermode=atomic -coverprofile=$(notdir $@) \
-		$(if $(filter pkg/%, $<), $(package_prefix), )$< \
-		&& cd -> /dev/null
+	$(CD) $< && $(run_test_cases) && cd -> /dev/null
 	$(CAT) $@ >> coverage.txt
 	$(RM) $@
 
 clean:
 	$(RM) $(cmd) $(go_coverages_files) $(coverage_file)
+
+define run_test_cases
+    go test -covermode=atomic -coverprofile=$(notdir $@) \
+        $(if $(filter pkg/%, $<), $(package_prefix), )$<
+endef
 
