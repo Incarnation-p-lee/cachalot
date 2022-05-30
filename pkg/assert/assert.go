@@ -16,12 +16,7 @@ func IsEqual(t *testing.T, expect, actual interface{}, message string) {
         return
     }
 
-    msg := message
-
-    if len(msg) == 0 {
-        msg = fmt.Sprintf("assert equal failed, expect %+v != actual %+v",
-            expect, actual)
-    }
+    msg := fmt.Sprintf("%s, assert equal failed, expect %+v != actual %+v", message, expect, actual)
 
     logAndFail(t, msg)
 }
@@ -32,11 +27,7 @@ func IsTrue(t *testing.T, actual bool, message string) {
         return
     }
 
-    msg := message
-
-    if len(msg) == 0 {
-        msg = fmt.Sprintf("assert true failed, actual %+v", actual)
-    }
+    msg := fmt.Sprintf("%s, assert true failed, actual %+v", message, actual)
 
     logAndFail(t, msg)
 }
@@ -47,11 +38,7 @@ func IsNil(t *testing.T, actual interface{}, message string) {
         return
     }
 
-    msg := message
-
-    if len(msg) == 0 {
-        msg = fmt.Sprintf("assert is nil failed, actual %+v", actual)
-    }
+    msg := fmt.Sprintf("%s, assert is nil failed, actual %+v", message, actual)
 
     logAndFail(t, msg)
 }
@@ -62,11 +49,7 @@ func IsNotNil(t *testing.T, actual interface{}, message string) {
         return
     }
 
-    msg := message
-
-    if len(msg) == 0 {
-        msg = fmt.Sprintf("assert is not nil failed, actual %+v", actual)
-    }
+    msg := fmt.Sprintf("%s, assert is not nil failed, actual %+v", message, actual)
 
     logAndFail(t, msg)
 }
@@ -77,11 +60,7 @@ func IsFalse(t *testing.T, actual bool, message string) {
         return
     }
 
-    msg := message
-
-    if len(msg) == 0 {
-        msg = fmt.Sprintf("assert false failed, actual %+v", actual)
-    }
+    msg := fmt.Sprintf("%s, assert false failed, actual %+v", message, actual)
 
     logAndFail(t, msg)
 }
