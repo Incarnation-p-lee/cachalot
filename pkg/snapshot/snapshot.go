@@ -12,7 +12,7 @@ type Snapshot struct {
 
 // Process indicates the process related data.
 type Process struct {
-    PId int
+    PID int
     CmdLine string
     CPU CPUStat
 }
@@ -32,9 +32,9 @@ func CreateSnapshot(timestamp time.Time) Snapshot {
 }
 
 // CreateProcess will create one object with given cmdLine.
-func CreateProcess(cmdLine string, pId int) Process {
+func CreateProcess(cmdLine string, pID int) Process {
     return Process {
-        PId: pId,
+        PID: pID,
         CmdLine: cmdLine,
     }
 }

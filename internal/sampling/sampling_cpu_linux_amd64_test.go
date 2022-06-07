@@ -6,9 +6,9 @@ import (
 )
 
 func TestSampleCPU(t *testing.T) {
-    testPId := 1
+    testPID := 1
 
-    cpuStat := sampleCPU(testPId)
+    cpuStat := sampleCPU(testPID)
 
     assert.IsEqual(t, cpuStat.JiffiesUsed, invalidJiffies, "process jiffies should be invalid")
     assert.IsTrue(t, cpuStat.JiffiesInTotal != invalidJiffies,

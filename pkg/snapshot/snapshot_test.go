@@ -14,11 +14,11 @@ func TestCreateSnapshot(t *testing.T) {
 }
 
 func TestCreateProcess(t *testing.T) {
-    cmdLine, pId := "bash -c", 123
-    process := CreateProcess(cmdLine, pId)
+    cmdLine, pID := "bash -c", 123
+    process := CreateProcess(cmdLine, pID)
 
     assert.IsEqual(t, cmdLine, process.CmdLine, "process should have the same cmd line.")
-    assert.IsEqual(t, pId, process.PId, "process should have the same id.")
+    assert.IsEqual(t, pID, process.PID, "process should have the same id.")
 }
 
 func TestCreateCPUStat(t *testing.T) {

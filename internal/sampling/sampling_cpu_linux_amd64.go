@@ -57,8 +57,8 @@ func getOneCPUJiffies(cpuLine string) int {
     return total
 }
 
-func getProcessCPUJiffies(pId int) int {
-    file := fmt.Sprintf("/proc/%d/stat", pId)
+func getProcessCPUJiffies(pID int) int {
+    file := fmt.Sprintf("/proc/%d/stat", pID)
     _, err := ioutil.ReadFile(filepath.Clean(file))
 
     if err != nil {
@@ -69,9 +69,9 @@ func getProcessCPUJiffies(pId int) int {
     return invalidJiffies
 }
 
-func sampleCPU(pId int) snapshot.CPUStat {
+func sampleCPU(pID int) snapshot.CPUStat {
     totalJiffies := getTotalCPUJiffies()
-    processJiffies := getProcessCPUJiffies(pId)
+    processJiffies := getProcessCPUJiffies(pID)
 
     return snapshot.CreateCPUStat(processJiffies, totalJiffies)
 }
