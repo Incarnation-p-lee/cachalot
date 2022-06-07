@@ -12,13 +12,14 @@ type Snapshot struct {
 
 // Process indicates the process related data.
 type Process struct {
+    PID int
     CmdLine string
     CPU CPUStat
 }
 
 // CPUStat indicates the data for cpu stat.
 type CPUStat struct {
-    MCoreUsed, MCoreLimited float64
+    JiffiesUsed, JiffiesInTotal int
     UsageInPercentage float64
 }
 
@@ -31,19 +32,20 @@ func CreateSnapshot(timestamp time.Time) Snapshot {
 }
 
 // CreateProcess will create one object with given cmdLine.
-func CreateProcess(cmdLine string) Process {
+func CreateProcess(cmdLine string, pID int) Process {
     return Process {
+        PID: pID,
         CmdLine: cmdLine,
     }
 }
 
 // CreateCPUStat will create one object with cpu usage and limit, count in mCore.
-func CreateCPUStat(mCoreUsed, mCoreLimited float64) CPUStat {
-    usageInPercentage := (mCoreUsed / mCoreLimited) * 100.0
+func CreateCPUStat(jiffiesUsed, jiffiesInTotal int) CPUStat {
+    usageInPercentage := float64(jiffiesUsed) / float64(jiffiesInTotal) * 100.0
 
     return CPUStat {
-        MCoreUsed: mCoreUsed,
-        MCoreLimited: mCoreLimited,
+        JiffiesUsed: jiffiesUsed,
+        JiffiesInTotal: jiffiesInTotal,
         UsageInPercentage: usageInPercentage,
     }
 }
