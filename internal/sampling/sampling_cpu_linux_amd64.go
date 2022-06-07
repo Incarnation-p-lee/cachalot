@@ -8,6 +8,7 @@ import (
     "strings"
     "strconv"
     "io/ioutil"
+    "path/filepath"
     "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 )
 
@@ -21,12 +22,12 @@ const (
 func getTotalCPUJiffies() int {
     file, err := os.Open(totalStatFile)
 
-    defer file.Close()
-
     if err != nil {
         log.Printf("Failed to open file %s due to %+v\n", totalStatFile, err)
         return invalidJiffies
     }
+
+    defer file.Close()
 
     scanner, jiffies := bufio.NewScanner(file), 0
 
@@ -58,7 +59,7 @@ func getOneCPUJiffies(cpuLine string) int {
 
 func getProcessCPUJiffies(pId int) int {
     file := fmt.Sprintf("/proc/%d/stat", pId)
-    _, err := ioutil.ReadFile(file)
+    _, err := ioutil.ReadFile(filepath.Clean(file))
 
     if err != nil {
         log.Printf("Failed to open file %s due to %+v\n", file, err)
