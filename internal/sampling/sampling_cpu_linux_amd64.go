@@ -17,6 +17,15 @@ const (
     cpuNamePrefix = "cpu"
 
     invalidJiffies = -1
+
+    defaultJiffies = 0
+
+    userJiffiesIndex = 14
+    kernelJiffiesIndex = 15
+    childrenUserJiffiesIndex = 16
+    childrenKernelJiffiesIndex = 17
+
+    jiffiesMaxSize = childrenKernelJiffiesIndex + 1
 )
 
 func getTotalCPUJiffies() int {
@@ -57,16 +66,39 @@ func getOneCPUJiffies(cpuLine string) int {
     return total
 }
 
+func getJiffiesOrDefault(stats []string, index int) int {
+    val := stats[index]
+
+    if jiffies, err := strconv.Atoi(val); err != nil {
+        log.Printf("Failed to convert integer from stats[%d](%s) due to %+v\n", index, val, err)
+        return defaultJiffies
+    } else {
+        return jiffies
+    }
+}
+
 func getProcessCPUJiffies(pID int) int {
     file := fmt.Sprintf("/proc/%d/stat", pID)
-    _, err := ioutil.ReadFile(filepath.Clean(file))
+    content, err := ioutil.ReadFile(filepath.Clean(file))
 
     if err != nil {
         log.Printf("Failed to open file %s due to %+v\n", file, err)
         return invalidJiffies
     }
 
-    return invalidJiffies
+    stats := strings.Split(string(content), " ")
+
+    if len(stats) < jiffiesMaxSize {
+        log.Printf("Stats slice size should be greater than %d.\n", jiffiesMaxSize)
+        return invalidJiffies
+    }
+
+    userJiffies := getJiffiesOrDefault(stats, userJiffiesIndex)
+    kernelJiffies := getJiffiesOrDefault(stats, kernelJiffiesIndex)
+    childrenUserJiffies := getJiffiesOrDefault(stats, childrenUserJiffiesIndex)
+    childrenKernelJiffies := getJiffiesOrDefault(stats, childrenKernelJiffiesIndex)
+
+    return userJiffies + kernelJiffies + childrenUserJiffies + childrenKernelJiffies
 }
 
 func sampleCPU(pID int) snapshot.CPUStat {
