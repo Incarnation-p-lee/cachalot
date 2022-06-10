@@ -10,8 +10,14 @@ func TestSampleCPU(t *testing.T) {
 
     cpuStat := sampleCPU(testPID)
 
-    assert.IsEqual(t, cpuStat.JiffiesUsed, invalidJiffies, "process jiffies should be invalid")
     assert.IsTrue(t, cpuStat.JiffiesInTotal != invalidJiffies,
         "cpu total jiffies should not be invalid.")
+    assert.IsTrue(t, cpuStat.JiffiesInTotal != defaultJiffies,
+        "cpu total jiffies should not be default value.")
+
+    assert.IsTrue(t, cpuStat.JiffiesUsed != invalidJiffies,
+        "cpu process used jiffies should not be invalid.")
+    assert.IsTrue(t, cpuStat.JiffiesUsed != defaultJiffies,
+        "cpu process used jiffies should not be default value.")
 }
 
