@@ -68,13 +68,15 @@ func getOneCPUJiffies(cpuLine string) int {
 
 func getJiffiesOrDefault(stats []string, index int) int {
     val := stats[index]
+    jiffies, err := strconv.Atoi(val)
 
-    if jiffies, err := strconv.Atoi(val); err != nil {
+    if err != nil {
         log.Printf("Failed to convert integer from stats[%d](%s) due to %+v\n", index, val, err)
+
         return defaultJiffies
-    } else {
-        return jiffies
     }
+
+    return jiffies
 }
 
 func getProcessCPUJiffies(pID int) int {
