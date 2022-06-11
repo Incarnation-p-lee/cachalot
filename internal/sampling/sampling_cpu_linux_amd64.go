@@ -4,6 +4,7 @@ import (
     "os"
     "log"
     "fmt"
+    "time"
     "bufio"
     "strings"
     "strconv"
@@ -17,8 +18,9 @@ const (
     cpuNamePrefix = "cpu"
 
     invalidJiffies = -1
-
     defaultJiffies = 0
+
+    samplingDuration = 5 // Count in seconds
 
     userJiffiesIndex = 14
     kernelJiffiesIndex = 15
@@ -28,12 +30,13 @@ const (
     jiffiesMaxSize = childrenKernelJiffiesIndex + 1
 )
 
-func getTotalCPUJiffies() int {
+func sampleTotalCPUJiffies(totalChan chan int) {
     file, err := os.Open(totalStatFile)
 
     if err != nil {
         log.Printf("Failed to open file %s due to %+v\n", totalStatFile, err)
-        return invalidJiffies
+        totalChan <- invalidJiffies
+        return
     }
 
     defer file.Close()
@@ -46,7 +49,7 @@ func getTotalCPUJiffies() int {
         }
     }
 
-    return jiffies
+    totalChan <- jiffies
 }
 
 func getOneCPUJiffies(cpuLine string) int {
@@ -79,20 +82,23 @@ func getJiffiesOrDefault(stats []string, index int) int {
     return jiffies
 }
 
-func getProcessCPUJiffies(pID int) int {
+func sampleProcessCPUJiffies(processChan chan int) {
+    pID := <- processChan
     file := fmt.Sprintf("/proc/%d/stat", pID)
     content, err := ioutil.ReadFile(filepath.Clean(file))
 
     if err != nil {
         log.Printf("Failed to open file %s due to %+v\n", file, err)
-        return invalidJiffies
+        processChan <- invalidJiffies
+        return
     }
 
     stats := strings.Split(string(content), " ")
 
     if len(stats) < jiffiesMaxSize {
         log.Printf("Stats slice size should be greater than %d.\n", jiffiesMaxSize)
-        return invalidJiffies
+        processChan <- invalidJiffies
+        return
     }
 
     userJiffies := getJiffiesOrDefault(stats, userJiffiesIndex)
@@ -100,12 +106,35 @@ func getProcessCPUJiffies(pID int) int {
     childrenUserJiffies := getJiffiesOrDefault(stats, childrenUserJiffiesIndex)
     childrenKernelJiffies := getJiffiesOrDefault(stats, childrenKernelJiffiesIndex)
 
-    return userJiffies + kernelJiffies + childrenUserJiffies + childrenKernelJiffies
+    allJiffies := userJiffies + kernelJiffies + childrenUserJiffies + childrenKernelJiffies
+    processChan <- allJiffies
 }
 
-func sampleCPU(pID int) snapshot.CPUStat {
-    totalJiffies := getTotalCPUJiffies()
-    processJiffies := getProcessCPUJiffies(pID)
+func sampleCPUJiffies(pID int) (totalJiffies, processJiffies int) {
+    totalChan, processChan := make(chan int, 1), make(chan int, 1)
+
+    defer close(totalChan)
+    defer close(processChan)
+
+    processChan <- pID
+
+    go sampleTotalCPUJiffies(totalChan)
+    go sampleProcessCPUJiffies(processChan)
+
+    totalJiffies, processJiffies = <- totalChan, <- processChan
+
+    return totalJiffies, processJiffies
+}
+
+func sampleCPUStat(pID int) snapshot.CPUStat {
+    totalJiffiesBefore, processJiffiesBefore := sampleCPUJiffies(pID)
+
+    time.Sleep(time.Duration(samplingDuration) * time.Second)
+
+    totalJiffiesAfter, processJiffiesAfter := sampleCPUJiffies(pID)
+
+    totalJiffies := totalJiffiesAfter - totalJiffiesBefore
+    processJiffies := processJiffiesAfter - processJiffiesBefore
 
     return snapshot.CreateCPUStat(processJiffies, totalJiffies)
 }
