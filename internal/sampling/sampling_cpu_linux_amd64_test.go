@@ -27,7 +27,22 @@ func TestSampleCPUJiffies(t *testing.T) {
 
     assert.IsTrue(t, processJiffies != invalidJiffies,
         "the process used jiffies should not be invalid.")
+
     assert.IsTrue(t, processJiffies != defaultJiffies,
         "the process used jiffies should not be default value.")
+}
+
+func TestTestSampleCPUJiffiesInvalidPID(t *testing.T) {
+    testPID := 10000000
+    totalJiffies, processJiffies := sampleCPUJiffies(testPID)
+
+    assert.IsTrue(t, processJiffies <= totalJiffies,
+        "the process jiffies should be less than or eual to total jiffies")
+
+    assert.IsTrue(t, processJiffies == invalidJiffies,
+        "the invalid process id used jiffies should be invalid.")
+
+    assert.IsTrue(t, processJiffies != defaultJiffies,
+        "the invalid process id used jiffies should not be default value.")
 }
 
