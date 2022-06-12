@@ -24,10 +24,10 @@ type CPUStat struct {
 }
 
 // CreateSnapshot will create one object with given timestamp.
-func CreateSnapshot(timestamp time.Time) Snapshot {
+func CreateSnapshot(timestamp time.Time, processes []Process) Snapshot {
     return Snapshot {
-        Processes: []Process {},
         Timestamp: timestamp,
+        Processes: processes,
     }
 }
 
