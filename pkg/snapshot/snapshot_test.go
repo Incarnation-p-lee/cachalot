@@ -7,10 +7,11 @@ import (
 )
 
 func TestCreateSnapshot(t *testing.T) {
-    testLastHour := time.Now().Add(-time.Hour)
-    snapshot := CreateSnapshot(testLastHour)
+    testLastHour, processes := time.Now().Add(-time.Hour), []Process {}
+    snapshot := CreateSnapshot(testLastHour, processes)
 
     assert.IsEqual(t, testLastHour, snapshot.Timestamp, "snapshot should have the same timestamp.")
+    assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot should have empty processes slice.")
 }
 
 func TestCreateProcess(t *testing.T) {
@@ -47,7 +48,7 @@ func TestSetUsage(t *testing.T) {
 
 func TestAppendProcess(t *testing.T) {
     process := CreateProcess("ls -l", 123)
-    snapshot := CreateSnapshot(time.Now())
+    snapshot := CreateSnapshot(time.Now(), []Process {})
 
     assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot processes count should be 0.")
 
