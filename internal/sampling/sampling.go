@@ -1,6 +1,7 @@
 package sampling
 
 import (
+    "time"
     "internal/options"
     "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 )
@@ -10,10 +11,9 @@ func Sample(ops *options.Options) snapshot.Snapshot {
         return snapshot.Snapshot {}
     }
 
-    return sampleSnapshot()
-}
+    snapshot := snapshot.CreateSnapshot(time.Now())
+    snapshot.Processes = sampleAllProcess(ops)
 
-func sampleSnapshot() snapshot.Snapshot {
-    return snapshot.Snapshot {}
+    return snapshot
 }
 
