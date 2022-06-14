@@ -30,7 +30,7 @@ const (
     jiffiesMaxSize = childrenKernelJiffiesIndex + 1
 )
 
-func sampleTotalCPUJiffies(totalChan chan int) {
+func sampleTotalCPUJiffies(totalChan chan <- int) {
     file, err := os.Open(totalStatFile)
 
     if err != nil {
