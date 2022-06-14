@@ -48,7 +48,7 @@ func sampleAllProcess(ops *options.Options) []snapshot.Process {
     }
 
     sort.Slice(processes, func(a, b int) bool {
-        return processes[a].CPU.UsageInPercentage > processes[b].CPU.UsageInPercentage
+        return processes[a].CPUStat.UsageInPercentage > processes[b].CPUStat.UsageInPercentage
     })
 
     return processes
@@ -63,8 +63,8 @@ func sampleOneProcessSnapshot(ops *options.Options, pIDChan chan int,
     }
 
     pID := <- pIDChan
-    processChan <- snapshot.Process {
-        PID: pID,
-    }
+    cmdLine, cpuStat := sampleCmdLine(pID), sampleCPUStat(pID)
+
+    processChan <- snapshot.CreateProcess(pID, cmdLine, cpuStat)
 }
 

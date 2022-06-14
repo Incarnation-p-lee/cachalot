@@ -6,7 +6,7 @@ import (
     "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
-func TestSampe(t *testing.T) {
+func TestSample(t *testing.T) {
     ops := options.CreateOptions()
 
     assert.IsNotNil(t, Sample(nil), "Nil options will have non nil snapshot.")

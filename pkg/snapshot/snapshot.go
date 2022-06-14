@@ -14,7 +14,7 @@ type Snapshot struct {
 type Process struct {
     PID int
     CmdLine string
-    CPU CPUStat
+    CPUStat CPUStat
 }
 
 // CPUStat indicates the data for cpu stat.
@@ -31,11 +31,12 @@ func CreateSnapshot(timestamp time.Time, processes []Process) Snapshot {
     }
 }
 
-// CreateProcess will create one object with given cmdLine.
-func CreateProcess(cmdLine string, pID int) Process {
+// CreateProcess will create one object with given parameters.
+func CreateProcess(pID int, cmdLine string, cpuStat CPUStat) Process {
     return Process {
         PID: pID,
         CmdLine: cmdLine,
+        CPUStat: cpuStat,
     }
 }
 
@@ -52,7 +53,7 @@ func CreateCPUStat(jiffiesUsed, jiffiesInTotal int) CPUStat {
 
 // SetCPUStat will set the cpu usage.
 func (process *Process) SetCPUStat(cpuStat CPUStat) {
-    process.CPU = cpuStat
+    process.CPUStat = cpuStat
 }
 
 // AppendProcess will add given process to the process silic of snapshot.
