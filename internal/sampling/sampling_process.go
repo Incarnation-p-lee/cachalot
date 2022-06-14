@@ -54,8 +54,8 @@ func sampleAllProcess(ops *options.Options) []snapshot.Process {
     return processes
 }
 
-func sampleOneProcessSnapshot(ops *options.Options, pIDChan chan int,
-    processChan chan snapshot.Process) {
+func sampleOneProcessSnapshot(ops *options.Options, pIDChan <- chan int,
+    processChan chan <- snapshot.Process) {
 
     if ops == nil {
         processChan <- snapshot.Process {}
