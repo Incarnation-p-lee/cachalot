@@ -111,15 +111,15 @@ func sampleProcessCPUJiffies(processChan chan int) {
 }
 
 func sampleCPUJiffies(pID int) (totalJiffies, processJiffies int) {
-    totalChan, processChan := make(chan int, 1), make(chan int, 1)
+    totalChan, processChan := make(chan int), make(chan int)
 
     defer close(totalChan)
     defer close(processChan)
 
-    processChan <- pID
-
     go sampleTotalCPUJiffies(totalChan)
     go sampleProcessCPUJiffies(processChan)
+
+    processChan <- pID
 
     totalJiffies, processJiffies = <- totalChan, <- processChan
 
