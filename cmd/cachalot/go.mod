@@ -9,6 +9,7 @@ replace internal/cmdflags => ../../internal/cmdflags
 replace internal/sampling => ../../internal/sampling
 
 require (
+	github.com/Incarnation-p-lee/cachalot/pkg/assert v0.0.0-00010101000000-000000000000
 	internal/cmdflags v0.0.0-00010101000000-000000000000
 	internal/options v0.0.0-00010101000000-000000000000
 	internal/sampling v0.0.0-00010101000000-000000000000
