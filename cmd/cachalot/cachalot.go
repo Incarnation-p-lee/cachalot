@@ -12,10 +12,10 @@ func main() {
 
     cmdflags.ParseOptions(ops)
 
-    sample(ops)
+    sampleAndPrint(ops)
 }
 
-func sample(ops *options.Options) {
+func sampleAndPrint(ops *options.Options) {
     count := ops.GetSamplingCount()
     interval := ops.GetSamplingInterval()
 

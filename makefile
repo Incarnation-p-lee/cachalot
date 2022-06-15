@@ -37,6 +37,10 @@ clean:
 
 define run_test_cases
     go test -covermode=atomic -coverprofile=$(notdir $@) \
-        $(if $(filter pkg/%, $<), $(package_prefix), )$<
+        $(if $(filter cmd/cachalot, $<), cachalot_test.go cachalot.go, $(get_test_package_path))
+endef
+
+define get_test_package_path
+    $(if $(filter pkg/%, $<), $(package_prefix), )$<
 endef
 
