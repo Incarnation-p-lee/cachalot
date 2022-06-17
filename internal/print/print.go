@@ -45,7 +45,7 @@ func printSnapshotFoot() {
 // Snapshot will print the data module of given snapshot.
 func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
     if ops == nil {
-        return errors.New("Found nil ops for snapshot print, will do nothing here.")
+        return errors.New("found nil ops for snapshot print, will do nothing here.")
     }
 
     printSnapshotTitle(title)
