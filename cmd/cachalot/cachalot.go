@@ -1,7 +1,9 @@
 package main
 
 import (
+    "fmt"
     "time"
+    "internal/print"
     "internal/options"
     "internal/cmdflags"
     "internal/sampling"
@@ -20,7 +22,10 @@ func sampleAndPrint(ops *options.Options) {
     interval := ops.GetSamplingInterval()
 
     for i := 0; i < count; i++ {
-        sampling.Sample(ops)
+        snapshot := sampling.Sample(ops)
+        title := fmt.Sprintf("Print snapshot with count %d.", i)
+
+        print.PrintSnapshot(snapshot, title, ops)
 
         time.Sleep(time.Duration(interval) * time.Second)
     }
