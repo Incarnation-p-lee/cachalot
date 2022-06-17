@@ -15,8 +15,8 @@ func TestPrintSnapshot(t *testing.T) {
     }
     testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
 
-    assert.IsNil(t, PrintSnapshot(testSnapshot, "", ops), "print snapshot should have nil error")
-    assert.IsNil(t, PrintSnapshot(testSnapshot, "abc", ops), "print snapshot should have nil error")
-    assert.IsNotNil(t, PrintSnapshot(testSnapshot, "", nil), "print snapshot should have error")
+    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print snapshot should have nil error")
+    assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print snapshot should have nil error")
+    assert.IsNotNil(t, Snapshot(testSnapshot, "", nil), "print snapshot should have error")
 }
 

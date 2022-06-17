@@ -25,7 +25,7 @@ func sampleAndPrint(ops *options.Options) {
         snapshot := sampling.Sample(ops)
         title := fmt.Sprintf("Print snapshot with count %d.", i)
 
-        print.PrintSnapshot(snapshot, title, ops)
+        print.Snapshot(snapshot, title, ops)
 
         time.Sleep(time.Duration(interval) * time.Second)
     }

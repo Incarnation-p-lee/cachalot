@@ -42,10 +42,10 @@ func printSnapshotFoot() {
     fmt.Printf("\n\n")
 }
 
-// PrintSnapshot will print the data module of given snapshot.
-func PrintSnapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
+// Snapshot will print the data module of given snapshot.
+func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
     if ops == nil {
-        return errors.New("Found nil ops for snapshot print, will do nothing here.\n")
+        return errors.New("Found nil ops for snapshot print, will do nothing here.")
     }
 
     printSnapshotTitle(title)
