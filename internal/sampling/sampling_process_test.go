@@ -7,17 +7,28 @@ import (
     "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 )
 
+func isContains(processIDs []int, pID int) bool {
+    for _, processID := range processIDs {
+        if processID == pID {
+            return true
+        }
+    }
+
+    return false
+}
+
 func TestGetAllProcessID(t *testing.T) {
     allPIDs := getAllProcessID()
 
-    assert.IsTrue(t, len(allPIDs) > 0, "All proccess ID count should not be 0.")
+    assert.IsTrue(t, len(allPIDs) > 0, "all proccess ID count should not be 0.")
+    assert.IsTrue(t, isContains(allPIDs, 1), "all proccess ID should contain pID 1.")
 }
 
 func TestSampleAllProcess(t *testing.T) {
     ops := options.CreateOptions()
     processes := sampleAllProcess(ops)
 
-    assert.IsTrue(t, len(processes) > 0, "All proccess slice count should not be 0.")
+    assert.IsTrue(t, len(processes) > 0, "all proccess slice count should not be 0.")
 
     for i := 0; i < len(processes) - 1; i++ {
         a, b := processes[i], processes[i + 1]

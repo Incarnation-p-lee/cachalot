@@ -11,7 +11,7 @@ import (
 )
 
 func getAllProcessID() []int {
-    allPIDs, processPattern := []int {}, "/proc/[1-9][0-9]*"
+    allPIDs, processPattern := []int {}, "/proc/[0-9]*"
     files, err := filepath.Glob(processPattern)
 
     if err != nil {
@@ -30,6 +30,7 @@ func getAllProcessID() []int {
 
 func sampleAllProcess(ops *options.Options) []snapshot.Process {
     allPIDs := getAllProcessID()
+
     pIDCount := len(allPIDs)
     pIDChan, processChan := make(chan int, pIDCount), make(chan snapshot.Process, pIDCount)
 
