@@ -23,7 +23,7 @@ func sampleAndPrint(ops *options.Options) {
 
     for i := 0; i < count; i++ {
         snapshot := sampling.Sample(ops)
-        title := fmt.Sprintf("Print snapshot with count %d.", i)
+        title := fmt.Sprintf("Print snapshot with iteration count %d", i)
 
         print.Snapshot(snapshot, title, ops)
 

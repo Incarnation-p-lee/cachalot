@@ -13,25 +13,28 @@ func printSnapshotTitle(title string) {
         title = "Unknown title"
     }
 
-    fmt.Printf("==================== %s ====================\n", title)
+    fmt.Printf("==========================================================\n")
+    fmt.Printf("%s\n", title)
+    fmt.Printf("==========================================================\n")
 }
 
 func printSnapshotTimestamp(timestamp time.Time) {
-    fmt.Printf("Sampling timestamp %v.\n", timestamp)
+    fmt.Printf("Timestamp: %v\n", timestamp)
+    fmt.Printf("==========================================================\n")
 }
 
 func printSnapshotProcess(process snapshot.Process) {
-    fmt.Printf("------------------------------------\n")
 
-    fmt.Printf("%s:\t\t\t%v\n", "PID", process.PID)
-    fmt.Printf("%s:\t\t%v\n", "CmdLine", process.CmdLine)
-    fmt.Printf("%s:\t%v\n", "UsageInPercentage", process.CPUStat.UsageInPercentage)
-
-    fmt.Printf("\n")
+    fmt.Printf("%v\t\t", process.PID)
+    fmt.Printf("%.3f%%\t\t", process.CPUStat.UsageInPercentage)
+    fmt.Printf("%s\n", process.CmdLine)
 }
 
 func printSnapshotProcesses(processes []snapshot.Process) {
-    fmt.Printf("There are %d processes in total.\n", len(processes))
+    fmt.Printf("Total procesess count: %d\n", len(processes))
+    fmt.Printf("==========================================================\n")
+    fmt.Printf("PID\t\tCPUUsage\tCmdLine\n")
+    fmt.Printf("----------------------------------------------------------\n")
 
     for _, process := range processes {
         printSnapshotProcess(process)
