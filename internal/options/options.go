@@ -27,7 +27,7 @@ const (
     // OutputFormat indicates the layout when print.
     OutputFormat = "out"
 
-    JsonOutput = "json" // JsonOutput will be printed as json.
+    JSONOutput = "json" // JSONOutput will be printed as json.
     TextOutput = "text" // TextOutput will be printed as raw text.
 )
 

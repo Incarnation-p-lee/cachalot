@@ -69,6 +69,7 @@ func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) er
         default:
             log.Printf("Unknown output format %v, fall back to %+v.\n",
                 outputFormat, options.TextOutput)
+            printTextSnapshot(snapshot, title)
     }
 
     return nil
