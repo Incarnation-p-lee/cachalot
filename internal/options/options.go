@@ -18,11 +18,33 @@ type Options struct {
 }
 
 const (
+    unknownDefaultValue = "unknown default value"
+
     // SamplingCount indicates how many count will be sampled.
     SamplingCount = "sampling-count"
     // SamplingInterval indicates the interval for each sampling, count in seconds.
     SamplingInterval = "sampling-interval"
+    // OutputFormat indicates the layout when print.
+    OutputFormat = "out"
+
+    JsonOutput = "json" // JsonOutput will be printed as json.
+    TextOutput = "text" // TextOutput will be printed as raw text.
 )
+
+var namesToDefaultValues = map[string]string {
+    SamplingCount: "10",
+    SamplingInterval: "10",
+    OutputFormat: "text",
+}
+
+// GetNameDefaultValue will return the default value for option name, or unknown.
+func GetNameDefaultValue(name string) string {
+    if value, has := namesToDefaultValues[name]; has {
+        return value
+    }
+
+    return unknownDefaultValue
+}
 
 // CreateEnabledOption will create option enabled with given key.
 func CreateEnabledOption(key, val string) Option {
@@ -68,6 +90,10 @@ func (ops *Options) getIntOption(key string) int {
     }
 }
 
+func (ops *Options) getStringOption(key string) string {
+    return ops.getOptionVal(key)
+}
+
 // GetSamplingCount will return the sampling count, or zero if not found or any error.
 func (ops *Options) GetSamplingCount() int {
     return ops.getIntOption(SamplingCount)
@@ -76,6 +102,11 @@ func (ops *Options) GetSamplingCount() int {
 // GetSamplingInterval will return the sampling interval, or zero if not found or any error.
 func (ops *Options) GetSamplingInterval() int {
     return ops.getIntOption(SamplingInterval)
+}
+
+// GetOutputFormat will return the output format, for example, json or text.
+func (ops *Options) GetOutputFormat() string {
+    return ops.getStringOption(OutputFormat)
 }
 
 // GetOption will return the option by index, out of range will return error.

@@ -2,6 +2,7 @@ package print
 
 import (
     "fmt"
+    "log"
     "time"
     "errors"
     "internal/options"
@@ -45,18 +46,30 @@ func printSnapshotFoot() {
     fmt.Printf("\n\n")
 }
 
-// Snapshot will print the data module of given snapshot.
-func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
-    if ops == nil {
-        return errors.New("found nil ops for snapshot print, will do nothing here")
-    }
-
+func printTextSnapshot(snapshot snapshot.Snapshot, title string) {
     printSnapshotTitle(title)
 
     printSnapshotTimestamp(snapshot.Timestamp)
     printSnapshotProcesses(snapshot.Processes)
 
     printSnapshotFoot()
+}
+
+// Snapshot will print the data module of given snapshot.
+func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
+    if ops == nil {
+        return errors.New("found nil ops for snapshot print, will do nothing here")
+    }
+
+    outputFormat := ops.GetOutputFormat()
+
+    switch (outputFormat) {
+        case options.TextOutput:
+            printTextSnapshot(snapshot, title)
+        default:
+            log.Printf("Unknown output format %v, fall back to %+v.\n",
+                outputFormat, options.TextOutput)
+    }
 
     return nil
 }

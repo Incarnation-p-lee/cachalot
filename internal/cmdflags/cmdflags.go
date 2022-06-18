@@ -13,13 +13,18 @@ type cmdflag struct {
 var supportedCmdFlags = []cmdflag {
     cmdflag {
         flagName: options.SamplingCount,
-        defaultValue: "10",
+        defaultValue: options.GetNameDefaultValue(options.SamplingCount),
         description: "the total count of sampling",
     },
     cmdflag {
         flagName: options.SamplingInterval,
-        defaultValue: "10",
+        defaultValue: options.GetNameDefaultValue(options.SamplingInterval),
         description: "the interval for each sampling, count in seconds",
+    },
+    cmdflag {
+        flagName: options.OutputFormat,
+        defaultValue: options.GetNameDefaultValue(options.OutputFormat),
+        description: "the output layout for print",
     },
 }
 

@@ -120,3 +120,11 @@ func TestGetSamplingIntervalInvalid(t *testing.T) {
     assert.IsEqual(t, 0, options.GetSamplingInterval(), "should have same sampling count")
 }
 
+func TestGetNameDefaultValue(t *testing.T) {
+    assert.IsEqual(t, "10", GetNameDefaultValue(SamplingCount),
+        "sampling count default value should be 10")
+
+    assert.IsEqual(t, "unknown default value", GetNameDefaultValue("unknown"),
+        "should have unknown default value")
+}
+
