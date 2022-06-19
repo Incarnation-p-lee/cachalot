@@ -4,7 +4,6 @@ import (
     "time"
     "testing"
     "internal/options"
-    "internal/cmdflags"
     "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
@@ -17,7 +16,15 @@ func getMinimalDuration(ops *options.Options) time.Duration {
 
 func TestSampleAndPrint(t *testing.T) {
     ops := options.CreateOptions()
-    cmdflags.ParseOptions(ops)
+
+    ops.AppendOption(options.Option {
+        Key: options.SamplingCount,
+        Val: "1",
+    })
+    ops.AppendOption(options.Option {
+        Key: options.SamplingInterval,
+        Val: "0",
+    })
 
     start := time.Now()
 
