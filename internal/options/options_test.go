@@ -128,3 +128,16 @@ func TestGetNameDefaultValue(t *testing.T) {
         "should have unknown default value")
 }
 
+func TestGetOutputFormat(t *testing.T) {
+    ops := CreateOptions()
+
+    assert.IsEqual(t, "", ops.GetOutputFormat(), "empty options should have empty output")
+
+    ops.AppendOption(Option {
+        Key: OutputFormat,
+        Val: TextOutput,
+    })
+
+    assert.IsEqual(t, "text", ops.GetOutputFormat(), "options should have text output")
+}
+

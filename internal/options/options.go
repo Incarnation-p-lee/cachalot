@@ -27,8 +27,10 @@ const (
     // OutputFormat indicates the layout when print.
     OutputFormat = "out"
 
-    JSONOutput = "json" // JSONOutput will be printed as json.
-    TextOutput = "text" // TextOutput will be printed as raw text.
+    // JSONOutput will be printed as json.
+    JSONOutput = "json"
+    // TextOutput will be printed as raw text.
+    TextOutput = "text"
 )
 
 var namesToDefaultValues = map[string]string {
