@@ -13,3 +13,7 @@ require (
 	github.com/Incarnation-p-lee/cachalot/pkg/snapshot v0.0.0-00010101000000-000000000000
 	internal/options v0.0.0-00010101000000-000000000000
 )
+
+require internal/cmdflags v0.0.0-00010101000000-000000000000 // indirect
+
+replace internal/cmdflags => ../../internal/cmdflags

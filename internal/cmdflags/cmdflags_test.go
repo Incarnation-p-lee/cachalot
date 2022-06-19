@@ -11,7 +11,7 @@ func TestParseOptions(t *testing.T) {
 
     ParseOptions(ops)
 
-    assert.IsEqual(t, 2, ops.OptionsCount(), "optionsCount should be 2.")
+    assert.IsEqual(t, 3, ops.OptionsCount(), "optionsCount should be 3.")
 
     option1, _ := ops.GetOption(0)
     option2, _ := ops.GetOption(1)
