@@ -61,16 +61,11 @@ func printTextSnapshot(snapshot snapshot.Snapshot, title string) {
     printSnapshotFoot()
 }
 
-func printJSONSnapshot(snapshot snapshot.Snapshot) error {
-    jsonBytes, err := json.MarshalIndent(snapshot, jsonPrefix, jsonIndent)
-
-    if err != nil {
-        return err
-    }
+func printJSONSnapshot(snapshot snapshot.Snapshot) {
+    // It is not easy to get errors when serialize object to string. Thus, ignore the error.
+    jsonBytes, _ := json.MarshalIndent(snapshot, jsonPrefix, jsonIndent)
 
     fmt.Printf("%s\n", string(jsonBytes))
-
-    return nil
 }
 
 // Snapshot will print the data module of given snapshot.
@@ -80,19 +75,18 @@ func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) er
     }
 
     outputFormat := ops.GetOutputFormat()
-    var err error = nil
 
     switch (outputFormat) {
         case options.TextOutput:
             printTextSnapshot(snapshot, title)
         case options.JSONOutput:
-            err = printJSONSnapshot(snapshot)
+            printJSONSnapshot(snapshot)
         default:
             log.Printf("Unknown output format %v, fall back to %+v.\n",
                 outputFormat, options.TextOutput)
             printTextSnapshot(snapshot, title)
     }
 
-    return err
+    return nil
 }
 
