@@ -9,7 +9,7 @@ import (
     "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 )
 
-func TestPrintSnapshot(t *testing.T) {
+func TestPrintSnapshotDefault(t *testing.T) {
     ops := options.CreateOptions()
     testProcesses := []snapshot.Process {
         snapshot.Process {},
@@ -22,5 +22,35 @@ func TestPrintSnapshot(t *testing.T) {
 
     cmdflags.ParseOptions(ops)
     assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print snapshot should have nil error")
+}
+
+func TestPrintTextSnapshot(t *testing.T) {
+    ops := options.CreateOptions()
+    testProcesses := []snapshot.Process {
+        snapshot.Process {},
+    }
+
+    testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+    ops.AppendOption(options.Option {
+        Key: options.OutputFormat,
+        Val: options.TextOutput,
+    })
+
+    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print text snapshot should have nil error")
+}
+
+func TestPrintJsonSnapshot(t *testing.T) {
+    ops := options.CreateOptions()
+    testProcesses := []snapshot.Process {
+        snapshot.Process {},
+    }
+
+    testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+    ops.AppendOption(options.Option {
+        Key: options.OutputFormat,
+        Val: options.JSONOutput,
+    })
+
+    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print json snapshot should have nil error")
 }
 

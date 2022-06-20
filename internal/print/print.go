@@ -5,8 +5,14 @@ import (
     "log"
     "time"
     "errors"
+    "encoding/json"
     "internal/options"
     "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+)
+
+const (
+    jsonPrefix = ""
+    jsonIndent = "  "
 )
 
 func printSnapshotTitle(title string) {
@@ -55,6 +61,18 @@ func printTextSnapshot(snapshot snapshot.Snapshot, title string) {
     printSnapshotFoot()
 }
 
+func printJSONSnapshot(snapshot snapshot.Snapshot) error {
+    jsonBytes, err := json.MarshalIndent(snapshot, jsonPrefix, jsonIndent)
+
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("%s\n", string(jsonBytes))
+
+    return nil
+}
+
 // Snapshot will print the data module of given snapshot.
 func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
     if ops == nil {
@@ -62,16 +80,19 @@ func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) er
     }
 
     outputFormat := ops.GetOutputFormat()
+    var err error = nil
 
     switch (outputFormat) {
         case options.TextOutput:
             printTextSnapshot(snapshot, title)
+        case options.JSONOutput:
+            err = printJSONSnapshot(snapshot)
         default:
             log.Printf("Unknown output format %v, fall back to %+v.\n",
                 outputFormat, options.TextOutput)
             printTextSnapshot(snapshot, title)
     }
 
-    return nil
+    return err
 }
 
