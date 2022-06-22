@@ -31,7 +31,7 @@ func TestSampleAllProcess(t *testing.T) {
         Val: options.AllProcessIDs,
     })
 
-    processes := sampleAllProcess(ops)
+    processes := sampleAllProcesses(ops)
 
     assert.IsTrue(t, len(processes) > 0, "all proccess slice count should not be 0.")
 
