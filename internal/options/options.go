@@ -26,7 +26,11 @@ const (
     SamplingInterval = "sampling-interval"
     // OutputFormat indicates the layout when print.
     OutputFormat = "out"
+    // ProcessId indicates the id of process.
+    ProcessIDs = "pids"
 
+    // AllProcessIds indicates all process in a system.
+    AllProcessIDs = "-1"
     // JSONOutput will be printed as json.
     JSONOutput = "json"
     // TextOutput will be printed as raw text.
@@ -36,7 +40,8 @@ const (
 var namesToDefaultValues = map[string]string {
     SamplingCount: "10",
     SamplingInterval: "10",
-    OutputFormat: "text",
+    OutputFormat: TextOutput,
+    ProcessIDs: AllProcessIDs,
 }
 
 // GetNameDefaultValue will return the default value for option name, or unknown.
@@ -109,6 +114,16 @@ func (ops *Options) GetSamplingInterval() int {
 // GetOutputFormat will return the output format, for example, json or text.
 func (ops *Options) GetOutputFormat() string {
     return ops.getStringOption(OutputFormat)
+}
+
+// GetProcessIds will return the process ids.
+func (ops *Options) GetProcessIDs() string {
+    return ops.getStringOption(ProcessIDs)
+}
+
+// IsAllProcessIds will return true if all proccess ids, or will return false.
+func (ops *Options) IsAllProcessIDs() bool {
+    return ops.getStringOption(ProcessIDs) == AllProcessIDs
 }
 
 // GetOption will return the option by index, out of range will return error.

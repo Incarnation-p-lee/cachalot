@@ -17,8 +17,8 @@ func isContains(processIDs []int, pID int) bool {
     return false
 }
 
-func TestGetAllProcessID(t *testing.T) {
-    allPIDs := getAllProcessID()
+func TestGetAllProcessIDs(t *testing.T) {
+    allPIDs := getAllProcessIDs()
 
     assert.IsTrue(t, len(allPIDs) > 0, "all proccess ID count should not be 0.")
     assert.IsTrue(t, isContains(allPIDs, 1), "all proccess ID should contain pID 1.")
@@ -26,6 +26,11 @@ func TestGetAllProcessID(t *testing.T) {
 
 func TestSampleAllProcess(t *testing.T) {
     ops := options.CreateOptions()
+    ops.AppendOption(options.Option {
+        Key: options.ProcessIDs,
+        Val: options.AllProcessIDs,
+    })
+
     processes := sampleAllProcess(ops)
 
     assert.IsTrue(t, len(processes) > 0, "all proccess slice count should not be 0.")
@@ -77,3 +82,22 @@ func TestSampleOneProcessSnapshot(t *testing.T) {
         "process will have positive jiffies in total")
 }
 
+func TestGetProcessIDs(t *testing.T) {
+    testPIDs := "1,2,3"
+    processIDs := getProcessIDs(testPIDs)
+
+    assert.IsEqual(t, 3, len(processIDs), "there should be 3 process IDs")
+    assert.IsEqual(t, 1, processIDs[0], "first process ID should be 1")
+    assert.IsEqual(t, 2, processIDs[1], "second process ID should be 2")
+    assert.IsEqual(t, 3, processIDs[2], "third process ID should be 3")
+}
+
+func TestGetProcessIDsInvalid(t *testing.T) {
+    testPIDs := "1,b,2,a,3"
+    processIDs := getProcessIDs(testPIDs)
+
+    assert.IsEqual(t, 3, len(processIDs), "there should be 3 process IDs")
+    assert.IsEqual(t, 1, processIDs[0], "first process ID should be 1")
+    assert.IsEqual(t, 2, processIDs[1], "second process ID should be 2")
+    assert.IsEqual(t, 3, processIDs[2], "third process ID should be 3")
+}

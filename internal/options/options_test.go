@@ -141,3 +141,34 @@ func TestGetOutputFormat(t *testing.T) {
     assert.IsEqual(t, "text", ops.GetOutputFormat(), "options should have text output")
 }
 
+func TestGetProcessIds(t *testing.T) {
+    ops, testPIDs := CreateOptions(), "1,2,3"
+
+    ops.AppendOption(Option {
+        Key: ProcessIDs,
+        Val: testPIDs,
+    })
+
+    assert.IsEqual(t, testPIDs, ops.GetProcessIDs(), "options should have same process ids")
+}
+
+func TestIsAllProcessIDsTrue(t *testing.T) {
+    ops := CreateOptions()
+
+    ops.AppendOption(Option {
+        Key: ProcessIDs,
+        Val: AllProcessIDs,
+    })
+
+    assert.IsTrue(t, ops.IsAllProcessIDs(), "options should have all process ids")
+}
+
+func TestIsAllProcessIDsFalse(t *testing.T) {
+    ops := CreateOptions()
+
+    ops.AppendOption(Option {
+        Key: ProcessIDs,
+    })
+
+    assert.IsFalse(t, ops.IsAllProcessIDs(), "options should not have all process ids")
+}
