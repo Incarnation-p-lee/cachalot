@@ -26,10 +26,10 @@ const (
     SamplingInterval = "sampling-interval"
     // OutputFormat indicates the layout when print.
     OutputFormat = "out"
-    // ProcessId indicates the id of process.
+    // ProcessIDs indicates the id of process.
     ProcessIDs = "pids"
 
-    // AllProcessIds indicates all process in a system.
+    // AllProcessIDs indicates all process in a system.
     AllProcessIDs = "-1"
     // JSONOutput will be printed as json.
     JSONOutput = "json"
@@ -116,12 +116,12 @@ func (ops *Options) GetOutputFormat() string {
     return ops.getStringOption(OutputFormat)
 }
 
-// GetProcessIds will return the process ids.
+// GetProcessIDs will return the process ids.
 func (ops *Options) GetProcessIDs() string {
     return ops.getStringOption(ProcessIDs)
 }
 
-// IsAllProcessIds will return true if all proccess ids, or will return false.
+// IsAllProcessIDs will return true if all proccess ids, or will return false.
 func (ops *Options) IsAllProcessIDs() bool {
     return ops.getStringOption(ProcessIDs) == AllProcessIDs
 }
