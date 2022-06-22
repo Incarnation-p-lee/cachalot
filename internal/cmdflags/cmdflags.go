@@ -26,6 +26,11 @@ var supportedCmdFlags = []cmdflag {
         defaultValue: options.GetNameDefaultValue(options.OutputFormat),
         description: "the output layout for print",
     },
+    cmdflag {
+        flagName: options.ProcessIDs,
+        defaultValue: options.GetNameDefaultValue(options.ProcessIDs),
+        description: "the comma separated pids for snapshot, -1 indicates all processes",
+    },
 }
 
 // ParseOptions will parse the flags from command line to options.
