@@ -13,6 +13,7 @@ import (
 const (
     jsonPrefix = ""
     jsonIndent = "  "
+    printSeparatedLine = "==========================================================\n"
 )
 
 func printSnapshotTitle(title string) {
@@ -20,14 +21,14 @@ func printSnapshotTitle(title string) {
         title = "Unknown title"
     }
 
-    fmt.Printf("==========================================================\n")
+    fmt.Printf(printSeparatedLine)
     fmt.Printf("%s\n", title)
-    fmt.Printf("==========================================================\n")
+    fmt.Printf(printSeparatedLine)
 }
 
 func printSnapshotTimestamp(timestamp time.Time) {
     fmt.Printf("Timestamp: %v\n", timestamp)
-    fmt.Printf("==========================================================\n")
+    fmt.Printf(printSeparatedLine)
 }
 
 func printSnapshotProcess(process snapshot.Process) {
@@ -39,9 +40,9 @@ func printSnapshotProcess(process snapshot.Process) {
 
 func printSnapshotProcesses(processes []snapshot.Process) {
     fmt.Printf("Total procesess count: %d\n", len(processes))
-    fmt.Printf("==========================================================\n")
+    fmt.Printf(printSeparatedLine)
     fmt.Printf("PID\t\tCPUUsage\tCmdLine\n")
-    fmt.Printf("----------------------------------------------------------\n")
+    fmt.Printf(printSeparatedLine)
 
     for _, process := range processes {
         printSnapshotProcess(process)

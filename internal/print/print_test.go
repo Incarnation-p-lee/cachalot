@@ -16,12 +16,12 @@ func TestPrintSnapshotDefault(t *testing.T) {
     }
     testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
 
-    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print snapshot should have nil error")
-    assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print snapshot should have nil error")
+    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print empty title snapshot should have nil error")
+    assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print text title snapshot should have nil error")
     assert.IsNotNil(t, Snapshot(testSnapshot, "", nil), "print snapshot should have error")
 
     cmdflags.ParseOptions(ops)
-    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print snapshot should have nil error")
+    assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print parsed snapshot should have nil error")
 }
 
 func TestPrintTextSnapshot(t *testing.T) {
