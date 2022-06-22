@@ -15,17 +15,17 @@ import (
 
 const (
     totalStatFile = "/proc/stat"
-    cpuNamePrefix = "cpu"
+    cpuNamePrefix = "cpu "
 
     invalidJiffies = -1
     defaultJiffies = 0
 
     samplingDuration = 5 // Count in seconds
 
-    userJiffiesIndex = 14
-    kernelJiffiesIndex = 15
-    childrenUserJiffiesIndex = 16
-    childrenKernelJiffiesIndex = 17
+    userJiffiesIndex = 14 - 1
+    kernelJiffiesIndex = 15 - 1
+    childrenUserJiffiesIndex = 16 - 1
+    childrenKernelJiffiesIndex = 17 - 1
 
     jiffiesMaxSize = childrenKernelJiffiesIndex + 1
 )
@@ -49,16 +49,17 @@ func sampleTotalCPUJiffies(totalChan chan <- int) {
 
     for scanner.Scan() {
         if line := scanner.Text(); strings.HasPrefix(line, cpuNamePrefix) {
-            jiffies += getOneCPUJiffies(line)
+            jiffies = getTotalCPUJiffies(line)
+            break
         }
     }
 
     totalChan <- jiffies
 }
 
-func getOneCPUJiffies(cpuLine string) int {
+func getTotalCPUJiffies(cpuLine string) int {
     jiffies, total := strings.Split(cpuLine, " "), 0
-    jiffies = jiffies[1:] // skip leading cpu[x]
+    jiffies = jiffies[1:] // skip leading 'cpu '
 
     for _, v := range jiffies {
         if len(v) > 0 {
