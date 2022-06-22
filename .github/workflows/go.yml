@@ -23,5 +23,11 @@ jobs:
     - name: Test
       run: make test
       
-    - name: Post Test
+    - name: Codecov
       run: bash <(curl -s https://codecov.io/bash)
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
