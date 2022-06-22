@@ -11,7 +11,7 @@ func Sample(ops *options.Options) snapshot.Snapshot {
         return snapshot.Snapshot {}
     }
 
-    timestamp, processes := time.Now(), sampleAllProcess(ops)
+    timestamp, processes := time.Now(), sampleAllProcesses(ops)
 
     return snapshot.CreateSnapshot(timestamp, processes)
 }
