@@ -39,7 +39,11 @@ func sampleTotalCPUJiffies(totalChan chan <- int) {
         return
     }
 
-    defer file.Close()
+    defer func() {
+        if err := file.Close(); err != nil {
+            log.Printf("Failed to close file %+v due to %+v\n", file, err)
+        }
+    } ()
 
     scanner, jiffies := bufio.NewScanner(file), 0
 
