@@ -48,4 +48,3 @@ endef
 define get_test_package_path
     $(if $(filter pkg/%, $<), $(package_prefix), )$<
 endef
-
