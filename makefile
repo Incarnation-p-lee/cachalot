@@ -26,7 +26,7 @@ $(cmd):$(cmd_main)
 test:$(go_coverages_files)
 	$(ECHO) "Test      completed"
 
-$(go_coverages_files):%/coverage.txt:%
+$(go_coverages_files):%/$(coverage_file):%
 	$(ECHO) "Test      $<"
 	$(CD) $< && $(run_test_cases) && cd -> /dev/null
 	$(CAT) $@ >> coverage.txt
@@ -36,7 +36,7 @@ clean:
 	$(RM) $(cmd) $(go_coverages_files) $(coverage_file)
 
 define run_test_cases
-    go test -covermode=atomic -coverprofile=$(notdir $@) \
+    go test -covermode=count -coverprofile=$(notdir $@) \
         $(if $(filter cmd/cachalot, $<), cachalot_test.go cachalot.go, $(get_test_package_path))
 endef
 
