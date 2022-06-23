@@ -36,7 +36,7 @@ clean:
 	$(RM) $(cmd) $(go_coverages_files) $(coverage_file)
 
 define run_test_cases
-    go test -covermode=count -coverprofile=$(notdir $@) \
+    go test -covermode=atomic -coverprofile=$(notdir $@) \
         $(if $(filter cmd/cachalot, $<), cachalot_test.go cachalot.go, $(get_test_package_path))
 endef
 
