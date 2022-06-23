@@ -10,4 +10,59 @@ Help developer get the snapshot of host machine runtime and/or container environ
 * [![Codiga Score](https://api.codiga.io/project/33659/score/svg)](https://app.codiga.io/project/33659/dashboard)
 * [![Codiga Grade](https://api.codiga.io/project/33659/status/svg)](https://app.codiga.io/project/33659/dashboard)
 
-## Overview
+## Usage
+
+Use `./cachalot -h` to see more details about usage
+
+```
+Usage of ./cmd/cachalot/cachalot:
+  -out string
+        the output layout for print (default "text")
+  -pids string
+        the comma separated pids for snapshot, -1 indicates all processes (default "-1")
+  -sampling-count string
+        the total count of sampling (default "10")
+  -sampling-interval string
+        the interval for each sampling, count in seconds (default "10")
+```
+
+The output may look like below.
+
+```
+==========================================================
+Print snapshot with iteration count 0
+==========================================================
+Timestamp: 2022-06-23 02:09:58.500744868 +0000 UTC m=+0.000049903
+==========================================================
+Total procesess count: 3
+==========================================================
+PID             CPUUsage        CmdLine
+==========================================================
+7               7.398%          java-jarapp.jar
+1027            0.000%          bash
+1038            0.000%          ./cachalot
+
+
+==========================================================
+Print snapshot with iteration count 1
+==========================================================
+Timestamp: 2022-06-23 02:10:13.510835481 +0000 UTC m=+15.010140416
+==========================================================
+Total procesess count: 3
+==========================================================
+PID             CPUUsage        CmdLine
+==========================================================
+7               7.314%          java-jarapp.jar
+1038            0.000%          ./cachalot
+1027            0.000%          bash
+...
+```
+## Concept
+
+### CPU Usage
+
+#### Multiple Cores
+Cachalot will count all the CPU ticks of host environment, so ticks of all the CPU cores will be counted for CPU usage. For example, there are 4 cores, 1 core is exhaused by one PID while others are free. Then the usage may be similar to `1 / 4 = 25%`.
+
+#### Container
+Cachalot will count all the CPU ticks of host machine, so the CPU usage will be more smaller than expectation. For example, there is one container with 600m limitation for CPU, running from one 8 cores host machine. Then useage may be similar to `0.6 / 8 = 7.5%`
