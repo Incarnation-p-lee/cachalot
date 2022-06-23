@@ -1,14 +1,15 @@
 # Cachalot
+
 Help developer get the snapshot of host machine runtime and/or container environment
 
 ## Badges
 
-* [![Go](https://github.com/Incarnation-p-lee/cachalot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Incarnation-p-lee/cachalot/actions/workflows/go.yml)
-* [![codecov](https://codecov.io/gh/Incarnation-p-lee/cachalot/branch/master/graph/badge.svg?token=kyWBu44Yuu)](https://codecov.io/gh/Incarnation-p-lee/cachalot)
-* [![DeepSource](https://deepsource.io/gh/Incarnation-p-lee/cachalot.svg/?label=active+issues&show_trend=true&token=sfNFlwtPmXs8B7a9Dn7n0ERV)](https://deepsource.io/gh/Incarnation-p-lee/cachalot/?ref=repository-badge)
-* [![Codacy Badge](https://app.codacy.com/project/badge/Grade/46a042f933084de2a04263e2cad1c25b)](https://www.codacy.com/gh/Incarnation-p-lee/cachalot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Incarnation-p-lee/cachalot&amp;utm_campaign=Badge_Grade)
-* [![Codiga Score](https://api.codiga.io/project/33659/score/svg)](https://app.codiga.io/project/33659/dashboard)
-* [![Codiga Grade](https://api.codiga.io/project/33659/status/svg)](https://app.codiga.io/project/33659/dashboard)
+- [![Go](https://github.com/Incarnation-p-lee/cachalot/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/Incarnation-p-lee/cachalot/actions/workflows/go.yml)
+- [![codecov](https://codecov.io/gh/Incarnation-p-lee/cachalot/branch/master/graph/badge.svg?token=kyWBu44Yuu)](https://codecov.io/gh/Incarnation-p-lee/cachalot)
+- [![DeepSource](https://deepsource.io/gh/Incarnation-p-lee/cachalot.svg/?label=active+issues&show_trend=true&token=sfNFlwtPmXs8B7a9Dn7n0ERV)](https://deepsource.io/gh/Incarnation-p-lee/cachalot/?ref=repository-badge)
+- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/46a042f933084de2a04263e2cad1c25b)](https://www.codacy.com/gh/Incarnation-p-lee/cachalot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Incarnation-p-lee/cachalot&utm_campaign=Badge_Grade)
+- [![Codiga Score](https://api.codiga.io/project/33659/score/svg)](https://app.codiga.io/project/33659/dashboard)
+- [![Codiga Grade](https://api.codiga.io/project/33659/status/svg)](https://app.codiga.io/project/33659/dashboard)
 
 ## Usage
 
@@ -57,12 +58,15 @@ PID             CPUUsage        CmdLine
 1027            0.000%          bash
 ...
 ```
+
 ## Concept
 
 ### CPU Usage
 
 #### Multiple Cores
+
 Cachalot will count all the CPU ticks of host environment, so ticks of all the CPU cores will be counted for CPU usage. For example, there are 4 cores, 1 core is exhaused by one PID while others are free. Then the usage may be similar to `1 / 4 = 25%`.
 
 #### Container
+
 Cachalot will count all the CPU ticks of host machine, so the CPU usage will be more smaller than expectation. For example, there is one container with 600m limitation for CPU, running from one 8 cores host machine. Then useage may be similar to `0.6 / 8 = 7.5%`
