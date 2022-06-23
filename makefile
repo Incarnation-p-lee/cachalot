@@ -10,6 +10,7 @@ coverage_file           :=coverage.txt
 go_tmp                  :=$(shell find . -name "*.go" | grep -v cachalot.go)
 go_dirs                 :=$(sort $(dir $(go_tmp)))     # will remove duplicated.
 go_coverages_files      :=$(addsuffix $(coverage_file), $(go_dirs))
+go_ldflags              :="-s"
 
 cmd_dir                 :=cmd/cachalot
 cmd_main                :=$(cmd_dir)/cachalot.go
@@ -17,7 +18,7 @@ cmd                     :=$(subst .go, , $(cmd_main))
 
 TARGET                  :=$(cmd_dir)/cachalot
 
-.PHONY: cmd test clean
+.PHONY: cmd test clean release
 
 $(cmd):$(cmd_main)
 	$(ECHO) "Build     $(TARGET)"
@@ -25,6 +26,10 @@ $(cmd):$(cmd_main)
 
 test:$(go_coverages_files)
 	$(ECHO) "Test      completed"
+
+release:$(cmd_main)
+	$(ECHO) "Release   $(TARGET)"
+	$(CD) $(cmd_dir) && go build -ldflags $(go_ldflags) $(notdir $(cmd_main)) && cd -> /dev/null
 
 $(go_coverages_files):%/coverage.txt:%
 	$(ECHO) "Test      $<"
@@ -43,4 +48,3 @@ endef
 define get_test_package_path
     $(if $(filter pkg/%, $<), $(package_prefix), )$<
 endef
-
