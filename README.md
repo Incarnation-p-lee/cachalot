@@ -62,9 +62,10 @@ PID             CPUUsage        CmdLine
 ## Build
 
 ### Precondition
-* [Ubuntu](https://ubuntu.com/)
-* [Go 1.18](https://golang.google.cn/doc/go1.18)
-* [Build Essential](https://pkgs.org/download/build-essential)
+
+- [Ubuntu](https://ubuntu.com/)
+- [Go 1.18](https://golang.google.cn/doc/go1.18)
+- [Build Essential](https://pkgs.org/download/build-essential)
 
 cachalot leverage only one makefile under the root folder of the project. The final binary will be built to `cmd/cachalot/cachalot` by commad `make`. Meanwhile, below commands of makefile are also supported.
 
