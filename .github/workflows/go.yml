@@ -17,9 +17,6 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Set up coveralls
-      run: pip install --user cpp-coveralls
-
     - name: Build
       run: make
 
@@ -30,5 +27,7 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash)
 
     - name: Coveralls
-      run: coveralls --gcov-options '\-lp'
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
