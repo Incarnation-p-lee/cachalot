@@ -1,59 +1,58 @@
 package snapshot
 
 import (
-    "time"
-    "testing"
-    "github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"testing"
+	"time"
 )
 
-func TestCreateSnapshot(t *testing.T) {
-    testLastHour, processes := time.Now().Add(-time.Hour), []Process {}
-    snapshot := CreateSnapshot(testLastHour, processes)
-
-    assert.IsEqual(t, testLastHour, snapshot.Timestamp, "snapshot should have the same timestamp.")
-    assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot should have empty processes slice.")
+func createProcess(pID int, cmdLine string, cpuStat CPUStat) Process {
+	return Process{
+		PID:     pID,
+		CmdLine: cmdLine,
+		CPUStat: cpuStat,
+	}
 }
 
-func TestCreateProcess(t *testing.T) {
-    cmdLine, pID := "bash -c", 123
-    process := CreateProcess(pID, cmdLine, CPUStat {})
+func TestCreateSnapshot(t *testing.T) {
+	testLastHour, processes := time.Now().Add(-time.Hour), []Process{}
+	snapshot := CreateSnapshot(testLastHour, processes)
 
-    assert.IsEqual(t, cmdLine, process.CmdLine, "process should have the same cmd line.")
-    assert.IsEqual(t, pID, process.PID, "process should have the same id.")
+	assert.IsEqual(t, testLastHour, snapshot.Timestamp, "snapshot should have the same timestamp.")
+	assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot should have empty processes slice.")
 }
 
 func TestCreateCPUStat(t *testing.T) {
-    used, limited := 250, 500
-    stat := CreateCPUStat(used, limited)
+	used, limited := 250, 500
+	stat := CreateCPUStat(used, limited)
 
-    assert.IsEqual(t, used, stat.JiffiesUsed, "cpu stat should have the same used value.") 
-    assert.IsEqual(t, limited, stat.JiffiesInTotal, "cpu stat should have the same limited value.") 
-    assert.IsEqual(t, float64(used * 100 / limited), stat.UsageInPercentage,
-        "cpu stat should have the same percentage value.") 
+	assert.IsEqual(t, used, stat.JiffiesUsed, "cpu stat should have the same used value.")
+	assert.IsEqual(t, limited, stat.JiffiesInTotal, "cpu stat should have the same limited value.")
+	assert.IsEqual(t, float64(used*100/limited), stat.UsageInPercentage,
+		"cpu stat should have the same percentage value.")
 }
 
 func TestSetUsage(t *testing.T) {
-    process := CreateProcess(123, "ls -l", CPUStat {})
+	process := createProcess(123, "ls -l", CPUStat{})
 
-    assert.IsEqual(t, 0.0, process.CPUStat.UsageInPercentage, "process cpu stat should be zero.")
+	assert.IsEqual(t, 0.0, process.CPUStat.UsageInPercentage, "process cpu stat should be zero.")
 
-    used, limited := 250, 500
-    stat := CreateCPUStat(used, limited)
+	used, limited := 250, 500
+	stat := CreateCPUStat(used, limited)
 
-    process.SetCPUStat(stat)
+	process.SetCPUStat(stat)
 
-    assert.IsEqual(t, float64(used * 100 / limited), process.CPUStat.UsageInPercentage,
-        "cpu stat should have the same percentage value.") 
+	assert.IsEqual(t, float64(used*100/limited), process.CPUStat.UsageInPercentage,
+		"cpu stat should have the same percentage value.")
 }
 
 func TestAppendProcess(t *testing.T) {
-    process := CreateProcess(123, "ls -l", CPUStat {})
-    snapshot := CreateSnapshot(time.Now(), []Process {})
+	process := createProcess(123, "ls -l", CPUStat{})
+	snapshot := CreateSnapshot(time.Now(), []Process{})
 
-    assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot processes count should be 0.")
+	assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot processes count should be 0.")
 
-    snapshot.AppendProcess(process)
+	snapshot.AppendProcess(process)
 
-    assert.IsEqual(t, 1, len(snapshot.Processes), "snapshot processes count should be 0.")
+	assert.IsEqual(t, 1, len(snapshot.Processes), "snapshot processes count should be 0.")
 }
-
