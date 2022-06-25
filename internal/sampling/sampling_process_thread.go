@@ -1,12 +1,12 @@
 package sampling
 
 import (
-	"path/filepath"
 	"bufio"
 	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
