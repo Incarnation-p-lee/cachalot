@@ -1,6 +1,7 @@
 package sampling
 
 import (
+	"path/filepath"
 	"bufio"
 	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
@@ -37,7 +38,7 @@ func getThreadsCount(threadsLine string) int {
 
 func sampleThreadsCount(pID int) int {
 	filename := fmt.Sprintf("/proc/%d/status", pID)
-	file, err := os.Open(filename)
+	file, err := os.Open(filepath.Clean(filename))
 
 	if err != nil {
 		log.Printf("Failed to open file %s due to %+v\n", filename, err)
