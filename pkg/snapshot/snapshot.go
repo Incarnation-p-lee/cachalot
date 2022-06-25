@@ -15,6 +15,7 @@ type Process struct {
     PID int
     CmdLine string
     CPUStat CPUStat
+	ThreadsStat ThreadsStat
 }
 
 // CPUStat indicates the data for cpu stat.
@@ -23,20 +24,16 @@ type CPUStat struct {
     UsageInPercentage float64
 }
 
+// ThreadsStat indicates the data of thread stat.
+type ThreadsStat struct {
+	ThreadsCount int
+}
+
 // CreateSnapshot will create one object with given timestamp.
 func CreateSnapshot(timestamp time.Time, processes []Process) Snapshot {
     return Snapshot {
         Timestamp: timestamp,
         Processes: processes,
-    }
-}
-
-// CreateProcess will create one object with given parameters.
-func CreateProcess(pID int, cmdLine string, cpuStat CPUStat) Process {
-    return Process {
-        PID: pID,
-        CmdLine: cmdLine,
-        CPUStat: cpuStat,
     }
 }
 

@@ -86,8 +86,12 @@ func sampleOneProcessSnapshot(ops *options.Options, pIDChan <- chan int,
     }
 
     pID := <- pIDChan
-    cmdLine, cpuStat := sampleCmdLine(pID), sampleCPUStat(pID)
 
-    processChan <- snapshot.CreateProcess(pID, cmdLine, cpuStat)
+    processChan <- snapshot.Process {
+		PID: pID,
+		CmdLine: sampleCmdLine(pID),
+		CPUStat: sampleCPUStat(pID),
+		ThreadsStat: sampleThreadStat(pID),
+	}
 }
 

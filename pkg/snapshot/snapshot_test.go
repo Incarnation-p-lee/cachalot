@@ -6,20 +6,20 @@ import (
     "github.com/Incarnation-p-lee/cachalot/pkg/assert"
 )
 
+func createProcess(pID int, cmdLine string, cpuStat CPUStat) Process {
+	return Process {
+		PID: pID,
+		CmdLine: cmdLine,
+		CPUStat: cpuStat,
+	}
+}
+
 func TestCreateSnapshot(t *testing.T) {
     testLastHour, processes := time.Now().Add(-time.Hour), []Process {}
     snapshot := CreateSnapshot(testLastHour, processes)
 
     assert.IsEqual(t, testLastHour, snapshot.Timestamp, "snapshot should have the same timestamp.")
     assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot should have empty processes slice.")
-}
-
-func TestCreateProcess(t *testing.T) {
-    cmdLine, pID := "bash -c", 123
-    process := CreateProcess(pID, cmdLine, CPUStat {})
-
-    assert.IsEqual(t, cmdLine, process.CmdLine, "process should have the same cmd line.")
-    assert.IsEqual(t, pID, process.PID, "process should have the same id.")
 }
 
 func TestCreateCPUStat(t *testing.T) {
@@ -33,7 +33,7 @@ func TestCreateCPUStat(t *testing.T) {
 }
 
 func TestSetUsage(t *testing.T) {
-    process := CreateProcess(123, "ls -l", CPUStat {})
+    process := createProcess(123, "ls -l", CPUStat {})
 
     assert.IsEqual(t, 0.0, process.CPUStat.UsageInPercentage, "process cpu stat should be zero.")
 
@@ -47,7 +47,7 @@ func TestSetUsage(t *testing.T) {
 }
 
 func TestAppendProcess(t *testing.T) {
-    process := CreateProcess(123, "ls -l", CPUStat {})
+    process := createProcess(123, "ls -l", CPUStat {})
     snapshot := CreateSnapshot(time.Now(), []Process {})
 
     assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot processes count should be 0.")
