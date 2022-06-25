@@ -1,17 +1,17 @@
 package sampling
 
 import (
-	"fmt"
 	"bufio"
-	"strings"
-	"os"
-	"log"
-	"strconv"
+	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"log"
+	"os"
+	"strconv"
+	"strings"
 )
 
 const (
-	threadsCountPrefix = "Threads"
+	threadsCountPrefix  = "Threads"
 	invalidThreadsCount = -1
 )
 
@@ -32,7 +32,7 @@ func getThreadsCount(threadsLine string) int {
 		}
 	}
 
-	return threadsCount 
+	return threadsCount
 }
 
 func sampleThreadsCount(pID int) int {
@@ -63,8 +63,7 @@ func sampleThreadsCount(pID int) int {
 }
 
 func sampleThreadStat(pID int) snapshot.ThreadsStat {
-	return snapshot.ThreadsStat {
+	return snapshot.ThreadsStat{
 		ThreadsCount: sampleThreadsCount(pID),
 	}
 }
-

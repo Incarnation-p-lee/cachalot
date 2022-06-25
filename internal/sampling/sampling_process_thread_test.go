@@ -1,8 +1,8 @@
 package sampling
 
 import (
-	"testing"
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"testing"
 )
 
 func TestSampleThreadStat(t *testing.T) {
@@ -19,4 +19,3 @@ func TestSampleThreadStatInvalidCount(t *testing.T) {
 	assert.IsEqual(t, invalidThreadsCount, threadStat.ThreadsCount,
 		"thread count should be invalid")
 }
-
