@@ -12,7 +12,7 @@ func CloseFile(file *os.File) error {
 	}
 
 	if err := file.Close(); err != nil {
-		return errors.New(fmt.Sprintf("Cannot close file %+v due to %+v\n", file, err))
+		return fmt.Errorf("Cannot close file %+v due to %+v\n", file, err)
 	}
 
 	return nil
