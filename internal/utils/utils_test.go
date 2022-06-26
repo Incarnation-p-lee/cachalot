@@ -2,8 +2,8 @@ package utils
 
 import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
-	"testing"
 	"os"
+	"testing"
 )
 
 func TestCloseFile(t *testing.T) {
@@ -19,4 +19,3 @@ func TestCloseFileTwice(t *testing.T) {
 
 	assert.IsNotNil(t, CloseFile(file), "close file twice should have error")
 }
-
