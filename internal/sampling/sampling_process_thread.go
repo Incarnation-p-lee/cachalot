@@ -3,6 +3,7 @@ package sampling
 import (
 	"bufio"
 	"fmt"
+	"internal/utils"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"log"
 	"os"
@@ -45,11 +46,7 @@ func sampleThreadsCount(pID int) int {
 		return invalidThreadsCount
 	}
 
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Printf("Failed to close file %+v due to %+v\n", file, err)
-		}
-	}()
+	defer utils.CloseFile(file)
 
 	scanner, threadCount := bufio.NewScanner(file), invalidThreadsCount
 

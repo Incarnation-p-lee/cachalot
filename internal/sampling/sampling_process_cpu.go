@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"internal/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -39,11 +40,7 @@ func sampleTotalCPUJiffies(totalChan chan<- int) {
 		return
 	}
 
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Printf("Failed to close file %+v due to %+v\n", file, err)
-		}
-	}()
+	defer utils.CloseFile(file)
 
 	scanner, jiffies := bufio.NewScanner(file), 0
 
