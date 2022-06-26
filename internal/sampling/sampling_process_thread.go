@@ -3,8 +3,8 @@ package sampling
 import (
 	"bufio"
 	"fmt"
-	"internal/utils"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"internal/utils"
 	"log"
 	"os"
 	"path/filepath"

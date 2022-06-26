@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"os"
-	"errors"
 )
 
 func CloseFile(file *os.File) error {
@@ -17,4 +17,3 @@ func CloseFile(file *os.File) error {
 
 	return nil
 }
-
