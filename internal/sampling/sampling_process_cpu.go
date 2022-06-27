@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"internal/utils"
 	"io/ioutil"
 	"log"
 	"os"
@@ -39,11 +40,7 @@ func sampleTotalCPUJiffies(totalChan chan<- int) {
 		return
 	}
 
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Printf("Failed to close file %+v due to %+v\n", file, err)
-		}
-	}()
+	defer utils.CloseFile(file)
 
 	scanner, jiffies := bufio.NewScanner(file), 0
 
