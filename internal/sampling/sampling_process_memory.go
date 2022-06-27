@@ -10,7 +10,7 @@ import (
 
 const (
 	invalidMemoryInKB = -1
-	totalMemoryFile = "/proc/meminfo"
+	totalMemoryFile   = "/proc/meminfo"
 	totalMemoryPrefix = "MemTotal:"
 )
 
@@ -45,4 +45,3 @@ func initTotalMemoryInKB() {
 		}
 	}
 }
-
