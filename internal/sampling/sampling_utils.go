@@ -2,9 +2,9 @@ package sampling
 
 import (
 	"log"
+	"regexp"
 	"strconv"
 	"strings"
-	"regexp"
 )
 
 const (
@@ -40,4 +40,3 @@ func getFirstIntValue(line string) int {
 
 	return intValue
 }
-
