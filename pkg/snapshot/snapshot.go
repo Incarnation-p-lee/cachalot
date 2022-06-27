@@ -16,12 +16,25 @@ type Process struct {
 	CmdLine     string
 	CPUStat     CPUStat
 	ThreadsStat ThreadsStat
+	MemoryStat  MemoryStat
 }
 
 // CPUStat indicates the data for cpu stat.
 type CPUStat struct {
 	JiffiesUsed, JiffiesInTotal int
 	UsageInPercentage           float64
+}
+
+// MemoryStat indicates the virtual memory stat
+type MemoryStat struct {
+	TotalMemoryInKB   int
+	VmSizeInKB        int
+	UsageInPercentage float64
+	VmRSSInKB         int
+	VmDataInKB        int
+	VmStkInKB         int
+	VmExeInKB         int
+	VmLibInKB         int
 }
 
 // ThreadsStat indicates the data of thread stat.
