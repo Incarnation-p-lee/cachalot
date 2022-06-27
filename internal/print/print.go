@@ -32,16 +32,16 @@ func printSnapshotTimestamp(timestamp time.Time) {
 }
 
 func printSnapshotProcess(process snapshot.Process) {
-
-	fmt.Printf("%v\t\t", process.PID)
+	fmt.Printf("%v\t", process.PID)
 	fmt.Printf("%.3f%%\t\t", process.CPUStat.UsageInPercentage)
+	fmt.Printf("%d\t", process.ThreadsStat.ThreadsCount)
 	fmt.Printf("%s\n", process.CmdLine)
 }
 
 func printSnapshotProcesses(processes []snapshot.Process) {
 	fmt.Printf("Total procesess count: %d\n", len(processes))
 	fmt.Println(printSeparatedLine)
-	fmt.Printf("PID\t\tCPUUsage\tCmdLine\n")
+	fmt.Printf("PID\tCPUUsage\tThreads\tCmdLine\n")
 	fmt.Println(printSeparatedLine)
 
 	for _, process := range processes {
