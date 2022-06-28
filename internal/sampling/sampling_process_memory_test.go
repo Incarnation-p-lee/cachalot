@@ -6,9 +6,6 @@ import (
 )
 
 func TestInitTotalMemoryInKB(t *testing.T) {
-	assert.IsEqual(t, invalidMemoryInKB, totalMemoryInKB,
-		"total memory in KB should be invalid")
-
 	initTotalMemoryInKB()
 
 	assert.IsTrue(t, totalMemoryInKB != invalidMemoryInKB,
