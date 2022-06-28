@@ -1,9 +1,9 @@
 package sampling
 
 import (
-    "time"
-    "internal/options"
-    "github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"internal/options"
+	"time"
 )
 
 func init() {
@@ -11,12 +11,11 @@ func init() {
 }
 
 func Sample(ops *options.Options) snapshot.Snapshot {
-    if ops == nil {
-        return snapshot.Snapshot {}
-    }
+	if ops == nil {
+		return snapshot.Snapshot{}
+	}
 
-    timestamp, processes := time.Now(), sampleAllProcesses(ops)
+	timestamp, processes := time.Now(), sampleAllProcesses(ops)
 
-    return snapshot.CreateSnapshot(timestamp, processes)
+	return snapshot.CreateSnapshot(timestamp, processes)
 }
-
