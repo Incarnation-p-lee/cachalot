@@ -8,8 +8,10 @@ import (
 func TestGetFirstIntValue(t *testing.T) {
 	assert.IsEqual(t, invalidSamplingIntValue, getFirstIntValue(""),
 		"empty line should be invalid sampling int value")
-	assert.IsEqual(t, invalidSamplingIntValue, getFirstIntValue("abc:"),
-		"only chars and comma line should be invalid sampling int value")
+	assert.IsEqual(t, invalidSamplingIntValue, getFirstIntValue("abc"),
+		"only chars line should be invalid sampling int value")
+	assert.IsEqual(t, invalidSamplingIntValue, getFirstIntValue("a"),
+		"only one space line should be invalid sampling int value")
 	assert.IsEqual(t, invalidSamplingIntValue, getFirstIntValue("abc:def"),
 		"no number line should be invalid sampling int value")
 

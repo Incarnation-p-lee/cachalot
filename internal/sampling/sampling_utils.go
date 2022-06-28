@@ -19,10 +19,6 @@ func getFirstIntValue(line string) int {
 	separator := regexp.MustCompile(`[: ]`)
 	values, intValue := separator.Split(line, -1), invalidSamplingIntValue
 
-	if len(values) < 1 {
-		return invalidSamplingIntValue
-	}
-
 	values = values[1:]
 
 	for _, v := range values {
