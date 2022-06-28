@@ -28,13 +28,13 @@ type CPUStat struct {
 // MemoryStat indicates the virtual memory stat
 type MemoryStat struct {
 	TotalMemoryInKB   int
-	VmSizeInKB        int
+	VMSizeInKB        int
 	UsageInPercentage float64
-	VmRSSInKB         int
-	VmDataInKB        int
-	VmStkInKB         int
-	VmExeInKB         int
-	VmLibInKB         int
+	VMRSSInKB         int
+	VMDataInKB        int
+	VMStkInKB         int
+	VMExeInKB         int
+	VMLibInKB         int
 }
 
 // ThreadsStat indicates the data of thread stat.

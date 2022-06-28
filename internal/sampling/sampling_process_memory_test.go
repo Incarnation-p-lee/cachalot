@@ -16,3 +16,11 @@ func TestInitTotalMemoryInKB(t *testing.T) {
 	assert.IsTrue(t, totalMemoryInKB > 0,
 		"total memory in KB should be greater than 0")
 }
+
+func TestGetTotalMemoryInKB(t *testing.T) {
+	assert.IsEqual(t, 123, getTotalMemoryInKB("totalMemory: 123"),
+		"should have the same total memory")
+
+	assert.IsEqual(t, invalidMemoryInKB, getTotalMemoryInKB(""),
+		"should be the invalid memory in KB")
+}

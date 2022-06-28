@@ -14,7 +14,7 @@ const (
 	totalMemoryPrefix = "MemTotal:"
 )
 
-var totalMemoryInKB int = invalidMemoryInKB
+var totalMemoryInKB = invalidMemoryInKB
 
 func getTotalMemoryInKB(totalMemoryLine string) int {
 	memoryInKB := getFirstIntValue(totalMemoryLine)
