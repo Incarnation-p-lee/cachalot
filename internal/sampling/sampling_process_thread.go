@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 )
 
@@ -18,20 +17,10 @@ const (
 )
 
 func getThreadsCount(threadsLine string) int {
-	threads, threadsCount := strings.Split(threadsLine, ":"), invalidThreadsCount
-	threads = threads[1:] // skip leading 'Threads'
+	threadsCount := getFirstIntValue(threadsLine)
 
-	for _, v := range threads {
-		v := strings.Trim(v, " \t")
-
-		if len(v) > 0 {
-			if count, err := strconv.Atoi(v); err != nil {
-				log.Printf("Failed to convert integer from %s due to %+v\n", v, err)
-			} else {
-				threadsCount = count
-				break
-			}
-		}
+	if threadsCount == invalidSamplingIntValue {
+		return invalidThreadsCount
 	}
 
 	return threadsCount

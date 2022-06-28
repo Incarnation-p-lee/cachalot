@@ -19,3 +19,11 @@ func TestSampleThreadStatInvalidCount(t *testing.T) {
 	assert.IsEqual(t, invalidThreadsCount, threadStat.ThreadsCount,
 		"thread count should be invalid")
 }
+
+func TestGetThreadsCount(t *testing.T) {
+	assert.IsEqual(t, 1, getThreadsCount("threads: 1"),
+		"should have the same threads count")
+
+	assert.IsEqual(t, invalidThreadsCount, getThreadsCount(""),
+		"should be the invalid threads count")
+}
