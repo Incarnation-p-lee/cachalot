@@ -80,9 +80,7 @@ func sampleMemoryStat(pID int) snapshot.MemoryStat {
 
 	defer utils.CloseFile(file)
 
-	scanner := bufio.NewScanner(file)
-	vmSize, vmRSS, vmData := invalidMemoryInKB, invalidMemoryInKB, invalidMemoryInKB
-	vmStk, vmExe, vmLib := invalidMemoryInKB, invalidMemoryInKB, invalidMemoryInKB
+	scanner, memoryStat := bufio.NewScanner(file), invalidMemoryStat
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -90,28 +88,23 @@ func sampleMemoryStat(pID int) snapshot.MemoryStat {
 
 		switch key {
 		case "VmSize":
-			vmSize = getMemoryInKB(line)
+			memoryStat.VMSizeInKB = getMemoryInKB(line)
 		case "VmRSS":
-			vmRSS = getMemoryInKB(line)
+			memoryStat.VMRSSInKB = getMemoryInKB(line)
 		case "VmData":
-			vmData = getMemoryInKB(line)
+			memoryStat.VMDataInKB = getMemoryInKB(line)
 		case "VmStk":
-			vmStk = getMemoryInKB(line)
+			memoryStat.VMStkInKB = getMemoryInKB(line)
 		case "VmExe":
-			vmExe = getMemoryInKB(line)
+			memoryStat.VMExeInKB = getMemoryInKB(line)
 		case "VmLib":
-			vmLib = getMemoryInKB(line)
+			memoryStat.VMLibInKB = getMemoryInKB(line)
 		}
 	}
 
-	return snapshot.MemoryStat{
-		TotalMemoryInKB:   totalMemoryInKB,
-		VMSizeInKB:        vmSize,
-		UsageInPercentage: float64(vmSize*100) / float64(totalMemoryInKB),
-		VMRSSInKB:         vmRSS,
-		VMDataInKB:        vmData,
-		VMStkInKB:         vmStk,
-		VMExeInKB:         vmExe,
-		VMLibInKB:         vmLib,
-	}
+	memoryStat.TotalMemoryInKB = totalMemoryInKB
+	memoryStat.UsageInPercentage =
+		float64(memoryStat.VMSizeInKB *100) / float64(totalMemoryInKB)
+
+	return memoryStat
 }
