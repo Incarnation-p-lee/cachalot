@@ -104,7 +104,7 @@ func sampleMemoryStat(pID int) snapshot.MemoryStat {
 
 	memoryStat.TotalMemoryInKB = totalMemoryInKB
 	memoryStat.UsageInPercentage =
-		float64(memoryStat.VMSizeInKB *100) / float64(totalMemoryInKB)
+		float64(memoryStat.VMSizeInKB*100) / float64(totalMemoryInKB)
 
 	return memoryStat
 }
