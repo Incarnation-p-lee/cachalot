@@ -14,10 +14,40 @@ func TestInitTotalMemoryInKB(t *testing.T) {
 		"total memory in KB should be greater than 0")
 }
 
-func TestGetTotalMemoryInKB(t *testing.T) {
-	assert.IsEqual(t, 123, getTotalMemoryInKB("totalMemory: 123"),
+func TestGetMemoryInKB(t *testing.T) {
+	assert.IsEqual(t, 123, getMemoryInKB("totalMemory: 123"),
 		"should have the same total memory")
 
-	assert.IsEqual(t, invalidMemoryInKB, getTotalMemoryInKB(""),
+	assert.IsEqual(t, invalidMemoryInKB, getMemoryInKB(""),
 		"should be the invalid memory in KB")
+}
+
+func TestGetMemoryName(t *testing.T) {
+	assert.IsEqual(t, "VmSize", getMemoryName("VmSize: 123"),
+		"should have the same memory name")
+
+	assert.IsEqual(t, invalidMemoryName, getMemoryName(""),
+		"should be the invalid memory name")
+}
+
+func TestSampleMemoryStat(t *testing.T) {
+	memoryStat := sampleMemoryStat(1)
+
+	assert.IsTrue(t, memoryStat.VMSizeInKB != invalidMemoryInKB,
+		"vmSize in KB should not be invalid")
+	assert.IsTrue(t, memoryStat.VMRSSInKB != invalidMemoryInKB,
+		"vmRSS in KB should not be invalid")
+	assert.IsTrue(t, memoryStat.VMStkInKB != invalidMemoryInKB,
+		"vmStk in KB should not be invalid")
+}
+
+func TestSampleMemoryStatInvalid(t *testing.T) {
+	memoryStat := sampleMemoryStat(10000000)
+
+	assert.IsTrue(t, memoryStat.VMSizeInKB == invalidMemoryInKB,
+		"vmSize in KB should be invalid")
+	assert.IsTrue(t, memoryStat.VMRSSInKB == invalidMemoryInKB,
+		"vmRSS in KB should be invalid")
+	assert.IsTrue(t, memoryStat.VMStkInKB == invalidMemoryInKB,
+		"vmStk in KB should be invalid")
 }

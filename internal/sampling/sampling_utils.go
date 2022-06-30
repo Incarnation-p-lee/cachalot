@@ -8,8 +8,24 @@ import (
 )
 
 const (
-	invalidSamplingIntValue = -1
+	invalidSamplingIntValue    = -1
+	invalidSamplingStringValue = ""
 )
+
+func getFirstStringValue(line string) string {
+	if len(line) == 0 {
+		return invalidSamplingStringValue
+	}
+
+	separator := regexp.MustCompile(`[: ]`)
+	values := separator.Split(line, -1)
+
+	if len(values) == 0 || len(values[0]) == 0 {
+		return invalidSamplingStringValue
+	}
+
+	return values[0]
+}
 
 func getFirstIntValue(line string) int {
 	if len(line) == 0 {
