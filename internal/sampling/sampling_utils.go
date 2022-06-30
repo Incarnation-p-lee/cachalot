@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	invalidSamplingIntValue = -1
+	invalidSamplingIntValue    = -1
 	invalidSamplingStringValue = ""
 )
 
