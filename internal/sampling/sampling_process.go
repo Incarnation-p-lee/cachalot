@@ -92,5 +92,6 @@ func sampleOneProcessSnapshot(ops *options.Options, pIDChan <-chan int,
 		CmdLine:     sampleCmdLine(pID),
 		CPUStat:     sampleCPUStat(pID),
 		ThreadsStat: sampleThreadStat(pID),
+		MemoryStat:  sampleMemoryStat(pID),
 	}
 }
