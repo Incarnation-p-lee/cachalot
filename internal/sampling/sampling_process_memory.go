@@ -6,8 +6,8 @@ import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"internal/utils"
 	"log"
-	"path/filepath"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -19,14 +19,14 @@ const (
 )
 
 var totalMemoryInKB = invalidMemoryInKB
-var invalidMemoryStat = snapshot.MemoryStat {
+var invalidMemoryStat = snapshot.MemoryStat{
 	TotalMemoryInKB: invalidMemoryInKB,
-	VMSizeInKB: invalidMemoryInKB,
-	VMRSSInKB: invalidMemoryInKB,
-	VMDataInKB: invalidMemoryInKB,
-	VMStkInKB: invalidMemoryInKB,
-	VMExeInKB: invalidMemoryInKB,
-	VMLibInKB: invalidMemoryInKB,
+	VMSizeInKB:      invalidMemoryInKB,
+	VMRSSInKB:       invalidMemoryInKB,
+	VMDataInKB:      invalidMemoryInKB,
+	VMStkInKB:       invalidMemoryInKB,
+	VMExeInKB:       invalidMemoryInKB,
+	VMLibInKB:       invalidMemoryInKB,
 }
 
 func getMemoryInKB(memoryLine string) int {
@@ -89,29 +89,29 @@ func sampleMemoryStat(pID int) snapshot.MemoryStat {
 		key := getMemoryName(line)
 
 		switch key {
-			case "VmSize":
-				vmSize = getMemoryInKB(line)
-			case "VmRSS":
-				vmRSS = getMemoryInKB(line)
-			case "VmData":
-				vmData = getMemoryInKB(line)
-			case "VmStk":
-				vmStk = getMemoryInKB(line)
-			case "VmExe":
-				vmExe = getMemoryInKB(line)
-			case "VmLib":
-				vmLib = getMemoryInKB(line)
+		case "VmSize":
+			vmSize = getMemoryInKB(line)
+		case "VmRSS":
+			vmRSS = getMemoryInKB(line)
+		case "VmData":
+			vmData = getMemoryInKB(line)
+		case "VmStk":
+			vmStk = getMemoryInKB(line)
+		case "VmExe":
+			vmExe = getMemoryInKB(line)
+		case "VmLib":
+			vmLib = getMemoryInKB(line)
 		}
 	}
 
-	return snapshot.MemoryStat {
-		TotalMemoryInKB: totalMemoryInKB,
-		VMSizeInKB: vmSize,
-		UsageInPercentage: float64(vmSize * 100) / float64(totalMemoryInKB),
-		VMRSSInKB: vmRSS,
-		VMDataInKB: vmData,
-		VMStkInKB: vmStk,
-		VMExeInKB: vmExe,
-		VMLibInKB: vmLib,
+	return snapshot.MemoryStat{
+		TotalMemoryInKB:   totalMemoryInKB,
+		VMSizeInKB:        vmSize,
+		UsageInPercentage: float64(vmSize*100) / float64(totalMemoryInKB),
+		VMRSSInKB:         vmRSS,
+		VMDataInKB:        vmData,
+		VMStkInKB:         vmStk,
+		VMExeInKB:         vmExe,
+		VMLibInKB:         vmLib,
 	}
 }
