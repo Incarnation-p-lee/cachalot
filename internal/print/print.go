@@ -38,12 +38,12 @@ func printSnapshotProcess(process snapshot.Process) {
 	fmt.Printf("%d\t", process.ThreadsStat.ThreadsCount)
 
 	fmt.Printf("%.3f%%\t\t", process.MemoryStat.UsageInPercentage)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMSizeInKB / 1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMRSSInKB / 1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMDataInKB / 1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMStkInKB / 1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMExeInKB / 1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMLibInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMSizeInKB/1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMRSSInKB/1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMDataInKB/1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMStkInKB/1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMExeInKB/1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMLibInKB/1024)
 
 	fmt.Printf("%s\n", process.CmdLine)
 }
