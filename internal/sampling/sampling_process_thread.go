@@ -50,7 +50,7 @@ func sampleThreadsCount(pID int) int {
 }
 
 func sampleThreadsStat(pID int, threadsStatChan chan<- snapshot.ThreadsStat) {
-	threadsStatChan<- snapshot.ThreadsStat{
+	threadsStatChan <- snapshot.ThreadsStat{
 		ThreadsCount: sampleThreadsCount(pID),
 	}
 }
