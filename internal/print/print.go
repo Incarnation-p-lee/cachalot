@@ -33,15 +33,27 @@ func printSnapshotTimestamp(timestamp time.Time) {
 
 func printSnapshotProcess(process snapshot.Process) {
 	fmt.Printf("%v\t", process.PID)
+
 	fmt.Printf("%.3f%%\t\t", process.CPUStat.UsageInPercentage)
 	fmt.Printf("%d\t", process.ThreadsStat.ThreadsCount)
+
+	fmt.Printf("%.3f%%\t\t", process.MemoryStat.UsageInPercentage)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMSizeInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMRSSInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMDataInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMStkInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMExeInKB / 1024)
+	fmt.Printf("%dMB\t", process.MemoryStat.VMLibInKB / 1024)
+
 	fmt.Printf("%s\n", process.CmdLine)
 }
 
 func printSnapshotProcesses(processes []snapshot.Process) {
 	fmt.Printf("Total procesess count: %d\n", len(processes))
 	fmt.Println(printSeparatedLine)
-	fmt.Printf("PID\tCPUUsage\tThreads\tCmdLine\n")
+	fmt.Printf("PID\tCPUUsage\tThreads\t" +
+		"MemoryUsage\tVmSize\tVmRss\tVmData\tVmStk\tVmExe\tVmLib\t" +
+		"CmdLine\n")
 	fmt.Println(printSeparatedLine)
 
 	for _, process := range processes {
