@@ -44,13 +44,10 @@ func TestSampleAllProcess(t *testing.T) {
 }
 
 func TestSampleOneProcessSnapshotNilOptions(t *testing.T) {
-    testPIDChan, testProcessChan := make(chan int, 1), make(chan snapshot.Process, 1)
-
-    go sampleOneProcessSnapshot(nil, testPIDChan, testProcessChan)
-
-    defer close(testPIDChan)
+    testProcessChan := make(chan snapshot.Process, 1)
     defer close(testProcessChan)
 
+    go sampleOneProcessSnapshot(nil, 1, testProcessChan)
     testProcess := <- testProcessChan
 
     assert.IsEqual(t, 0, testProcess.PID, "nil options will have 0 pID for process")
@@ -62,16 +59,13 @@ func TestSampleOneProcessSnapshotNilOptions(t *testing.T) {
 }
 
 func TestSampleOneProcessSnapshot(t *testing.T) {
+	testPID := 1
     ops := options.CreateOptions()
-    testPIDChan, testProcessChan := make(chan int, 1), make(chan snapshot.Process, 1)
 
-    go sampleOneProcessSnapshot(ops, testPIDChan, testProcessChan)
-
-    defer close(testPIDChan)
+    testProcessChan := make(chan snapshot.Process, 1)
     defer close(testProcessChan)
 
-    testPID := 1
-    testPIDChan <- testPID
+    go sampleOneProcessSnapshot(ops, testPID, testProcessChan)
     testProcess := <- testProcessChan
 
     assert.IsEqual(t, testPID, testProcess.PID, "process will have the same pID")
