@@ -11,7 +11,7 @@ func TestSampleThreadStat(t *testing.T) {
 	defer close(threadsStatChan)
 
 	go sampleThreadsStat(1, threadsStatChan)
-	threadsStat := <- threadsStatChan
+	threadsStat := <-threadsStatChan
 
 	assert.IsTrue(t, threadsStat.ThreadsCount > 0, "thread count should be greater than 0")
 }
@@ -21,7 +21,7 @@ func TestSampleThreadStatInvalidCount(t *testing.T) {
 	defer close(threadsStatChan)
 
 	go sampleThreadsStat(100000000, threadsStatChan)
-	threadsStat := <- threadsStatChan
+	threadsStat := <-threadsStatChan
 
 	assert.IsEqual(t, invalidThreadsCount, threadsStat.ThreadsCount,
 		"thread count should be invalid")

@@ -138,5 +138,5 @@ func sampleCPUStat(pID int, cpuStatChan chan<- snapshot.CPUStat) {
 	totalJiffies := totalJiffiesAfter - totalJiffiesBefore
 	processJiffies := processJiffiesAfter - processJiffiesBefore
 
-	cpuStatChan<- snapshot.CreateCPUStat(processJiffies, totalJiffies)
+	cpuStatChan <- snapshot.CreateCPUStat(processJiffies, totalJiffies)
 }

@@ -75,7 +75,7 @@ func sampleMemoryStat(pID int, memoryStatChan chan<- snapshot.MemoryStat) {
 
 	if err != nil {
 		log.Printf("Failed to open file %s due to %+v\n", filename, err)
-		memoryStatChan<- invalidMemoryStat
+		memoryStatChan <- invalidMemoryStat
 		return
 	}
 
@@ -107,5 +107,5 @@ func sampleMemoryStat(pID int, memoryStatChan chan<- snapshot.MemoryStat) {
 	memoryStat.UsageInPercentage =
 		float64(memoryStat.VMSizeInKB*100) / float64(totalMemoryInKB)
 
-	memoryStatChan<- memoryStat
+	memoryStatChan <- memoryStat
 }
