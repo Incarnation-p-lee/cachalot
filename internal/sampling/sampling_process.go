@@ -54,17 +54,12 @@ func sampleAllProcesses(ops *options.Options) []snapshot.Process {
 	allPIDs := getSamplingProcessIDs(ops)
 
 	pIDCount := len(allPIDs)
-	pIDChan, processChan := make(chan int, pIDCount), make(chan snapshot.Process, pIDCount)
+	processChan := make(chan snapshot.Process, pIDCount)
 
-	defer close(pIDChan)
 	defer close(processChan)
 
-	for i := 0; i < pIDCount; i++ {
-		go sampleOneProcessSnapshot(ops, pIDChan, processChan)
-	}
-
 	for _, pID := range allPIDs {
-		pIDChan <- pID
+		go sampleOneProcessSnapshot(ops, pID, processChan)
 	}
 
 	processes := []snapshot.Process{}
@@ -80,7 +75,7 @@ func sampleAllProcesses(ops *options.Options) []snapshot.Process {
 	return processes
 }
 
-func sampleOneProcessSnapshot(ops *options.Options, pIDChan <-chan int,
+func sampleOneProcessSnapshot(ops *options.Options, pID int,
 	processChan chan<- snapshot.Process) {
 
 	if ops == nil {
@@ -88,7 +83,6 @@ func sampleOneProcessSnapshot(ops *options.Options, pIDChan <-chan int,
 		return
 	}
 
-	pID := <-pIDChan
 	cmdChan, cpuChan := make(chan string), make(chan snapshot.CPUStat)
 	threadsChan, memoryChan := make(chan snapshot.ThreadsStat), make(chan snapshot.MemoryStat)
 
