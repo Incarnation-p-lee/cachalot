@@ -87,3 +87,8 @@ Cachalot will count all the CPU ticks of host environment, so ticks of all the C
 #### Container
 
 Cachalot will count all the CPU ticks of host machine, so the CPU usage will be more smaller than expectation. For example, there is one container with 600m limitation for CPU, running from one 8 cores host machine. Then useage may be similar to `0.6 / 8 = 7.5%`
+
+### Memory Usage
+
+Cachalot will leverage VmSize to caculate the memory usage from host machine. It also records other memory related metrics from [/proc/PID/status](https://www.kernel.org/doc/html/latest/filesystems/proc.html).
+
