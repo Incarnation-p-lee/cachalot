@@ -33,29 +33,30 @@ The output may look like below.
 ==========================================================
 Print snapshot with iteration count 0
 ==========================================================
-Timestamp: 2022-06-23 02:09:58.500744868 +0000 UTC m=+0.000049903
+Timestamp: 2022-07-01 02:32:07.03729379 +0000 UTC m=+0.000198499
 ==========================================================
-Total procesess count: 3
+Total procesess count: 5
 ==========================================================
-PID             CPUUsage        CmdLine
+PID     CPUUsage        Threads MemoryUsage     VmSize  VmRss   VmData  VmStk   VmExe   VmLib   CmdLine
 ==========================================================
-7               7.398%          java-jarapp.jar
-1027            0.000%          bash
-1038            0.000%          ./cachalot
+7       0.151%          25      14.846%         4767MB  702MB   1670MB  0MB     0MB     20MB    java-jarapp.jar
+3821    0.000%          7       2.142%          687MB   7MB     40MB    0MB     0MB     0MB     ./cachalot
+3817    0.000%          1       0.024%          7MB     4MB     1MB     0MB     0MB     1MB     bash
 
 
 ==========================================================
 Print snapshot with iteration count 1
 ==========================================================
-Timestamp: 2022-06-23 02:10:13.510835481 +0000 UTC m=+15.010140416
+Timestamp: 2022-07-01 02:32:22.053041252 +0000 UTC m=+15.015948061
 ==========================================================
-Total procesess count: 3
+Total procesess count: 5
 ==========================================================
-PID             CPUUsage        CmdLine
+PID     CPUUsage        Threads MemoryUsage     VmSize  VmRss   VmData  VmStk   VmExe   VmLib   CmdLine
 ==========================================================
-7               7.314%          java-jarapp.jar
-1038            0.000%          ./cachalot
-1027            0.000%          bash
+7       0.226%          25      14.846%         4767MB  702MB   1670MB  0MB     0MB     20MB    java-jarapp.jar
+3821    0.000%          9       2.142%          687MB   9MB     45MB    0MB     0MB     0MB     ./cachalot
+3817    0.000%          1       0.024%          7MB     4MB     1MB     0MB     0MB     1MB     bash
+
 ...
 ```
 
