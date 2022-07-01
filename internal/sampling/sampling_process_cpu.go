@@ -128,7 +128,7 @@ func sampleCPUJiffies(pID int) (totalJiffies, processJiffies int) {
 	return totalJiffies, processJiffies
 }
 
-func sampleCPUStat(pID int) snapshot.CPUStat {
+func sampleCPUStat(pID int, cpuStatChan chan<- snapshot.CPUStat) {
 	totalJiffiesBefore, processJiffiesBefore := sampleCPUJiffies(pID)
 
 	time.Sleep(time.Duration(samplingDuration) * time.Second)
@@ -138,5 +138,5 @@ func sampleCPUStat(pID int) snapshot.CPUStat {
 	totalJiffies := totalJiffiesAfter - totalJiffiesBefore
 	processJiffies := processJiffiesAfter - processJiffiesBefore
 
-	return snapshot.CreateCPUStat(processJiffies, totalJiffies)
+	cpuStatChan <- snapshot.CreateCPUStat(processJiffies, totalJiffies)
 }

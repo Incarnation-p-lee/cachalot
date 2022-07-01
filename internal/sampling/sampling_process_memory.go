@@ -69,13 +69,14 @@ func initTotalMemoryInKB() {
 	}
 }
 
-func sampleMemoryStat(pID int) snapshot.MemoryStat {
+func sampleMemoryStat(pID int, memoryStatChan chan<- snapshot.MemoryStat) {
 	filename := fmt.Sprintf("/proc/%d/status", pID)
 	file, err := os.Open(filepath.Clean(filename))
 
 	if err != nil {
 		log.Printf("Failed to open file %s due to %+v\n", filename, err)
-		return invalidMemoryStat
+		memoryStatChan <- invalidMemoryStat
+		return
 	}
 
 	defer utils.CloseFile(file)
@@ -106,5 +107,5 @@ func sampleMemoryStat(pID int) snapshot.MemoryStat {
 	memoryStat.UsageInPercentage =
 		float64(memoryStat.VMSizeInKB*100) / float64(totalMemoryInKB)
 
-	return memoryStat
+	memoryStatChan <- memoryStat
 }

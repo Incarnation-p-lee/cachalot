@@ -2,6 +2,7 @@ package sampling
 
 import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"testing"
 )
 
@@ -31,7 +32,11 @@ func TestGetMemoryName(t *testing.T) {
 }
 
 func TestSampleMemoryStat(t *testing.T) {
-	memoryStat := sampleMemoryStat(1)
+	memoryStatChan := make(chan snapshot.MemoryStat)
+	defer close(memoryStatChan)
+
+	go sampleMemoryStat(1, memoryStatChan)
+	memoryStat := <-memoryStatChan
 
 	assert.IsTrue(t, memoryStat.VMSizeInKB != invalidMemoryInKB,
 		"vmSize in KB should not be invalid")
@@ -42,7 +47,11 @@ func TestSampleMemoryStat(t *testing.T) {
 }
 
 func TestSampleMemoryStatInvalid(t *testing.T) {
-	memoryStat := sampleMemoryStat(10000000)
+	memoryStatChan := make(chan snapshot.MemoryStat)
+	defer close(memoryStatChan)
+
+	go sampleMemoryStat(10000000, memoryStatChan)
+	memoryStat := <-memoryStatChan
 
 	assert.IsTrue(t, memoryStat.VMSizeInKB == invalidMemoryInKB,
 		"vmSize in KB should be invalid")

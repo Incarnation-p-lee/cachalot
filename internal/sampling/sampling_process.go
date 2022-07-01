@@ -56,6 +56,9 @@ func sampleAllProcesses(ops *options.Options) []snapshot.Process {
 	pIDCount := len(allPIDs)
 	pIDChan, processChan := make(chan int, pIDCount), make(chan snapshot.Process, pIDCount)
 
+	defer close(pIDChan)
+	defer close(processChan)
+
 	for i := 0; i < pIDCount; i++ {
 		go sampleOneProcessSnapshot(ops, pIDChan, processChan)
 	}
@@ -86,12 +89,24 @@ func sampleOneProcessSnapshot(ops *options.Options, pIDChan <-chan int,
 	}
 
 	pID := <-pIDChan
+	cmdChan, cpuChan := make(chan string), make(chan snapshot.CPUStat)
+	threadsChan, memoryChan := make(chan snapshot.ThreadsStat), make(chan snapshot.MemoryStat)
+
+	defer close(cmdChan)
+	defer close(cpuChan)
+	defer close(threadsChan)
+	defer close(memoryChan)
+
+	go sampleCmdLine(pID, cmdChan)
+	go sampleCPUStat(pID, cpuChan)
+	go sampleThreadsStat(pID, threadsChan)
+	go sampleMemoryStat(pID, memoryChan)
 
 	processChan <- snapshot.Process{
 		PID:         pID,
-		CmdLine:     sampleCmdLine(pID),
-		CPUStat:     sampleCPUStat(pID),
-		ThreadsStat: sampleThreadStat(pID),
-		MemoryStat:  sampleMemoryStat(pID),
+		CmdLine:     <-cmdChan,
+		CPUStat:     <-cpuChan,
+		ThreadsStat: <-threadsChan,
+		MemoryStat:  <-memoryChan,
 	}
 }
