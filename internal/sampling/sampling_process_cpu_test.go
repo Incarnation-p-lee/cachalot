@@ -3,11 +3,15 @@ package sampling
 import (
     "testing"
     "github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 )
 
 func TestSampleCPUStat(t *testing.T) {
-    testPID := 1
-    cpuStat := sampleCPUStat(testPID)
+	cpuStatChan := make(chan snapshot.CPUStat)
+	defer close(cpuStatChan)
+
+	go sampleCPUStat(1, cpuStatChan)
+	cpuStat := <-cpuStatChan
 
     assert.IsTrue(t, cpuStat.JiffiesInTotal != invalidJiffies,
         "cpu total jiffies should not be invalid.")

@@ -1,21 +1,26 @@
 package sampling
 
 import (
-    "testing"
     "github.com/Incarnation-p-lee/cachalot/pkg/assert"
+    "testing"
 )
 
 func TestSampleCmdLine(t *testing.T) {
-    testPID := 1
-    cmdLine := sampleCmdLine(testPID)
+	cmdLineChan := make(chan string)
+	defer close(cmdLineChan)
+
+	go sampleCmdLine(1, cmdLineChan)
+	cmdLine := <-cmdLineChan
 
     assert.IsTrue(t, len(cmdLine) > 0, "cmdLine length should be greater than 0.")
 }
 
 func TestSampleCmdLineInvalidPID(t *testing.T) {
-    testPID := 10000000
-    cmdLine := sampleCmdLine(testPID)
+	cmdLineChan := make(chan string)
+	defer close(cmdLineChan)
+
+	go sampleCmdLine(100000000, cmdLineChan)
+	cmdLine := <-cmdLineChan
 
     assert.IsEqual(t, unknownCmdLine, cmdLine, "cmdLine should be unknown.")
 }
-

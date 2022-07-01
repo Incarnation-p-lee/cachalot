@@ -2,21 +2,28 @@ package sampling
 
 import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"testing"
 )
 
 func TestSampleThreadStat(t *testing.T) {
-	testPID := 1
-	threadStat := sampleThreadStat(testPID)
+	threadsStatChan := make(chan snapshot.ThreadsStat)
+	defer close(threadsStatChan)
 
-	assert.IsTrue(t, threadStat.ThreadsCount > 0, "thread count should be greater than 0")
+	go sampleThreadsStat(1, threadsStatChan)
+	threadsStat := <- threadsStatChan
+
+	assert.IsTrue(t, threadsStat.ThreadsCount > 0, "thread count should be greater than 0")
 }
 
 func TestSampleThreadStatInvalidCount(t *testing.T) {
-	testPID := 10000000
-	threadStat := sampleThreadStat(testPID)
+	threadsStatChan := make(chan snapshot.ThreadsStat)
+	defer close(threadsStatChan)
 
-	assert.IsEqual(t, invalidThreadsCount, threadStat.ThreadsCount,
+	go sampleThreadsStat(100000000, threadsStatChan)
+	threadsStat := <- threadsStatChan
+
+	assert.IsEqual(t, invalidThreadsCount, threadsStat.ThreadsCount,
 		"thread count should be invalid")
 }
 
