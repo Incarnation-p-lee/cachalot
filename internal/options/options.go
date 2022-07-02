@@ -95,11 +95,11 @@ func (ops *Options) getOptionVal(key string) string {
 func (ops *Options) getIntOption(key string) int {
 	val := ops.getOptionVal(key)
 
-	if intVal, err := strconv.Atoi(val); err != nil {
-		return 0
-	} else {
+	if intVal, err := strconv.Atoi(val); err == nil {
 		return intVal
 	}
+
+	return 0
 }
 
 func (ops *Options) getStringOption(key string) string {

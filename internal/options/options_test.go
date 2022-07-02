@@ -181,5 +181,7 @@ func TesGetTopCount(t *testing.T) {
 		Val: DefaultTopCount,
 	})
 
-	assert.IsEqual(t, DefaultTopCount, ops.GetTopCount(), "options should have same top count")
+	topCount := ops.GetTopCount()
+
+	assert.IsEqual(t, DefaultTopCount, topCount, "options should have same top count")
 }
