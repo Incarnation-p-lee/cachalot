@@ -81,7 +81,7 @@ func printJSONSnapshot(snapshot snapshot.Snapshot) {
 	fmt.Printf("%s\n", string(jsonBytes))
 }
 
-func reconcileSnapshotTopCount(snapshot *snapshot.Snapshot, topCount int ) {
+func reconcileSnapshotTopCount(snapshot *snapshot.Snapshot, topCount int) {
 	if len(snapshot.Processes) > topCount {
 		snapshot.Processes = snapshot.Processes[:topCount]
 	}

@@ -5,9 +5,9 @@ import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"internal/cmdflags"
 	"internal/options"
+	"strconv"
 	"testing"
 	"time"
-	"strconv"
 )
 
 func TestPrintSnapshotDefault(t *testing.T) {
@@ -57,10 +57,10 @@ func TestPrintJsonSnapshot(t *testing.T) {
 
 func TestReconcileSnapshot(t *testing.T) {
 	ops, topCount := options.CreateOptions(), 1
-	ops.AppendOption(options.Option {
+	ops.AppendOption(options.Option{
 		Key: options.TopCount,
 		Val: strconv.Itoa(topCount),
-    })
+	})
 
 	testProcesses := []snapshot.Process{
 		snapshot.Process{},
