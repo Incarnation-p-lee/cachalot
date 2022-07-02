@@ -172,3 +172,14 @@ func TestIsAllProcessIDsFalse(t *testing.T) {
 
     assert.IsFalse(t, ops.IsAllProcessIDs(), "options should not have all process ids")
 }
+
+func TesGetTopCount(t *testing.T) {
+	ops := CreateOptions()
+
+	ops.AppendOption(Option {
+		Key: TopCount,
+		Val: DefaultTopCount,
+	})
+
+	assert.IsEqual(t, DefaultTopCount, ops.GetTopCount(), "options should have same top count")
+}

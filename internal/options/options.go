@@ -28,6 +28,8 @@ const (
     OutputFormat = "out"
     // ProcessIDs indicates the id of process.
     ProcessIDs = "pids"
+	// TopCount indicates the limit of print times.
+	TopCount = "top-count"
 
     // AllProcessIDs indicates all process in a system.
     AllProcessIDs = "-1"
@@ -35,6 +37,8 @@ const (
     JSONOutput = "json"
     // TextOutput will be printed as raw text.
     TextOutput = "text"
+	// DefaultTopCount indicates the default print times.
+	DefaultTopCount = "7"
 )
 
 var namesToDefaultValues = map[string]string {
@@ -42,6 +46,7 @@ var namesToDefaultValues = map[string]string {
     SamplingInterval: "10",
     OutputFormat: TextOutput,
     ProcessIDs: AllProcessIDs,
+	TopCount: DefaultTopCount,
 }
 
 // GetNameDefaultValue will return the default value for option name, or unknown.
@@ -124,6 +129,11 @@ func (ops *Options) GetProcessIDs() string {
 // IsAllProcessIDs will return true if all proccess ids, or will return false.
 func (ops *Options) IsAllProcessIDs() bool {
     return ops.getStringOption(ProcessIDs) == AllProcessIDs
+}
+
+// GetTopCount will return the top count of process to be print.
+func (ops *Options) GetTopCount() int {
+	return ops.getIntOption(TopCount)
 }
 
 // GetOption will return the option by index, out of range will return error.

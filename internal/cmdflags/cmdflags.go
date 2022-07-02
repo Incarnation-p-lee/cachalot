@@ -31,6 +31,11 @@ var supportedCmdFlags = []cmdflag {
         defaultValue: options.GetNameDefaultValue(options.ProcessIDs),
         description: "the comma separated pids for snapshot, -1 indicates all processes",
     },
+    cmdflag {
+        flagName: options.TopCount,
+        defaultValue: options.GetNameDefaultValue(options.TopCount),
+        description: "the top count of process to be printed",
+    },
 }
 
 // ParseOptions will parse the flags from command line to options.

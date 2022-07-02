@@ -81,12 +81,23 @@ func printJSONSnapshot(snapshot snapshot.Snapshot) {
 	fmt.Printf("%s\n", string(jsonBytes))
 }
 
+func reconcileSnapshotTopCount(snapshot *snapshot.Snapshot, topCount int ) {
+	if len(snapshot.Processes) > topCount {
+		snapshot.Processes = snapshot.Processes[:topCount]
+	}
+}
+
+func reconcileSnapshot(snapshot *snapshot.Snapshot, ops *options.Options) {
+	reconcileSnapshotTopCount(snapshot, ops.GetTopCount())
+}
+
 // Snapshot will print the data module of given snapshot.
 func Snapshot(snapshot snapshot.Snapshot, title string, ops *options.Options) error {
 	if ops == nil {
 		return errors.New("found nil ops for snapshot print, will do nothing here")
 	}
 
+	reconcileSnapshot(&snapshot, ops)
 	outputFormat := ops.GetOutputFormat()
 
 	switch outputFormat {
