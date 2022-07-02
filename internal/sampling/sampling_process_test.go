@@ -51,7 +51,8 @@ func TestSampleOneProcessSnapshotNilOptions(t *testing.T) {
 	testProcess := <-testProcessChan
 
 	assert.IsEqual(t, 0, testProcess.PID, "nil options will have 0 pID for process")
-	assert.IsEqual(t, 0, len(testProcess.CmdLine), "nil options will have empty cmdLine for process")
+	assert.IsEqual(t, 0, len(testProcess.CmdLine),
+		"nil options will have empty cmdLine for process")
 	assert.IsEqual(t, 0, testProcess.CPUStat.JiffiesUsed,
 		"nil options will have 0 jiffies used for process")
 	assert.IsEqual(t, 0, testProcess.CPUStat.JiffiesInTotal,

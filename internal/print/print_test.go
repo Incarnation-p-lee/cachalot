@@ -5,6 +5,7 @@ import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"internal/cmdflags"
 	"internal/options"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -52,4 +53,24 @@ func TestPrintJsonSnapshot(t *testing.T) {
 	})
 
 	assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print json snapshot should have nil error")
+}
+
+func TestReconcileSnapshot(t *testing.T) {
+	ops, topCount := options.CreateOptions(), 1
+	ops.AppendOption(options.Option{
+		Key: options.TopCount,
+		Val: strconv.Itoa(topCount),
+	})
+
+	testProcesses := []snapshot.Process{
+		snapshot.Process{},
+		snapshot.Process{},
+		snapshot.Process{},
+	}
+
+	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	reconcileSnapshot(&testSnapshot, ops)
+
+	assert.IsEqual(t, topCount, len(testSnapshot.Processes),
+		"process count after reconcile should be the same as top count")
 }
