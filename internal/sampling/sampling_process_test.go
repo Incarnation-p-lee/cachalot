@@ -34,13 +34,6 @@ func TestSampleAllProcess(t *testing.T) {
 	processes := sampleAllProcesses(ops)
 
 	assert.IsTrue(t, len(processes) > 0, "all proccess slice count should not be 0.")
-
-	for i := 0; i < len(processes)-1; i++ {
-		a, b := processes[i], processes[i+1]
-
-		assert.IsTrue(t, a.CPUStat.UsageInPercentage >= b.CPUStat.UsageInPercentage,
-			"the process usage should be sorted in desc order")
-	}
 }
 
 func TestSampleOneProcessSnapshotNilOptions(t *testing.T) {

@@ -7,6 +7,7 @@ import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"internal/options"
 	"log"
+	"sort"
 	"time"
 )
 
@@ -87,8 +88,26 @@ func reconcileSnapshotTopCount(snapshot *snapshot.Snapshot, topCount int) {
 	}
 }
 
+func reconcileSnapshotSortedBy(snapshot *snapshot.Snapshot, sortedBy string) {
+	switch sortedBy {
+	case options.SortedByMemory:
+		sort.Slice(snapshot.Processes, func(a, b int) bool {
+			memoryA, memoryB := snapshot.Processes[a].MemoryStat, snapshot.Processes[b].MemoryStat
+			return memoryA.UsageInPercentage > memoryB.UsageInPercentage
+		})
+	case options.SortedByCPU:
+	fallthrough
+	default:
+		sort.Slice(snapshot.Processes, func(a, b int) bool {
+			cpuA, cpuB := snapshot.Processes[a].CPUStat, snapshot.Processes[b].CPUStat
+			return cpuA.UsageInPercentage > cpuB.UsageInPercentage
+		})
+	}
+}
+
 func reconcileSnapshot(snapshot *snapshot.Snapshot, ops *options.Options) {
 	reconcileSnapshotTopCount(snapshot, ops.GetTopCount())
+	reconcileSnapshotSortedBy(snapshot, ops.GetSortedBy())
 }
 
 // Snapshot will print the data module of given snapshot.

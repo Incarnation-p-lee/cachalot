@@ -6,7 +6,6 @@ import (
 	"log"
 	"path"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -67,10 +66,6 @@ func sampleAllProcesses(ops *options.Options) []snapshot.Process {
 	for i := 0; i < pIDCount; i++ {
 		processes = append(processes, <-processChan)
 	}
-
-	sort.Slice(processes, func(a, b int) bool {
-		return processes[a].CPUStat.UsageInPercentage > processes[b].CPUStat.UsageInPercentage
-	})
 
 	return processes
 }
