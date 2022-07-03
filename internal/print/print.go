@@ -96,7 +96,7 @@ func reconcileSnapshotSortedBy(snapshot *snapshot.Snapshot, sortedBy string) {
 			return memoryA.UsageInPercentage > memoryB.UsageInPercentage
 		})
 	case options.SortedByCPU:
-	fallthrough
+		fallthrough
 	default:
 		sort.Slice(snapshot.Processes, func(a, b int) bool {
 			cpuA, cpuB := snapshot.Processes[a].CPUStat, snapshot.Processes[b].CPUStat
