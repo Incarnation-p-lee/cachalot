@@ -30,6 +30,8 @@ const (
 	ProcessIDs = "pids"
 	// TopCount indicates the limit of print times.
 	TopCount = "top-count"
+	// SortedBy indicates how to sort the print.
+	SortedBy = "sorted-by"
 
 	// AllProcessIDs indicates all process in a system.
 	AllProcessIDs = "-1"
@@ -39,6 +41,10 @@ const (
 	TextOutput = "text"
 	// DefaultTopCount indicates the default print times.
 	DefaultTopCount = "7"
+	// SortedByCPU will sort the print by CPU.
+	SortedByCPU = "cpu"
+	// SortedByMemory will sort the print by memory.
+	SortedByMemory = "memory"
 )
 
 var namesToDefaultValues = map[string]string{
@@ -47,6 +53,7 @@ var namesToDefaultValues = map[string]string{
 	OutputFormat:     TextOutput,
 	ProcessIDs:       AllProcessIDs,
 	TopCount:         DefaultTopCount,
+	SortedBy:         SortedByCPU,
 }
 
 // GetNameDefaultValue will return the default value for option name, or unknown.
@@ -134,6 +141,11 @@ func (ops *Options) IsAllProcessIDs() bool {
 // GetTopCount will return the top count of process to be print.
 func (ops *Options) GetTopCount() int {
 	return ops.getIntOption(TopCount)
+}
+
+// GetSortedBy will return the metrics sorted by.
+func (ops *Options) GetSortedBy() string {
+	return ops.getStringOption(SortedBy)
 }
 
 // GetOption will return the option by index, out of range will return error.

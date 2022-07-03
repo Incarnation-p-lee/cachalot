@@ -36,6 +36,11 @@ var supportedCmdFlags = []cmdflag{
 		defaultValue: options.GetNameDefaultValue(options.TopCount),
 		description:  "the top count of process to be printed",
 	},
+	cmdflag{
+		flagName:     options.SortedBy,
+		defaultValue: options.GetNameDefaultValue(options.SortedBy),
+		description:  "the metrics to be sorted when print the snapshot",
+	},
 }
 
 // ParseOptions will parse the flags from command line to options.

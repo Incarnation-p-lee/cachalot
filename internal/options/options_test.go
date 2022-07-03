@@ -2,6 +2,7 @@ package options
 
 import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"strconv"
 	"testing"
 )
 
@@ -173,15 +174,24 @@ func TestIsAllProcessIDsFalse(t *testing.T) {
 	assert.IsFalse(t, ops.IsAllProcessIDs(), "options should not have all process ids")
 }
 
-func TesGetTopCount(t *testing.T) {
-	ops := CreateOptions()
+func TestGetTopCount(t *testing.T) {
+	ops, testCount := CreateOptions(), 2
 
 	ops.AppendOption(Option{
 		Key: TopCount,
-		Val: DefaultTopCount,
+		Val: strconv.Itoa(testCount),
 	})
 
-	topCount := ops.GetTopCount()
+	assert.IsEqual(t, testCount, ops.GetTopCount(), "options should have same top count")
+}
 
-	assert.IsEqual(t, DefaultTopCount, topCount, "options should have same top count")
+func TestGetSortedBy(t *testing.T) {
+	ops := CreateOptions()
+
+	ops.AppendOption(Option{
+		Key: SortedBy,
+		Val: SortedByMemory,
+	})
+
+	assert.IsEqual(t, "memory", ops.GetSortedBy(), "options should have same sorted by")
 }
