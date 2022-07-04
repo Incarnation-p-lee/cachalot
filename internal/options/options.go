@@ -128,6 +128,14 @@ func (ops *Options) GetOutputFormat() string {
 	return ops.getStringOption(OutputFormat)
 }
 
+// GetSupportedOutputFormatSlice will return all the output format supported.
+func GetSupportedOutputFormatSlice() []string {
+	return []string {
+		TextOutput,
+		JSONOutput,
+	}
+}
+
 // GetProcessIDs will return the process ids.
 func (ops *Options) GetProcessIDs() string {
 	return ops.getStringOption(ProcessIDs)
@@ -146,6 +154,14 @@ func (ops *Options) GetTopCount() int {
 // GetSortedBy will return the metrics sorted by.
 func (ops *Options) GetSortedBy() string {
 	return ops.getStringOption(SortedBy)
+}
+
+// GetSupportedSortedBySlice will return the metrics slice supported by sorted.
+func GetSupportedSortedBySlice() []string {
+	return []string {
+		SortedByCPU,
+		SortedByMemory,
+	}
 }
 
 // GetOption will return the option by index, out of range will return error.
