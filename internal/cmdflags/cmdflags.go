@@ -25,7 +25,7 @@ var supportedCmdFlags = []cmdflag{
 	cmdflag{
 		flagName:     options.OutputFormat,
 		defaultValue: options.GetNameDefaultValue(options.OutputFormat),
-		description:  fmt.Sprintf("the output layout for print, supported formats are %+v",
+		description: fmt.Sprintf("the output layout for print, supported formats are %+v",
 			options.GetSupportedOutputFormatSlice()),
 	},
 	cmdflag{
@@ -41,7 +41,7 @@ var supportedCmdFlags = []cmdflag{
 	cmdflag{
 		flagName:     options.SortedBy,
 		defaultValue: options.GetNameDefaultValue(options.SortedBy),
-		description:  fmt.Sprintf("the metrics to be sorted when print, supported metrics are %+v",
+		description: fmt.Sprintf("the metrics to be sorted when print, supported metrics are %+v",
 			options.GetSupportedSortedBySlice()),
 	},
 }
