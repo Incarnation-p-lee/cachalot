@@ -130,7 +130,7 @@ func (ops *Options) GetOutputFormat() string {
 
 // GetSupportedOutputFormatSlice will return all the output format supported.
 func GetSupportedOutputFormatSlice() []string {
-	return []string {
+	return []string{
 		TextOutput,
 		JSONOutput,
 	}
@@ -158,7 +158,7 @@ func (ops *Options) GetSortedBy() string {
 
 // GetSupportedSortedBySlice will return the metrics slice supported by sorted.
 func GetSupportedSortedBySlice() []string {
-	return []string {
+	return []string{
 		SortedByCPU,
 		SortedByMemory,
 	}
