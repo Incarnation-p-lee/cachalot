@@ -195,3 +195,19 @@ func TestGetSortedBy(t *testing.T) {
 
 	assert.IsEqual(t, "memory", ops.GetSortedBy(), "options should have same sorted by")
 }
+
+func TestGetSupportedSortedBySlice(t *testing.T) {
+	supported := GetSupportedSortedBySlice()
+
+	assert.IsEqual(t, 2, len(supported), "supported sorted by should be 2 in length")
+	assert.IsEqual(t, "cpu", supported[0], "first supported sorted by should be cpu")
+	assert.IsEqual(t, "memory", supported[1], "second supported sorted by should be memory")
+}
+
+func TestGetSupportedOutputFormatSlice(t *testing.T) {
+	supported := GetSupportedOutputFormatSlice()
+
+	assert.IsEqual(t, 2, len(supported), "supported output format should be 2 in length")
+	assert.IsEqual(t, "text", supported[0], "first supported output format should be text")
+	assert.IsEqual(t, "json", supported[1], "second supported output format should be json")
+}

@@ -2,6 +2,7 @@ package cmdflags
 
 import (
 	"flag"
+	"fmt"
 	"internal/options"
 )
 
@@ -24,7 +25,8 @@ var supportedCmdFlags = []cmdflag{
 	cmdflag{
 		flagName:     options.OutputFormat,
 		defaultValue: options.GetNameDefaultValue(options.OutputFormat),
-		description:  "the output layout for print",
+		description: fmt.Sprintf("the output layout for print, supported formats are %+v",
+			options.GetSupportedOutputFormatSlice()),
 	},
 	cmdflag{
 		flagName:     options.ProcessIDs,
@@ -39,7 +41,8 @@ var supportedCmdFlags = []cmdflag{
 	cmdflag{
 		flagName:     options.SortedBy,
 		defaultValue: options.GetNameDefaultValue(options.SortedBy),
-		description:  "the metrics to be sorted when print the snapshot",
+		description: fmt.Sprintf("the metrics to be sorted when print, supported metrics are %+v",
+			options.GetSupportedSortedBySlice()),
 	},
 }
 
