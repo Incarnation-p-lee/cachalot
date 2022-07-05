@@ -18,13 +18,17 @@ Use `./cachalot -h` to see more details about usage
 ```
 Usage of ./cmd/cachalot/cachalot:
   -out string
-        the output layout for print (default "text")
+        the output layout for print, supported formats are [text json] (default "text")
   -pids string
         the comma separated pids for snapshot, -1 indicates all processes (default "-1")
   -sampling-count string
         the total count of sampling (default "10")
   -sampling-interval string
         the interval for each sampling, count in seconds (default "10")
+  -sorted-by string
+        the metrics to be sorted when print, supported metrics are [cpu memory threads] (default "cpu")
+  -top-count string
+        the top count of process to be printed (default "7")
 ```
 
 The output may look like below.
