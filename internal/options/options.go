@@ -45,6 +45,8 @@ const (
 	SortedByCPU = "cpu"
 	// SortedByMemory will sort the print by memory.
 	SortedByMemory = "memory"
+	// SortedByThreadsCount will sort the print by threads count.
+	SortedByThreadsCount = "threads"
 )
 
 var namesToDefaultValues = map[string]string{
@@ -161,6 +163,7 @@ func GetSupportedSortedBySlice() []string {
 	return []string{
 		SortedByCPU,
 		SortedByMemory,
+		SortedByThreadsCount,
 	}
 }
 

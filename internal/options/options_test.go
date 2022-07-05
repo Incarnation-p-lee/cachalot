@@ -199,9 +199,10 @@ func TestGetSortedBy(t *testing.T) {
 func TestGetSupportedSortedBySlice(t *testing.T) {
 	supported := GetSupportedSortedBySlice()
 
-	assert.IsEqual(t, 2, len(supported), "supported sorted by should be 2 in length")
+	assert.IsEqual(t, 3, len(supported), "supported sorted by should be 3 in length")
 	assert.IsEqual(t, "cpu", supported[0], "first supported sorted by should be cpu")
 	assert.IsEqual(t, "memory", supported[1], "second supported sorted by should be memory")
+	assert.IsEqual(t, "threads", supported[2], "third supported sorted by should be threads")
 }
 
 func TestGetSupportedOutputFormatSlice(t *testing.T) {
