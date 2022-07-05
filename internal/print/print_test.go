@@ -126,3 +126,29 @@ func TestReconcileSnapshotSortedByMemory(t *testing.T) {
 			"the processes should be sorted by memory in desc order")
 	}
 }
+
+func TestReconcileSnapshotSortedByThreadsCount(t *testing.T) {
+	testProcesses := []snapshot.Process{
+		snapshot.Process{
+			ThreadsStat: snapshot.ThreadsStat{ThreadsCount: 4},
+		},
+		snapshot.Process{
+			ThreadsStat: snapshot.ThreadsStat{ThreadsCount: 8},
+		},
+		snapshot.Process{
+			ThreadsStat: snapshot.ThreadsStat{ThreadsCount: 9},
+		},
+		snapshot.Process{
+			ThreadsStat: snapshot.ThreadsStat{ThreadsCount: 1},
+		},
+	}
+
+	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	reconcileSnapshotSortedBy(&testSnapshot, "threads")
+
+	for i := 1; i < len(testSnapshot.Processes); i++ {
+		first, second := testSnapshot.Processes[i-1], testSnapshot.Processes[i]
+		assert.IsTrue(t, first.ThreadsStat.ThreadsCount >= second.ThreadsStat.ThreadsCount,
+			"the processes should be sorted by memory in desc order")
+	}
+}

@@ -95,6 +95,11 @@ func reconcileSnapshotSortedBy(snapshot *snapshot.Snapshot, sortedBy string) {
 			memoryA, memoryB := snapshot.Processes[a].MemoryStat, snapshot.Processes[b].MemoryStat
 			return memoryA.UsageInPercentage > memoryB.UsageInPercentage
 		})
+	case options.SortedByThreadsCount:
+		sort.Slice(snapshot.Processes, func(a, b int) bool {
+			threadA, threadB := snapshot.Processes[a].ThreadsStat, snapshot.Processes[b].ThreadsStat
+			return threadA.ThreadsCount > threadB.ThreadsCount
+		})
 	case options.SortedByCPU:
 		fallthrough
 	default:
