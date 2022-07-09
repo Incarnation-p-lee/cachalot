@@ -37,7 +37,7 @@ const (
 	tcpClosing = "Closing"
 	tcpNewSynRecv = "NewSynRecv"
 
-	TCPCodeDefaultIndex = 0
+	tcpCodeDefaultIndex = 0
 )
 
 var tcpCodes = []string {
@@ -80,7 +80,7 @@ func getTCP4AddressAndPort(addressAndPort string) (address string, port int) {
 }
 
 func getTCPState(code string) string {
-	index := TCPCodeDefaultIndex
+	index := tcpCodeDefaultIndex
 	val, err := strconv.ParseInt(code, 16, 32)
 
 	if err != nil {
