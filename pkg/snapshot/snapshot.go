@@ -7,7 +7,22 @@ import (
 // Snapshot indicates the timestamp information of host machine.
 type Snapshot struct {
 	Processes []Process
+	Network   Network
 	Timestamp time.Time
+}
+
+// Network indicates the network information of host machine.
+type Network struct {
+	INodeToTCP4 map[string]TCP4Connection
+}
+
+// TCP4Connection indicates the connection information of tcp4.
+type TCP4Connection struct {
+	INode         string
+	State         string
+	RemoteAddress string
+	RemotePort    int
+	UID           string
 }
 
 // Process indicates the process related data.
