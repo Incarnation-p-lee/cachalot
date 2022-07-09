@@ -17,7 +17,7 @@ func Sample(ops *options.Options) snapshot.Snapshot {
 
 	snapshot := snapshot.Snapshot{
 		Timestamp: time.Now(),
-		Network: sampleNetwork(),
+		Network:   sampleNetwork(),
 		Processes: []snapshot.Process{},
 	}
 
