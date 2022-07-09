@@ -32,4 +32,3 @@ func TestGetTCP4AddressAndPortInvalid(t *testing.T) {
 	assert.IsFalse(t, invalidAddress == address, "should not be invalid address")
 	assert.IsEqual(t, invalidPort, port, "invalid hex will have invalid port")
 }
-

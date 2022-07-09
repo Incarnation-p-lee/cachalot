@@ -2,45 +2,45 @@ package sampling
 
 import (
 	"bufio"
-	"internal/utils"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
+	"internal/utils"
 	"log"
-	"path/filepath"
 	"os"
-	"strings"
+	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 const (
-	tcp4ConnectionFile = "/proc/net/tcp"
+	tcp4ConnectionFile        = "/proc/net/tcp"
 	tcp4ConnectionTitlePrefix = "sl"
 
-	tcp4INodeIndex = 9
-	tcp4UIDIndex = 7
-	tcp4StatusIndex = 3
+	tcp4INodeIndex         = 9
+	tcp4UIDIndex           = 7
+	tcp4StatusIndex        = 3
 	tcp4RemoteAddressIndex = 2
 
 	invalidAddress = "invalid address"
-	invalidPort = -1
+	invalidPort    = -1
 
-	tcpUnknown = "Unknown"
+	tcpUnknown     = "Unknown"
 	tcpEstablished = "Established"
-	tcpSynSent = "SynSent"
-	tcpSynRecv = "SynRecv"
-	tcpFinWait1 = "FinWait1"
-	tcpFinWait2 = "FinWait2"
-	tcpTimeWait = "TimeWait"
-	tcpClose = "Close"
-	tcpCloseWait = "CloseWait"
-	tcpLastACK = "LastACK"
-	tcpListen = "Listen"
-	tcpClosing = "Closing"
-	tcpNewSynRecv = "NewSynRecv"
+	tcpSynSent     = "SynSent"
+	tcpSynRecv     = "SynRecv"
+	tcpFinWait1    = "FinWait1"
+	tcpFinWait2    = "FinWait2"
+	tcpTimeWait    = "TimeWait"
+	tcpClose       = "Close"
+	tcpCloseWait   = "CloseWait"
+	tcpLastACK     = "LastACK"
+	tcpListen      = "Listen"
+	tcpClosing     = "Closing"
+	tcpNewSynRecv  = "NewSynRecv"
 
 	tcpCodeDefaultIndex = 0
 )
 
-var tcpCodes = []string {
+var tcpCodes = []string{
 	tcpUnknown,
 	tcpEstablished,
 	tcpSynSent,
@@ -97,10 +97,10 @@ func getTCP4Connection(tcp4Data []string) snapshot.TCP4Connection {
 
 	return snapshot.TCP4Connection{
 		RemoteAddress: address,
-		RemotePort: port,
-		INode: tcp4Data[tcp4INodeIndex],
-		UID: tcp4Data[tcp4UIDIndex],
-		State: getTCPState(tcp4Data[tcp4StatusIndex]),
+		RemotePort:    port,
+		INode:         tcp4Data[tcp4INodeIndex],
+		UID:           tcp4Data[tcp4UIDIndex],
+		State:         getTCPState(tcp4Data[tcp4StatusIndex]),
 	}
 }
 
@@ -119,7 +119,7 @@ func getTCP4ConnectionData(line string) []string {
 }
 
 func sampleTCPConnection() map[string]snapshot.TCP4Connection {
-	nodeToTCP4 := map[string]snapshot.TCP4Connection {}
+	nodeToTCP4 := map[string]snapshot.TCP4Connection{}
 	file, err := os.Open(filepath.Clean(tcp4ConnectionFile))
 
 	if err != nil {
@@ -149,4 +149,3 @@ func sampleNetwork() snapshot.Network {
 		INodeToTCP4: sampleTCPConnection(),
 	}
 }
-
