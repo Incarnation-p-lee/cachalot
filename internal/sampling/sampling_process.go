@@ -49,7 +49,7 @@ func getSamplingProcessIDs(ops *options.Options) []int {
 	return getProcessIDs(ops.GetProcessIDs())
 }
 
-func sampleAllProcesses(ops *options.Options) []snapshot.Process {
+func sampleProcesses(ops *options.Options) []snapshot.Process {
 	allPIDs := getSamplingProcessIDs(ops)
 
 	pIDCount := len(allPIDs)

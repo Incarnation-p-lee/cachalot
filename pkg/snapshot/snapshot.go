@@ -57,14 +57,6 @@ type ThreadsStat struct {
 	ThreadsCount int
 }
 
-// CreateSnapshot will create one object with given timestamp.
-func CreateSnapshot(timestamp time.Time, processes []Process) Snapshot {
-	return Snapshot{
-		Timestamp: timestamp,
-		Processes: processes,
-	}
-}
-
 // CreateCPUStat will create one object with cpu usage and limit, count in mCore.
 func CreateCPUStat(jiffiesUsed, jiffiesInTotal int) CPUStat {
 	usageInPercentage := float64(jiffiesUsed) / float64(jiffiesInTotal) * 100.0
@@ -84,4 +76,13 @@ func (process *Process) SetCPUStat(cpuStat CPUStat) {
 // AppendProcess will add given process to the process silic of snapshot.
 func (snapshot *Snapshot) AppendProcess(process Process) {
 	snapshot.Processes = append(snapshot.Processes, process)
+}
+
+// AppendProcesses will add the given processes to the tail of snapshot.
+func (snapshot *Snapshot) AppendProcesses(processes []Process) {
+	if snapshot.Processes == nil {
+		snapshot.Processes = []Process{}
+	}
+
+	snapshot.Processes = append(snapshot.Processes, processes...)
 }

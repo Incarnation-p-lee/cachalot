@@ -14,14 +14,6 @@ func createProcess(pID int, cmdLine string, cpuStat CPUStat) Process {
 	}
 }
 
-func TestCreateSnapshot(t *testing.T) {
-	testLastHour, processes := time.Now().Add(-time.Hour), []Process{}
-	snapshot := CreateSnapshot(testLastHour, processes)
-
-	assert.IsEqual(t, testLastHour, snapshot.Timestamp, "snapshot should have the same timestamp.")
-	assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot should have empty processes slice.")
-}
-
 func TestCreateCPUStat(t *testing.T) {
 	used, limited := 250, 500
 	stat := CreateCPUStat(used, limited)
@@ -48,11 +40,46 @@ func TestSetUsage(t *testing.T) {
 
 func TestAppendProcess(t *testing.T) {
 	process := createProcess(123, "ls -l", CPUStat{})
-	snapshot := CreateSnapshot(time.Now(), []Process{})
+	snapshot := Snapshot{
+		Timestamp: time.Now(),
+		Processes: []Process{},
+	}
 
 	assert.IsEqual(t, 0, len(snapshot.Processes), "snapshot processes count should be 0.")
 
 	snapshot.AppendProcess(process)
 
 	assert.IsEqual(t, 1, len(snapshot.Processes), "snapshot processes count should be 0.")
+}
+
+func TestAppendProcesses(t *testing.T) {
+	snapshot := Snapshot{
+		Timestamp: time.Now(),
+		Processes: []Process{
+			Process{},
+		},
+	}
+	processes := []Process{
+		createProcess(123, "ls -l", CPUStat{}),
+		createProcess(123, "ls -l", CPUStat{}),
+	}
+
+	snapshot.AppendProcesses(processes)
+
+	assert.IsEqual(t, 3, len(snapshot.Processes), "processes size should be 3")
+}
+
+func TestAppendProcessesWithExistNil(t *testing.T) {
+	snapshot := Snapshot{
+		Timestamp: time.Now(),
+		Processes: nil,
+	}
+	processes := []Process{
+		createProcess(123, "ls -l", CPUStat{}),
+		createProcess(123, "ls -l", CPUStat{}),
+	}
+
+	snapshot.AppendProcesses(processes)
+
+	assert.IsEqual(t, 2, len(snapshot.Processes), "processes size should be 2")
 }
