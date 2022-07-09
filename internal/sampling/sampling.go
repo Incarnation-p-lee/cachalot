@@ -15,7 +15,15 @@ func Sample(ops *options.Options) snapshot.Snapshot {
 		return snapshot.Snapshot{}
 	}
 
-	timestamp, processes := time.Now(), sampleAllProcesses(ops)
+	snapshot := snapshot.Snapshot{
+		Timestamp: time.Now(),
+		Network:   sampleNetwork(),
+		Processes: []snapshot.Process{},
+	}
 
-	return snapshot.CreateSnapshot(timestamp, processes)
+	processes := sampleProcesses(ops)
+
+	snapshot.AppendProcesses(processes)
+
+	return snapshot
 }

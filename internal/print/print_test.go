@@ -10,12 +10,19 @@ import (
 	"time"
 )
 
+func createSnapshot(timestamp time.Time, processes []snapshot.Process) snapshot.Snapshot {
+	return snapshot.Snapshot{
+		Timestamp: timestamp,
+		Processes: processes,
+	}
+}
+
 func TestPrintSnapshotDefault(t *testing.T) {
 	ops := options.CreateOptions()
 	testProcesses := []snapshot.Process{
 		snapshot.Process{},
 	}
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 
 	assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print empty title snapshot should have nil error")
 	assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print text title snapshot should have nil error")
@@ -31,7 +38,7 @@ func TestPrintTextSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	ops.AppendOption(options.Option{
 		Key: options.OutputFormat,
 		Val: options.TextOutput,
@@ -46,7 +53,7 @@ func TestPrintJsonSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	ops.AppendOption(options.Option{
 		Key: options.OutputFormat,
 		Val: options.JSONOutput,
@@ -68,7 +75,7 @@ func TestReconcileSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	reconcileSnapshot(&testSnapshot, ops)
 
 	assert.IsEqual(t, topCount, len(testSnapshot.Processes),
@@ -91,7 +98,7 @@ func TestReconcileSnapshotSortedByCPU(t *testing.T) {
 		},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	reconcileSnapshotSortedBy(&testSnapshot, "cpu")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
@@ -117,7 +124,7 @@ func TestReconcileSnapshotSortedByMemory(t *testing.T) {
 		},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	reconcileSnapshotSortedBy(&testSnapshot, "memory")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
@@ -143,7 +150,7 @@ func TestReconcileSnapshotSortedByThreadsCount(t *testing.T) {
 		},
 	}
 
-	testSnapshot := snapshot.CreateSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses)
 	reconcileSnapshotSortedBy(&testSnapshot, "threads")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
