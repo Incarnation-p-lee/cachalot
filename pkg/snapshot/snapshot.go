@@ -18,8 +18,8 @@ type Network struct {
 
 // TCP4Connection indicates the connection information of tcp4.
 type TCP4Connection struct {
-	INode         int
-	Status        string
+	INode         string
+	State         string
 	RemoteAddress string
 	RemotePort    int
 	UID           string
