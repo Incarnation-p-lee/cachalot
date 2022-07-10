@@ -24,7 +24,7 @@ func TestSampleProcessNetworkStatInvalid(t *testing.T) {
 
 	stat := <-testStatChan
 
-	assert.IsEqual(t, invalidConnectionCount,  stat.TCP4Stat.ConnectionCount,
+	assert.IsEqual(t, invalidConnectionCount, stat.TCP4Stat.ConnectionCount,
 		"invalid pID should have invalid process network stat")
 }
 
