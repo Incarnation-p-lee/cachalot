@@ -42,7 +42,7 @@ type ProcessNetworkStat struct {
 
 // ProcessTCP4Stat indicates the tcp4 related data.
 type ProcessTCP4Stat struct {
-	ConnectionCount int
+	ConnectionCount        int
 	ConnectionCountByState map[string]int
 }
 
