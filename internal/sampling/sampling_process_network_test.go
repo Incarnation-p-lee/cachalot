@@ -9,8 +9,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"syscall"
-	"time"
 	"testing"
+	"time"
 )
 
 func TestGetSocketFileINodeWithError(t *testing.T) {
