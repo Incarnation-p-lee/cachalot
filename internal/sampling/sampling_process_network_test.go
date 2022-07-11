@@ -47,8 +47,8 @@ func getProcessFirstSocketFileINode(pID int) string {
 	socketINode := invalidINode
 
 	for _, file := range files {
-		filename := file.Name()
-		targetFilename, _ := os.Readlink(filename)
+		filename := fmt.Sprintf("/proc/%d/fd/%s", pID, file.Name())
+		targetFilename, _ := os.Readlink(filepath.Clean(filename))
 
 		if iNode, err := getSocketFileINode(targetFilename); err == nil {
 			socketINode = iNode
