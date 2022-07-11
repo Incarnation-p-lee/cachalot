@@ -84,8 +84,8 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 	count, networkStat := 0, emptyProcessNetworkStat
 
 	for _, file := range files {
-		filename := file.Name()
-		targetFilename, err := os.Readlink(filename)
+		filename := fmt.Sprintf("/proc/%d/fd/%s", pID, file.Name())
+		targetFilename, err := os.Readlink(filepath.Clean(filename))
 
 		if err != nil {
 			log.Printf("Failed to read link from file %s due to %+v\n", filename, err)
