@@ -5,9 +5,9 @@ import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"io/ioutil"
-	"path/filepath"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"syscall"
 	"testing"
 )
@@ -67,7 +67,7 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 	testINode := getProcessFirstSocketFileINode(testPID)
 	testSnapshot := snapshot.Snapshot{
 		Network: snapshot.Network{
-			INodeToTCP4: map[string]snapshot.TCP4Connection {
+			INodeToTCP4: map[string]snapshot.TCP4Connection{
 				testINode: snapshot.TCP4Connection{
 					INode: testINode,
 					State: "Established",
