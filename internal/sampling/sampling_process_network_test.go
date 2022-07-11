@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"syscall"
+	"time"
 	"testing"
 )
 
@@ -17,13 +18,13 @@ func TestGetSocketFileINodeWithError(t *testing.T) {
 
 	assert.IsNotNil(t, err, "invalid file will have err")
 
-	_, err = getSocketFileINode("'socket[30862686]'")
+	_, err = getSocketFileINode("socket[30862686]")
 
 	assert.IsNotNil(t, err, "no comma file will have err")
 }
 
 func TestGetSocketFileINode(t *testing.T) {
-	iNode, err := getSocketFileINode("'socket:[1243]'")
+	iNode, err := getSocketFileINode("socket:[1243]")
 
 	assert.IsNil(t, err, "valid file will have no err")
 	assert.IsEqual(t, "1243", iNode, "valid file will have the same inode")
@@ -61,6 +62,8 @@ func getProcessFirstSocketFileINode(pID int) string {
 func TestSampleProcessNetworkStat(t *testing.T) {
 	cmd := exec.Command("python3", "-m", "http.server", "9843")
 	cmd.Start()
+
+	time.Sleep(time.Duration(2) * time.Second)
 
 	testPID := cmd.Process.Pid
 	testStatChan := make(chan snapshot.ProcessNetworkStat)

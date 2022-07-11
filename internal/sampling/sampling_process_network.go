@@ -13,7 +13,7 @@ import (
 const (
 	invalidConnectionCount = -1
 	invalidINode           = "-1"
-	socketFilePrefix       = "'socket:["
+	socketFilePrefix       = "socket:["
 )
 
 var invalidProcessNetworkStat = snapshot.ProcessNetworkStat{
@@ -59,10 +59,9 @@ var emptyProcessNetworkStat = snapshot.ProcessNetworkStat{
 func getSocketFileINode(targetFile string) (iNode string, err error) {
 	iNode, err = invalidINode, nil
 
-	if !strings.HasPrefix(targetFile, socketFilePrefix) { // 'socket:[30862686]'
+	if !strings.HasPrefix(targetFile, socketFilePrefix) { // socket:[30862686]
 		err = fmt.Errorf("target file should be started with %s", socketFilePrefix)
 	} else {
-		targetFile = strings.Trim(targetFile, "'") // socket:[30862686]
 		fileData := strings.Split(targetFile, ":") // [socket [30862686]]
 		iNode = strings.Trim(fileData[1], "[]")    // 30862686
 	}
