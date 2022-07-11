@@ -9,7 +9,6 @@ func TestSampleNetwork(t *testing.T) {
 	network := sampleNetwork()
 
 	assert.IsNotNil(t, network.INodeToTCP4, "inode to tcp4 maps should not be nil")
-	assert.IsTrue(t, len(network.INodeToTCP4) > 0, "inode to tcp4 maps should not be empty")
 
 	for _, tcpConnect := range network.INodeToTCP4 {
 		assert.IsTrue(t, len(tcpConnect.INode) > 0, "inode of tcp connection cannot be empty")

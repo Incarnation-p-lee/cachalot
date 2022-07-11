@@ -32,6 +32,18 @@ type Process struct {
 	CPUStat     CPUStat
 	ThreadsStat ThreadsStat
 	MemoryStat  MemoryStat
+	NetworkStat ProcessNetworkStat
+}
+
+// ProcessNetworkStat indicates the process related network data.
+type ProcessNetworkStat struct {
+	TCP4Stat ProcessTCP4Stat
+}
+
+// ProcessTCP4Stat indicates the tcp4 related data.
+type ProcessTCP4Stat struct {
+	ConnectionCount        int
+	ConnectionCountByState map[string]int
 }
 
 // CPUStat indicates the data for cpu stat.
