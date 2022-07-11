@@ -1,7 +1,6 @@
 package sampling
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"io/ioutil"
@@ -61,16 +60,11 @@ func getSocketFileINode(targetFile string) (iNode string, err error) {
 	iNode, err = invalidINode, nil
 
 	if !strings.HasPrefix(targetFile, socketFilePrefix) { // 'socket:[30862686]'
-		err = errors.New(fmt.Sprintf("target file should be started with %s", socketFilePrefix))
+		err = fmt.Errorf("target file should be started with %s", socketFilePrefix)
 	} else {
-		targetFile = strings.Trim(targetFile, "'") // socket:[30862686]
-		fileData := strings.Split(targetFile, ":") // [socket [30862686]]
-
-		if len(fileData) >= 2 {
-			iNode = strings.Trim(fileData[1], "[]") // 30862686
-		} else {
-			err = errors.New("the size of file data should be greater than or equal to 2 ")
-		}
+		targetFile = strings.Trim(targetFile, "'")        // socket:[30862686]
+		fileData := strings.Split(targetFile, ":")        // [socket [30862686]]
+		iNode = strings.Trim(fileData[1], "[]")           // 30862686
 	}
 
 	return iNode, err
@@ -99,7 +93,7 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 			iNodeToTCP4 := spshot.Network.INodeToTCP4
 
 			if tcp4, has := iNodeToTCP4[iNode]; has {
-				networkStat.TCP4Stat.ConnectionCountByState[tcp4.State] += 1
+				networkStat.TCP4Stat.ConnectionCountByState[tcp4.State]++
 				count++
 			}
 		}
