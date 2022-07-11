@@ -62,9 +62,9 @@ func getSocketFileINode(targetFile string) (iNode string, err error) {
 	if !strings.HasPrefix(targetFile, socketFilePrefix) { // 'socket:[30862686]'
 		err = fmt.Errorf("target file should be started with %s", socketFilePrefix)
 	} else {
-		targetFile = strings.Trim(targetFile, "'")        // socket:[30862686]
-		fileData := strings.Split(targetFile, ":")        // [socket [30862686]]
-		iNode = strings.Trim(fileData[1], "[]")           // 30862686
+		targetFile = strings.Trim(targetFile, "'") // socket:[30862686]
+		fileData := strings.Split(targetFile, ":") // [socket [30862686]]
+		iNode = strings.Trim(fileData[1], "[]")    // 30862686
 	}
 
 	return iNode, err
