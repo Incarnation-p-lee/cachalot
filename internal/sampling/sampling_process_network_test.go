@@ -70,8 +70,8 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 	testINode := getProcessFirstSocketFileINode(testPID)
 	testSnapshot := snapshot.Snapshot{
 		Network: snapshot.Network{
-			INodeToTCP4: map[string]snapshot.TCP4Connection{
-				testINode: snapshot.TCP4Connection{
+			INodeToTCP4: map[string]snapshot.TCPConnection{
+				testINode: snapshot.TCPConnection{
 					INode: testINode,
 					State: "Established",
 				},

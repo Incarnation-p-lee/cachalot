@@ -13,11 +13,12 @@ type Snapshot struct {
 
 // Network indicates the network information of host machine.
 type Network struct {
-	INodeToTCP4 map[string]TCP4Connection
+	INodeToTCP4 map[string]TCPConnection
+	INodeToTCP6 map[string]TCPConnection
 }
 
-// TCP4Connection indicates the connection information of tcp4.
-type TCP4Connection struct {
+// TCPConnection indicates the connection information of tcp4.
+type TCPConnection struct {
 	INode         string
 	State         string
 	RemoteAddress string

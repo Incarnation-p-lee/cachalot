@@ -12,13 +12,15 @@ import (
 )
 
 const (
-	tcp4ConnectionFile        = "/proc/net/tcp"
-	tcp4ConnectionTitlePrefix = "sl"
+	tcp4ConnectionFile = "/proc/net/tcp"
+	tcp6ConnectionFile = "/proc/net/tcp6"
 
-	tcp4INodeIndex         = 9
-	tcp4UIDIndex           = 7
-	tcp4StatusIndex        = 3
-	tcp4RemoteAddressIndex = 2
+	tcpConnectionTitlePrefix = "sl"
+
+	tcpINodeIndex         = 9
+	tcpUIDIndex           = 7
+	tcpStatusIndex        = 3
+	tcpRemoteAddressIndex = 2
 
 	invalidAddress = "invalid address"
 	invalidPort    = -1
@@ -59,7 +61,7 @@ var tcpCodes = []string{
 func isTCPConnectionData(line string) bool {
 	line = strings.Trim(line, " ")
 
-	return !strings.HasPrefix(line, tcp4ConnectionTitlePrefix)
+	return !strings.HasPrefix(line, tcpConnectionTitlePrefix)
 }
 
 func getTCP4AddressAndPort(addressAndPort string) (address string, port int) {
@@ -92,39 +94,47 @@ func getTCPState(code string) string {
 	return tcpCodes[index]
 }
 
-func getTCP4Connection(tcp4Data []string) snapshot.TCP4Connection {
-	address, port := getTCP4AddressAndPort(tcp4Data[tcp4RemoteAddressIndex])
+func getTCPConnection(tcpData []string) snapshot.TCPConnection {
+	address, port := getTCP4AddressAndPort(tcpData[tcpRemoteAddressIndex])
 
-	return snapshot.TCP4Connection{
+	return snapshot.TCPConnection{
 		RemoteAddress: address,
 		RemotePort:    port,
-		INode:         tcp4Data[tcp4INodeIndex],
-		UID:           tcp4Data[tcp4UIDIndex],
-		State:         getTCPState(tcp4Data[tcp4StatusIndex]),
+		INode:         tcpData[tcpINodeIndex],
+		UID:           tcpData[tcpUIDIndex],
+		State:         getTCPState(tcpData[tcpStatusIndex]),
 	}
 }
 
-func getTCP4ConnectionData(line string) []string {
-	tcp4Data := []string{}
+func getTCPConnectionData(line string) []string {
+	tcpData := []string{}
 
 	for _, val := range strings.Split(line, " ") {
 		trimVal := strings.Trim(val, " ")
 
 		if len(trimVal) > 0 {
-			tcp4Data = append(tcp4Data, trimVal)
+			tcpData = append(tcpData, trimVal)
 		}
 	}
 
-	return tcp4Data
+	return tcpData
 }
 
-func sampleTCPConnection() map[string]snapshot.TCP4Connection {
-	nodeToTCP4 := map[string]snapshot.TCP4Connection{}
-	file, err := os.Open(filepath.Clean(tcp4ConnectionFile))
+func sampleTCP4Connection() map[string]snapshot.TCPConnection {
+	return sampleTCPConnection(tcp4ConnectionFile)
+}
+
+func sampleTCP6Connection() map[string]snapshot.TCPConnection {
+	return sampleTCPConnection(tcp6ConnectionFile)
+}
+
+func sampleTCPConnection(connectionFile string) map[string]snapshot.TCPConnection {
+	nodeToTCP := map[string]snapshot.TCPConnection{}
+	file, err := os.Open(filepath.Clean(connectionFile))
 
 	if err != nil {
-		log.Printf("Failed to open file %s due to %+v\n", tcp4ConnectionFile, err)
-		return nodeToTCP4
+		log.Printf("Failed to open file %s due to %+v\n", connectionFile, err)
+		return nodeToTCP
 	}
 
 	defer utils.CloseFile(file)
@@ -135,17 +145,18 @@ func sampleTCPConnection() map[string]snapshot.TCP4Connection {
 		line := scanner.Text()
 
 		if isTCPConnectionData(line) {
-			tcp4Data := getTCP4ConnectionData(line)
-			tcp4Connection := getTCP4Connection(tcp4Data)
-			nodeToTCP4[tcp4Connection.INode] = tcp4Connection
+			tcpData := getTCPConnectionData(line)
+			tcpConnection := getTCPConnection(tcpData)
+			nodeToTCP[tcpConnection.INode] = tcpConnection
 		}
 	}
 
-	return nodeToTCP4
+	return nodeToTCP
 }
 
 func sampleNetwork() snapshot.Network {
 	return snapshot.Network{
-		INodeToTCP4: sampleTCPConnection(),
+		INodeToTCP4: sampleTCP4Connection(),
+		INodeToTCP6: sampleTCP6Connection(),
 	}
 }
