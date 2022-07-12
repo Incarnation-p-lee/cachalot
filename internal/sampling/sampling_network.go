@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	tcp4ConnectionFile        = "/proc/net/tcp"
-	tcp6ConnectionFile        = "/proc/net/tcp6"
+	tcp4ConnectionFile = "/proc/net/tcp"
+	tcp6ConnectionFile = "/proc/net/tcp6"
 
 	tcpConnectionTitlePrefix = "sl"
 
