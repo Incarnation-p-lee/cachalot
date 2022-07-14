@@ -59,16 +59,8 @@ func getProcessFirstSocketFileINode(pID int) string {
 	return socketINode
 }
 
-func TestSampleProcessNetworkStat(t *testing.T) {
-	cmd := exec.Command("python3", "-m", "http.server", "9843")
-	cmd.Start()
-
-	time.Sleep(time.Duration(2) * time.Second)
-
-	testPID := cmd.Process.Pid
-	testStatChan := make(chan snapshot.ProcessNetworkStat)
-	testINode := getProcessFirstSocketFileINode(testPID)
-	testSnapshot := snapshot.Snapshot{
+func getTestSnapShot(testINode string) snapshot.Snapshot {
+	return snapshot.Snapshot{
 		Network: snapshot.Network{
 			INodeToTCP4: map[string]snapshot.TCPConnection{
 				testINode: snapshot.TCPConnection{
@@ -84,6 +76,18 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 			},
 		},
 	}
+}
+
+func TestSampleProcessNetworkStat(t *testing.T) {
+	cmd := exec.Command("python3", "-m", "http.server", "9843")
+	cmd.Start()
+
+	time.Sleep(time.Duration(2) * time.Second)
+
+	testPID := cmd.Process.Pid
+	testStatChan := make(chan snapshot.ProcessNetworkStat)
+	testINode := getProcessFirstSocketFileINode(testPID)
+	testSnapshot := getTestSnapShot(testINode)
 
 	go sampleProcessNetworkStat(testPID, testSnapshot, testStatChan)
 	stat := <-testStatChan
