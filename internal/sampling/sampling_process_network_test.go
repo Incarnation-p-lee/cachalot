@@ -59,6 +59,25 @@ func getProcessFirstSocketFileINode(pID int) string {
 	return socketINode
 }
 
+func getTestSnapShot(testINode string) snapshot.Snapshot {
+	return snapshot.Snapshot{
+		Network: snapshot.Network{
+			INodeToTCP4: map[string]snapshot.TCPConnection{
+				testINode: snapshot.TCPConnection{
+					INode: testINode,
+					State: "Established",
+				},
+			},
+			INodeToTCP6: map[string]snapshot.TCPConnection{
+				testINode: snapshot.TCPConnection{
+					INode: testINode,
+					State: "Established",
+				},
+			},
+		},
+	}
+}
+
 func TestSampleProcessNetworkStat(t *testing.T) {
 	cmd := exec.Command("python3", "-m", "http.server", "9843")
 	cmd.Start()
@@ -68,26 +87,25 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 	testPID := cmd.Process.Pid
 	testStatChan := make(chan snapshot.ProcessNetworkStat)
 	testINode := getProcessFirstSocketFileINode(testPID)
-	testSnapshot := snapshot.Snapshot{
-		Network: snapshot.Network{
-			INodeToTCP4: map[string]snapshot.TCPConnection{
-				testINode: snapshot.TCPConnection{
-					INode: testINode,
-					State: "Established",
-				},
-			},
-		},
-	}
+	testSnapshot := getTestSnapShot(testINode)
 
 	go sampleProcessNetworkStat(testPID, testSnapshot, testStatChan)
 	stat := <-testStatChan
 
 	assert.IsTrue(t, invalidConnectionCount != stat.TCP4Stat.ConnectionCount,
-		"valid pID should have valid process network stat")
+		"valid pID should have valid process network stat tcp4")
+
+	assert.IsTrue(t, invalidConnectionCount != stat.TCP6Stat.ConnectionCount,
+		"valid pID should have valid process network stat tcp6")
 
 	for _, count := range stat.TCP4Stat.ConnectionCountByState {
 		assert.IsTrue(t, invalidConnectionCount != count,
-			"valid pID should have valid process network count by state")
+			"valid pID should have valid process network count by state for tcp4")
+	}
+
+	for _, count := range stat.TCP6Stat.ConnectionCountByState {
+		assert.IsTrue(t, invalidConnectionCount != count,
+			"valid pID should have valid process network count by state for tcp6")
 	}
 
 	cmd.Process.Signal(syscall.SIGTERM)

@@ -38,11 +38,12 @@ type Process struct {
 
 // ProcessNetworkStat indicates the process related network data.
 type ProcessNetworkStat struct {
-	TCP4Stat ProcessTCP4Stat
+	TCP4Stat ProcessTCPStat
+	TCP6Stat ProcessTCPStat
 }
 
-// ProcessTCP4Stat indicates the tcp4 related data.
-type ProcessTCP4Stat struct {
+// ProcessTCPStat indicates the tcp related data.
+type ProcessTCPStat struct {
 	ConnectionCount        int
 	ConnectionCountByState map[string]int
 }

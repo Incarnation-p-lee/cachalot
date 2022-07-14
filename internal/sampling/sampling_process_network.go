@@ -17,7 +17,24 @@ const (
 )
 
 var invalidProcessNetworkStat = snapshot.ProcessNetworkStat{
-	TCP4Stat: snapshot.ProcessTCP4Stat{
+	TCP4Stat: snapshot.ProcessTCPStat{
+		ConnectionCount: invalidConnectionCount,
+		ConnectionCountByState: map[string]int{
+			tcpEstablished: invalidConnectionCount,
+			tcpSynSent:     invalidConnectionCount,
+			tcpSynRecv:     invalidConnectionCount,
+			tcpFinWait1:    invalidConnectionCount,
+			tcpFinWait2:    invalidConnectionCount,
+			tcpTimeWait:    invalidConnectionCount,
+			tcpClose:       invalidConnectionCount,
+			tcpCloseWait:   invalidConnectionCount,
+			tcpLastACK:     invalidConnectionCount,
+			tcpListen:      invalidConnectionCount,
+			tcpClosing:     invalidConnectionCount,
+			tcpNewSynRecv:  invalidConnectionCount,
+		},
+	},
+	TCP6Stat: snapshot.ProcessTCPStat{
 		ConnectionCount: invalidConnectionCount,
 		ConnectionCountByState: map[string]int{
 			tcpEstablished: invalidConnectionCount,
@@ -37,7 +54,24 @@ var invalidProcessNetworkStat = snapshot.ProcessNetworkStat{
 }
 
 var emptyProcessNetworkStat = snapshot.ProcessNetworkStat{
-	TCP4Stat: snapshot.ProcessTCP4Stat{
+	TCP4Stat: snapshot.ProcessTCPStat{
+		ConnectionCount: 0,
+		ConnectionCountByState: map[string]int{
+			tcpEstablished: 0,
+			tcpSynSent:     0,
+			tcpSynRecv:     0,
+			tcpFinWait1:    0,
+			tcpFinWait2:    0,
+			tcpTimeWait:    0,
+			tcpClose:       0,
+			tcpCloseWait:   0,
+			tcpLastACK:     0,
+			tcpListen:      0,
+			tcpClosing:     0,
+			tcpNewSynRecv:  0,
+		},
+	},
+	TCP6Stat: snapshot.ProcessTCPStat{
 		ConnectionCount: 0,
 		ConnectionCountByState: map[string]int{
 			tcpEstablished: 0,
@@ -80,7 +114,7 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 		return
 	}
 
-	count, networkStat := 0, emptyProcessNetworkStat
+	tcp4Count, tcp6Count, networkStat := 0, 0, emptyProcessNetworkStat
 
 	for _, file := range files {
 		filename := fmt.Sprintf("/proc/%d/fd/%s", pID, file.Name())
@@ -89,15 +123,22 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 		if err != nil {
 			log.Printf("Failed to read link from file %s due to %+v\n", filename, err)
 		} else if iNode, err := getSocketFileINode(targetFilename); err == nil {
-			iNodeToTCP4 := spshot.Network.INodeToTCP4
+			iNodeToTCP4, iNodeToTCP6 := spshot.Network.INodeToTCP4, spshot.Network.INodeToTCP6
 
 			if tcp4, has := iNodeToTCP4[iNode]; has {
 				networkStat.TCP4Stat.ConnectionCountByState[tcp4.State]++
-				count++
+				tcp4Count++
+			}
+
+			if tcp6, has := iNodeToTCP6[iNode]; has {
+				networkStat.TCP6Stat.ConnectionCountByState[tcp6.State]++
+				tcp6Count++
 			}
 		}
 	}
 
-	networkStat.TCP4Stat.ConnectionCount = count
+	networkStat.TCP4Stat.ConnectionCount = tcp4Count
+	networkStat.TCP6Stat.ConnectionCount = tcp6Count
+
 	networkStatChan <- networkStat
 }
