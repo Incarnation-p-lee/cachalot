@@ -76,6 +76,12 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 					State: "Established",
 				},
 			},
+			INodeToTCP6: map[string]snapshot.TCPConnection{
+				testINode: snapshot.TCPConnection{
+					INode: testINode,
+					State: "Established",
+				},
+			},
 		},
 	}
 
