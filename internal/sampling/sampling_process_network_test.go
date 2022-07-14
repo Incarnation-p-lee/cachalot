@@ -83,11 +83,19 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 	stat := <-testStatChan
 
 	assert.IsTrue(t, invalidConnectionCount != stat.TCP4Stat.ConnectionCount,
-		"valid pID should have valid process network stat")
+		"valid pID should have valid process network stat tcp4")
+
+	assert.IsTrue(t, invalidConnectionCount != stat.TCP6Stat.ConnectionCount,
+		"valid pID should have valid process network stat tcp6")
 
 	for _, count := range stat.TCP4Stat.ConnectionCountByState {
 		assert.IsTrue(t, invalidConnectionCount != count,
-			"valid pID should have valid process network count by state")
+			"valid pID should have valid process network count by state for tcp4")
+	}
+
+	for _, count := range stat.TCP6Stat.ConnectionCountByState {
+		assert.IsTrue(t, invalidConnectionCount != count,
+			"valid pID should have valid process network count by state for tcp6")
 	}
 
 	cmd.Process.Signal(syscall.SIGTERM)
