@@ -14,7 +14,7 @@ import (
 const (
 	jsonPrefix         = ""
 	jsonIndent         = "  "
-	printSeparatedLine = "=========================================================="
+	printSeparatedLine = "========================================================================="
 )
 
 func printSnapshotTitle(title string) {
@@ -32,34 +32,120 @@ func printSnapshotTimestamp(timestamp time.Time) {
 	fmt.Println(printSeparatedLine)
 }
 
-func printSnapshotProcess(process snapshot.Process) {
-	fmt.Printf("%v\t", process.PID)
+func printSnapshotProcessesPID(processes []snapshot.Process) {
+	fmt.Printf("PID\t")
 
-	fmt.Printf("%.3f%%\t\t", process.CPUStat.UsageInPercentage)
-	fmt.Printf("%d\t", process.ThreadsStat.ThreadsCount)
+	for _, process := range processes {
+		fmt.Printf("\t%v", process.PID)
+	}
 
-	fmt.Printf("%.3f%%\t\t", process.MemoryStat.UsageInPercentage)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMSizeInKB/1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMRSSInKB/1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMDataInKB/1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMStkInKB/1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMExeInKB/1024)
-	fmt.Printf("%dMB\t", process.MemoryStat.VMLibInKB/1024)
+	fmt.Printf("\n")
+}
 
-	fmt.Printf("%s\n", process.CmdLine)
+func printSnapshotProcessesCPUUsage(processes []snapshot.Process) {
+	fmt.Printf("CPUUsage")
+
+	for _, process := range processes {
+		fmt.Printf("\t%.1f%%", process.MemoryStat.UsageInPercentage)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesThreads(processes []snapshot.Process) {
+	fmt.Printf("Threads\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%d", process.ThreadsStat.ThreadsCount)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryUsage(processes []snapshot.Process) {
+	fmt.Printf("MemoryUsage")
+
+	for _, process := range processes {
+		fmt.Printf("\t%.1f%%", process.MemoryStat.UsageInPercentage)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMSize(processes []snapshot.Process) {
+	fmt.Printf("VmSize\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMSizeInKB/1024)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMRSS(processes []snapshot.Process) {
+	fmt.Printf("VmRss\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMRSSInKB/1024)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMData(processes []snapshot.Process) {
+	fmt.Printf("VmData\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMDataInKB/1024)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMStk(processes []snapshot.Process) {
+	fmt.Printf("VmStk\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMStkInKB/1024)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMExe(processes []snapshot.Process) {
+	fmt.Printf("VmExe\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMExeInKB/1024)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesMemoryVMLib(processes []snapshot.Process) {
+	fmt.Printf("VmLib\t")
+
+	for _, process := range processes {
+		fmt.Printf("\t%dMB", process.MemoryStat.VMLibInKB/1024)
+	}
+
+	fmt.Printf("\n")
 }
 
 func printSnapshotProcesses(processes []snapshot.Process) {
-	fmt.Printf("Total procesess count: %d\n", len(processes))
-	fmt.Println(printSeparatedLine)
-	fmt.Printf("PID\tCPUUsage\tThreads\t" +
-		"MemoryUsage\tVmSize\tVmRss\tVmData\tVmStk\tVmExe\tVmLib\t" +
-		"CmdLine\n")
+	fmt.Printf("Total processes count: %d\n", len(processes))
 	fmt.Println(printSeparatedLine)
 
-	for _, process := range processes {
-		printSnapshotProcess(process)
-	}
+	printSnapshotProcessesPID(processes)
+	printSnapshotProcessesThreads(processes)
+	printSnapshotProcessesCPUUsage(processes)
+	printSnapshotProcessesMemoryUsage(processes)
+	printSnapshotProcessesMemoryVMSize(processes)
+	printSnapshotProcessesMemoryVMRSS(processes)
+	printSnapshotProcessesMemoryVMData(processes)
+	printSnapshotProcessesMemoryVMStk(processes)
+	printSnapshotProcessesMemoryVMExe(processes)
+	printSnapshotProcessesMemoryVMLib(processes)
 }
 
 func printSnapshotFoot() {
