@@ -24,7 +24,6 @@ func printSnapshotTitle(title string) {
 
 	fmt.Println(printSeparatedLine)
 	fmt.Printf("%s\n", title)
-	fmt.Println(printSeparatedLine)
 }
 
 func printSnapshotTimestamp(timestamp time.Time) {
@@ -132,10 +131,18 @@ func printSnapshotProcessesMemoryVMLib(processes []snapshot.Process) {
 	fmt.Printf("\n")
 }
 
-func printSnapshotProcesses(processes []snapshot.Process) {
-	fmt.Printf("Total processes count: %d\n", len(processes))
-	fmt.Println(printSeparatedLine)
+func printSnapshotProcessesCmdLine(processes []snapshot.Process) {
+	fmt.Printf("PID\t\tCmdLine\n")
 
+	for _, process := range processes {
+		fmt.Printf("%v\t\t%s\n", process.PID, process.CmdLine)
+	}
+
+	fmt.Println(printSeparatedLine)
+}
+
+func printSnapshotProcesses(processes []snapshot.Process) {
+	printSnapshotProcessesCmdLine(processes)
 	printSnapshotProcessesPID(processes)
 	printSnapshotProcessesThreads(processes)
 	printSnapshotProcessesCPUUsage(processes)
