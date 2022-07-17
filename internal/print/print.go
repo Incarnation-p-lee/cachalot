@@ -45,7 +45,7 @@ func printSnapshotProcessesCPUUsage(processes []snapshot.Process) {
 	fmt.Printf("CPUUsage")
 
 	for _, process := range processes {
-		fmt.Printf("\t%.1f%%", process.MemoryStat.UsageInPercentage)
+		fmt.Printf("\t%.1f%%", process.CPUStat.UsageInPercentage)
 	}
 
 	fmt.Printf("\n")
