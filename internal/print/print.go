@@ -32,7 +32,7 @@ func printSnapshotTimestamp(timestamp time.Time) {
 }
 
 func printSnapshotProcessesPID(processes []snapshot.Process) {
-	fmt.Printf("PID\t")
+	fmt.Printf("PID\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%v", process.PID)
@@ -42,7 +42,7 @@ func printSnapshotProcessesPID(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesCPUUsage(processes []snapshot.Process) {
-	fmt.Printf("CPUUsage")
+	fmt.Printf("CPUUsage\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%.1f%%", process.CPUStat.UsageInPercentage)
@@ -52,7 +52,7 @@ func printSnapshotProcessesCPUUsage(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesThreads(processes []snapshot.Process) {
-	fmt.Printf("Threads\t")
+	fmt.Printf("Threads\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%d", process.ThreadsStat.ThreadsCount)
@@ -62,7 +62,7 @@ func printSnapshotProcessesThreads(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryUsage(processes []snapshot.Process) {
-	fmt.Printf("MemoryUsage")
+	fmt.Printf("MemoryUsage\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%.1f%%", process.MemoryStat.UsageInPercentage)
@@ -72,7 +72,7 @@ func printSnapshotProcessesMemoryUsage(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMSize(processes []snapshot.Process) {
-	fmt.Printf("VmSize\t")
+	fmt.Printf("VmSize\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMSizeInKB/1024)
@@ -82,7 +82,7 @@ func printSnapshotProcessesMemoryVMSize(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMRSS(processes []snapshot.Process) {
-	fmt.Printf("VmRss\t")
+	fmt.Printf("VmRss\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMRSSInKB/1024)
@@ -92,7 +92,7 @@ func printSnapshotProcessesMemoryVMRSS(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMData(processes []snapshot.Process) {
-	fmt.Printf("VmData\t")
+	fmt.Printf("VmData\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMDataInKB/1024)
@@ -102,7 +102,7 @@ func printSnapshotProcessesMemoryVMData(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMStk(processes []snapshot.Process) {
-	fmt.Printf("VmStk\t")
+	fmt.Printf("VmStk\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMStkInKB/1024)
@@ -112,7 +112,7 @@ func printSnapshotProcessesMemoryVMStk(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMExe(processes []snapshot.Process) {
-	fmt.Printf("VmExe\t")
+	fmt.Printf("VmExe\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMExeInKB/1024)
@@ -122,7 +122,7 @@ func printSnapshotProcessesMemoryVMExe(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesMemoryVMLib(processes []snapshot.Process) {
-	fmt.Printf("VmLib\t")
+	fmt.Printf("VmLib\t\t")
 
 	for _, process := range processes {
 		fmt.Printf("\t%dMB", process.MemoryStat.VMLibInKB/1024)
@@ -141,6 +141,43 @@ func printSnapshotProcessesCmdLine(processes []snapshot.Process) {
 	fmt.Println(printSeparatedLine)
 }
 
+func printSnapshotProcessesTCP4Connections(processes []snapshot.Process) {
+	fmt.Printf("TCP4-Connections")
+
+	for _, process := range processes {
+		fmt.Printf("\t%d", process.NetworkStat.TCP4Stat.ConnectionCount)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesTCP4ConnectionsByState(processes []snapshot.Process, state string) {
+	fmt.Printf("TCP4-%v", state)
+
+	for _, process := range processes {
+		countByState := process.NetworkStat.TCP4Stat.ConnectionCountByState
+
+		if count, has := countByState[state]; has {
+			fmt.Printf("\t%d", count)
+		}
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesTCP4ConnectionsStates(processes []snapshot.Process) {
+	states := snapshot.GetTCPStates()
+
+	for _, state := range states {
+		printSnapshotProcessesTCP4ConnectionsByState(processes, state)
+	}
+}
+
+func printSnapshotProcessesNetwork(processes []snapshot.Process) {
+	printSnapshotProcessesTCP4Connections(processes)
+	printSnapshotProcessesTCP4ConnectionsStates(processes)
+}
+
 func printSnapshotProcesses(processes []snapshot.Process) {
 	printSnapshotProcessesCmdLine(processes)
 	printSnapshotProcessesPID(processes)
@@ -153,6 +190,7 @@ func printSnapshotProcesses(processes []snapshot.Process) {
 	printSnapshotProcessesMemoryVMStk(processes)
 	printSnapshotProcessesMemoryVMExe(processes)
 	printSnapshotProcessesMemoryVMLib(processes)
+	printSnapshotProcessesNetwork(processes)
 }
 
 func printSnapshotFoot() {

@@ -71,6 +71,43 @@ type ThreadsStat struct {
 	ThreadsCount int
 }
 
+const (
+	TcpUnknown     = "Unknown"
+	TcpEstablished = "Established"
+	TcpSynSent     = "SynSent"
+	TcpSynRecv     = "SynRecv"
+	TcpFinWait1    = "FinWait1"
+	TcpFinWait2    = "FinWait2"
+	TcpTimeWait    = "TimeWait"
+	TcpClose       = "Close"
+	TcpCloseWait   = "CloseWait"
+	TcpLastACK     = "LastACK"
+	TcpListen      = "Listen"
+	TcpClosing     = "Closing"
+	TcpNewSynRecv  = "NewSynRecv"
+)
+
+var tcpStates = []string{
+	TcpUnknown,
+	TcpEstablished,
+	TcpSynSent,
+	TcpSynRecv,
+	TcpFinWait1,
+	TcpFinWait2,
+	TcpTimeWait,
+	TcpClose,
+	TcpCloseWait,
+	TcpLastACK,
+	TcpListen,
+	TcpClosing,
+	TcpNewSynRecv,
+}
+
+// GetTCPStates will return the slice of all tcp states.
+func GetTCPStates() []string {
+	return tcpStates
+}
+
 // CreateCPUStat will create one object with cpu usage and limit, count in mCore.
 func CreateCPUStat(jiffiesUsed, jiffiesInTotal int) CPUStat {
 	usageInPercentage := float64(jiffiesUsed) / float64(jiffiesInTotal) * 100.0

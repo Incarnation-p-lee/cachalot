@@ -25,38 +25,8 @@ const (
 	invalidAddress = "invalid address"
 	invalidPort    = -1
 
-	tcpUnknown     = "Unknown"
-	tcpEstablished = "Established"
-	tcpSynSent     = "SynSent"
-	tcpSynRecv     = "SynRecv"
-	tcpFinWait1    = "FinWait1"
-	tcpFinWait2    = "FinWait2"
-	tcpTimeWait    = "TimeWait"
-	tcpClose       = "Close"
-	tcpCloseWait   = "CloseWait"
-	tcpLastACK     = "LastACK"
-	tcpListen      = "Listen"
-	tcpClosing     = "Closing"
-	tcpNewSynRecv  = "NewSynRecv"
-
 	tcpCodeDefaultIndex = 0
 )
-
-var tcpCodes = []string{
-	tcpUnknown,
-	tcpEstablished,
-	tcpSynSent,
-	tcpSynRecv,
-	tcpFinWait1,
-	tcpFinWait2,
-	tcpTimeWait,
-	tcpClose,
-	tcpCloseWait,
-	tcpLastACK,
-	tcpListen,
-	tcpClosing,
-	tcpNewSynRecv,
-}
 
 func isTCPConnectionData(line string) bool {
 	line = strings.Trim(line, " ")
@@ -82,16 +52,17 @@ func getTCP4AddressAndPort(addressAndPort string) (address string, port int) {
 }
 
 func getTCPState(code string) string {
-	index := tcpCodeDefaultIndex
 	val, err := strconv.ParseInt(code, 16, 32)
+	index, states := tcpCodeDefaultIndex, snapshot.GetTCPStates()
 
 	if err != nil {
 		log.Printf("Failed to convert %s to integer due to %+v\n", code, err)
-	} else if int(val) < len(tcpCodes) {
+	} else if int(val) < len(states) {
 		index = int(val)
 	}
 
-	return tcpCodes[index]
+
+	return states[index]
 }
 
 func getTCPConnection(tcpData []string) snapshot.TCPConnection {
