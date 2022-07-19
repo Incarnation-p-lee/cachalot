@@ -34,32 +34,46 @@ Usage of ./cmd/cachalot/cachalot:
 The output may look like below.
 
 ```
-==========================================================
+=========================================================================
 Print snapshot with iteration count 0
-==========================================================
-Timestamp: 2022-07-01 02:32:07.03729379 +0000 UTC m=+0.000198499
-==========================================================
-Total procesess count: 5
-==========================================================
-PID     CPUUsage        Threads MemoryUsage     VmSize  VmRss   VmData  VmStk   VmExe   VmLib   CmdLine
-==========================================================
-7       0.151%          25      14.846%         4767MB  702MB   1670MB  0MB     0MB     20MB    java-jarapp.jar
-3821    0.000%          7       2.142%          687MB   7MB     40MB    0MB     0MB     0MB     ./cachalot
-3817    0.000%          1       0.024%          7MB     4MB     1MB     0MB     0MB     1MB     bash
+Timestamp: 2022-07-19 01:10:47.539437005 +0000 UTC m=+0.000394432
+=========================================================================
+PID             CmdLine
+7               java-jarapp.jar
+723             /tmp/cachalot
+715             bash
+=========================================================================
+PID             7       723     715 
+Threads         25      7       1
+CPUUsage        0.1%    0.0%    0.0%
+MemoryUsage     14.6%   2.1%    0.0%
+VmSize          4700MB  687MB   7MB
+VmRss           673MB   5MB     3MB
+VmData          1668MB  40MB    1MB
+VmStk           0MB     0MB     0MB
+VmExe           0MB     0MB     0MB
+VmLib           20MB    0MB     1MB
 
 
-==========================================================
+=========================================================================
 Print snapshot with iteration count 1
-==========================================================
-Timestamp: 2022-07-01 02:32:22.053041252 +0000 UTC m=+15.015948061
-==========================================================
-Total procesess count: 5
-==========================================================
-PID     CPUUsage        Threads MemoryUsage     VmSize  VmRss   VmData  VmStk   VmExe   VmLib   CmdLine
-==========================================================
-7       0.226%          25      14.846%         4767MB  702MB   1670MB  0MB     0MB     20MB    java-jarapp.jar
-3821    0.000%          9       2.142%          687MB   9MB     45MB    0MB     0MB     0MB     ./cachalot
-3817    0.000%          1       0.024%          7MB     4MB     1MB     0MB     0MB     1MB     bash
+Timestamp: 2022-07-19 01:11:02.557790989 +0000 UTC m=+15.018748516
+=========================================================================
+PID             CmdLine
+7               java-jarapp.jar
+715             bash
+723             /tmp/cachalot
+=========================================================================
+PID             7       715     723
+Threads         25      1       9
+CPUUsage        0.1%    0.0%    0.0%
+MemoryUsage     14.6%   0.0%    2.1%
+VmSize          4700MB  7MB     687MB
+VmRss           673MB   3MB     6MB
+VmData          1668MB  1MB     41MB
+VmStk           0MB     0MB     0MB
+VmExe           0MB     0MB     0MB
+VmLib           20MB    1MB     0MB
 
 ...
 ```
