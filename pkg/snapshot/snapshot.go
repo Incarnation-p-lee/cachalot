@@ -72,47 +72,47 @@ type ThreadsStat struct {
 }
 
 const (
+	// Unknown TCP connection
 	TCPUnknown     = "Unknown"
+	// TCP connection established
 	TCPEstablished = "Established"
+	// TCP connection syn sent
 	TCPSynSent     = "SynSent"
+	// TCP connection syn received
 	TCPSynRecv     = "SynRecv"
+	// TCP connection final wait 1
 	TCPFinWait1    = "FinWait1"
+	// TCP connection final wait 2
 	TCPFinWait2    = "FinWait2"
+	// TCP connection time wait
 	TCPTimeWait    = "TimeWait"
+	// TCP connection close
 	TCPClose       = "Close"
+	// TCP connection close wait
 	TCPCloseWait   = "CloseWait"
+	// TCP connection last ack
 	TCPLastACK     = "LastACK"
+	// TCP connection listen
 	TCPListen      = "Listen"
+	// TCP connection closing
 	TCPClosing     = "Closing"
+	// TCP connection new sync received
 	TCPNewSynRecv  = "NewSynRecv"
 )
 
 var tcpStates = []string{
-	// Unknown TCP connection
 	TCPUnknown,
-	// TCP connection established
 	TCPEstablished,
-	// TCP connection syn sent
 	TCPSynSent,
-	// TCP connection syn received
 	TCPSynRecv,
-	// TCP connection final wait 1
 	TCPFinWait1,
-	// TCP connection final wait 2
 	TCPFinWait2,
-	// TCP connection time wait
 	TCPTimeWait,
-	// TCP connection close
 	TCPClose,
-	// TCP connection close wait
 	TCPCloseWait,
-	// TCP connection last ack
 	TCPLastACK,
-	// TCP connection listen
 	TCPListen,
-	// TCP connection closing
 	TCPClosing,
-	// TCP connection new sync received
 	TCPNewSynRecv,
 }
 
