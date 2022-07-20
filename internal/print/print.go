@@ -173,9 +173,44 @@ func printSnapshotProcessesTCP4ConnectionsStates(processes []snapshot.Process) {
 	}
 }
 
+func printSnapshotProcessesTCP6Connections(processes []snapshot.Process) {
+	fmt.Printf("TCP6-Connections")
+
+	for _, process := range processes {
+		fmt.Printf("\t%d", process.NetworkStat.TCP6Stat.ConnectionCount)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesTCP6ConnectionsByState(processes []snapshot.Process, state string) {
+	fmt.Printf("TCP6-%v", state)
+
+	for _, process := range processes {
+		countByState := process.NetworkStat.TCP6Stat.ConnectionCountByState
+
+		if count, has := countByState[state]; has {
+			fmt.Printf("\t%d", count)
+		}
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotProcessesTCP6ConnectionsStates(processes []snapshot.Process) {
+	states := snapshot.GetTCPStates()
+
+	for _, state := range states {
+		printSnapshotProcessesTCP6ConnectionsByState(processes, state)
+	}
+}
+
 func printSnapshotProcessesNetwork(processes []snapshot.Process) {
 	printSnapshotProcessesTCP4Connections(processes)
 	printSnapshotProcessesTCP4ConnectionsStates(processes)
+
+	printSnapshotProcessesTCP6Connections(processes)
+	printSnapshotProcessesTCP6ConnectionsStates(processes)
 }
 
 func printSnapshotProcesses(processes []snapshot.Process) {
