@@ -72,35 +72,48 @@ type ThreadsStat struct {
 }
 
 const (
-	TcpUnknown     = "Unknown"
-	TcpEstablished = "Established"
-	TcpSynSent     = "SynSent"
-	TcpSynRecv     = "SynRecv"
-	TcpFinWait1    = "FinWait1"
-	TcpFinWait2    = "FinWait2"
-	TcpTimeWait    = "TimeWait"
-	TcpClose       = "Close"
-	TcpCloseWait   = "CloseWait"
-	TcpLastACK     = "LastACK"
-	TcpListen      = "Listen"
-	TcpClosing     = "Closing"
-	TcpNewSynRecv  = "NewSynRecv"
+	TCPUnknown     = "Unknown"
+	TCPEstablished = "Established"
+	TCPSynSent     = "SynSent"
+	TCPSynRecv     = "SynRecv"
+	TCPFinWait1    = "FinWait1"
+	TCPFinWait2    = "FinWait2"
+	TCPTimeWait    = "TimeWait"
+	TCPClose       = "Close"
+	TCPCloseWait   = "CloseWait"
+	TCPLastACK     = "LastACK"
+	TCPListen      = "Listen"
+	TCPClosing     = "Closing"
+	TCPNewSynRecv  = "NewSynRecv"
 )
 
 var tcpStates = []string{
-	TcpUnknown,
-	TcpEstablished,
-	TcpSynSent,
-	TcpSynRecv,
-	TcpFinWait1,
-	TcpFinWait2,
-	TcpTimeWait,
-	TcpClose,
-	TcpCloseWait,
-	TcpLastACK,
-	TcpListen,
-	TcpClosing,
-	TcpNewSynRecv,
+	// Unknown TCP connection
+	TCPUnknown,
+	// TCP connection established
+	TCPEstablished,
+	// TCP connection syn sent
+	TCPSynSent,
+	// TCP connection syn received
+	TCPSynRecv,
+	// TCP connection final wait 1
+	TCPFinWait1,
+	// TCP connection final wait 2
+	TCPFinWait2,
+	// TCP connection time wait
+	TCPTimeWait,
+	// TCP connection close
+	TCPClose,
+	// TCP connection close wait
+	TCPCloseWait,
+	// TCP connection last ack
+	TCPLastACK,
+	// TCP connection listen
+	TCPListen,
+	// TCP connection closing
+	TCPClosing,
+	// TCP connection new sync received
+	TCPNewSynRecv,
 }
 
 // GetTCPStates will return the slice of all tcp states.

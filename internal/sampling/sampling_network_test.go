@@ -23,9 +23,9 @@ func TestSampleNetwork(t *testing.T) {
 }
 
 func TestGetTCPStateUnknown(t *testing.T) {
-	assert.IsEqual(t, snapshot.TcpUnknown, getTCPState("ie"),
+	assert.IsEqual(t, snapshot.TCPUnknown, getTCPState("ie"),
 		"invalid hex will have unknown state")
-	assert.IsEqual(t, snapshot.TcpUnknown, getTCPState("a0"),
+	assert.IsEqual(t, snapshot.TCPUnknown, getTCPState("a0"),
 		"out of range hex will have unknown state")
 }
 
