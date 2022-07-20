@@ -72,31 +72,31 @@ type ThreadsStat struct {
 }
 
 const (
-	// Unknown TCP connection
+	// TCPUnknown indicates TCP connection state is unknown
 	TCPUnknown     = "Unknown"
-	// TCP connection established
+	// TCPEstablished indicates TCP connection is in established state
 	TCPEstablished = "Established"
-	// TCP connection syn sent
+	// TCPSynSent indicates TCP connection is in syn sent state
 	TCPSynSent     = "SynSent"
-	// TCP connection syn received
+	// TCPSynRecv indicates TCP connection is in syn received state
 	TCPSynRecv     = "SynRecv"
-	// TCP connection final wait 1
+	// TCPFinWait1 indicates TCP connection is in final wait 1 state
 	TCPFinWait1    = "FinWait1"
-	// TCP connection final wait 2
+	// TCPFinWait2 indicates TCP connection is in final wait 2 state
 	TCPFinWait2    = "FinWait2"
-	// TCP connection time wait
+	// TCPTimeWait indicates TCP connection is in time wait state
 	TCPTimeWait    = "TimeWait"
-	// TCP connection close
+	// TCPClose indicates TCP connection is in close state
 	TCPClose       = "Close"
-	// TCP connection close wait
+	// TCPCloseWait indicates TCP connection is in close wait state
 	TCPCloseWait   = "CloseWait"
-	// TCP connection last ack
+	// TCPLastACK indicates TCP connection is in last ack state
 	TCPLastACK     = "LastACK"
-	// TCP connection listen
+	// TCPListen indicates TCP connection is in listen state
 	TCPListen      = "Listen"
-	// TCP connection closing
+	// TCPClosing indicates TCP connection is in closing state
 	TCPClosing     = "Closing"
-	// TCP connection new sync received
+	// TCPNewSynRecv indicates tcp connection is in new sync received state
 	TCPNewSynRecv  = "NewSynRecv"
 )
 
