@@ -61,7 +61,6 @@ func getTCPState(code string) string {
 		index = int(val)
 	}
 
-
 	return states[index]
 }
 
