@@ -2,6 +2,7 @@ package sampling
 
 import (
 	"github.com/Incarnation-p-lee/cachalot/pkg/assert"
+	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"testing"
 )
 
@@ -22,8 +23,10 @@ func TestSampleNetwork(t *testing.T) {
 }
 
 func TestGetTCPStateUnknown(t *testing.T) {
-	assert.IsEqual(t, tcpUnknown, getTCPState("ie"), "invalid hex will have unknown state")
-	assert.IsEqual(t, tcpUnknown, getTCPState("a0"), "out of range hex will have unknown state")
+	assert.IsEqual(t, snapshot.TCPUnknown, getTCPState("ie"),
+		"invalid hex will have unknown state")
+	assert.IsEqual(t, snapshot.TCPUnknown, getTCPState("a0"),
+		"out of range hex will have unknown state")
 }
 
 func TestGetTCP4AddressAndPortInvalid(t *testing.T) {

@@ -71,6 +71,56 @@ type ThreadsStat struct {
 	ThreadsCount int
 }
 
+const (
+	// TCPUnknown indicates TCP connection state is unknown
+	TCPUnknown = "Unknown"
+	// TCPEstablished indicates TCP connection is in established state
+	TCPEstablished = "Established"
+	// TCPSynSent indicates TCP connection is in syn sent state
+	TCPSynSent = "SynSent"
+	// TCPSynRecv indicates TCP connection is in syn received state
+	TCPSynRecv = "SynRecv"
+	// TCPFinWait1 indicates TCP connection is in final wait 1 state
+	TCPFinWait1 = "FinWait1"
+	// TCPFinWait2 indicates TCP connection is in final wait 2 state
+	TCPFinWait2 = "FinWait2"
+	// TCPTimeWait indicates TCP connection is in time wait state
+	TCPTimeWait = "TimeWait"
+	// TCPClose indicates TCP connection is in close state
+	TCPClose = "Close"
+	// TCPCloseWait indicates TCP connection is in close wait state
+	TCPCloseWait = "CloseWait"
+	// TCPLastACK indicates TCP connection is in last ack state
+	TCPLastACK = "LastACK"
+	// TCPListen indicates TCP connection is in listen state
+	TCPListen = "Listen"
+	// TCPClosing indicates TCP connection is in closing state
+	TCPClosing = "Closing"
+	// TCPNewSynRecv indicates tcp connection is in new sync received state
+	TCPNewSynRecv = "NewSynRecv"
+)
+
+var tcpStates = []string{
+	TCPUnknown,
+	TCPEstablished,
+	TCPSynSent,
+	TCPSynRecv,
+	TCPFinWait1,
+	TCPFinWait2,
+	TCPTimeWait,
+	TCPClose,
+	TCPCloseWait,
+	TCPLastACK,
+	TCPListen,
+	TCPClosing,
+	TCPNewSynRecv,
+}
+
+// GetTCPStates will return the slice of all tcp states.
+func GetTCPStates() []string {
+	return tcpStates
+}
+
 // CreateCPUStat will create one object with cpu usage and limit, count in mCore.
 func CreateCPUStat(jiffiesUsed, jiffiesInTotal int) CPUStat {
 	usageInPercentage := float64(jiffiesUsed) / float64(jiffiesInTotal) * 100.0

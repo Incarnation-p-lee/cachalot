@@ -83,3 +83,7 @@ func TestAppendProcessesWithExistNil(t *testing.T) {
 
 	assert.IsEqual(t, 2, len(snapshot.Processes), "processes size should be 2")
 }
+
+func TestGetTCPStates(t *testing.T) {
+	assert.IsEqual(t, 13, len(GetTCPStates()), "length of tcp states should be 13")
+}
