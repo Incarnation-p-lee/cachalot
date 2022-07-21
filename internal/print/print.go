@@ -213,11 +213,13 @@ func printSnapshotProcessesNetwork(processes []snapshot.Process) {
 	printSnapshotProcessesTCP6ConnectionsStates(processes)
 }
 
-func printSnapshotProcesses(processes []snapshot.Process) {
-	printSnapshotProcessesCmdLine(processes)
+func printSnapshotProcessesCPU(processes []snapshot.Process) {
 	printSnapshotProcessesPID(processes)
 	printSnapshotProcessesThreads(processes)
 	printSnapshotProcessesCPUUsage(processes)
+}
+
+func printSnapshotProcessesMemory(processes []snapshot.Process) {
 	printSnapshotProcessesMemoryUsage(processes)
 	printSnapshotProcessesMemoryVMSize(processes)
 	printSnapshotProcessesMemoryVMRSS(processes)
@@ -225,6 +227,12 @@ func printSnapshotProcesses(processes []snapshot.Process) {
 	printSnapshotProcessesMemoryVMStk(processes)
 	printSnapshotProcessesMemoryVMExe(processes)
 	printSnapshotProcessesMemoryVMLib(processes)
+}
+
+func printSnapshotProcesses(processes []snapshot.Process) {
+	printSnapshotProcessesCmdLine(processes)
+	printSnapshotProcessesCPU(processes)
+	printSnapshotProcessesMemory(processes)
 	printSnapshotProcessesNetwork(processes)
 }
 
