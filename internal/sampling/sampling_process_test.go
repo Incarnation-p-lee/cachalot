@@ -31,7 +31,7 @@ func TestSampleAllProcess(t *testing.T) {
 		Val: options.AllProcessIDs,
 	})
 
-	processes := sampleProcesses(ops)
+	processes := sampleProcesses(ops, snapshot.Snapshot{})
 
 	assert.IsTrue(t, len(processes) > 0, "all proccess slice count should not be 0.")
 }
@@ -40,7 +40,7 @@ func TestSampleOneProcessSnapshotNilOptions(t *testing.T) {
 	testProcessChan := make(chan snapshot.Process, 1)
 	defer close(testProcessChan)
 
-	go sampleOneProcessSnapshot(nil, 1, testProcessChan)
+	go sampleOneProcessSnapshot(nil, 1, snapshot.Snapshot{}, testProcessChan)
 	testProcess := <-testProcessChan
 
 	assert.IsEqual(t, 0, testProcess.PID, "nil options will have 0 pID for process")
@@ -59,7 +59,7 @@ func TestSampleOneProcessSnapshot(t *testing.T) {
 	testProcessChan := make(chan snapshot.Process, 1)
 	defer close(testProcessChan)
 
-	go sampleOneProcessSnapshot(ops, testPID, testProcessChan)
+	go sampleOneProcessSnapshot(ops, testPID, snapshot.Snapshot{}, testProcessChan)
 	testProcess := <-testProcessChan
 
 	assert.IsEqual(t, testPID, testProcess.PID, "process will have the same pID")
