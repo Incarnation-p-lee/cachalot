@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	jsonPrefix         = ""
-	jsonIndent         = "  "
-	printSeparatedLine = "========================================================================="
+	jsonPrefix                  = ""
+	jsonIndent                  = "  "
+	printSeparatedLine          = "========================================================================="
+	tcpStateNoIndentMinimalSize = 11
 )
 
 func printSnapshotTitle(title string) {
@@ -151,8 +152,16 @@ func printSnapshotProcessesTCP4Connections(processes []snapshot.Process) {
 	fmt.Printf("\n")
 }
 
+func printSnapshotProcessConnetionState(prefix string, state string) {
+	fmt.Printf("%v-%v", prefix, state)
+
+	if len(state) < tcpStateNoIndentMinimalSize {
+		fmt.Printf("\t")
+	}
+}
+
 func printSnapshotProcessesTCP4ConnectionsByState(processes []snapshot.Process, state string) {
-	fmt.Printf("TCP4-%v", state)
+	printSnapshotProcessConnetionState("TCP4", state)
 
 	for _, process := range processes {
 		countByState := process.NetworkStat.TCP4Stat.ConnectionCountByState
@@ -184,7 +193,7 @@ func printSnapshotProcessesTCP6Connections(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesTCP6ConnectionsByState(processes []snapshot.Process, state string) {
-	fmt.Printf("TCP6-%v", state)
+	printSnapshotProcessConnetionState("TCP6", state)
 
 	for _, process := range processes {
 		countByState := process.NetworkStat.TCP6Stat.ConnectionCountByState
