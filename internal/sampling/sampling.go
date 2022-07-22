@@ -21,7 +21,7 @@ func Sample(ops *options.Options) snapshot.Snapshot {
 		Processes: []snapshot.Process{},
 	}
 
-	processes := sampleProcesses(ops)
+	processes := sampleProcesses(ops, snapshot)
 
 	snapshot.AppendProcesses(processes)
 

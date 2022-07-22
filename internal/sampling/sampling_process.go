@@ -49,7 +49,7 @@ func getSamplingProcessIDs(ops *options.Options) []int {
 	return getProcessIDs(ops.GetProcessIDs())
 }
 
-func sampleProcesses(ops *options.Options) []snapshot.Process {
+func sampleProcesses(ops *options.Options, spshot snapshot.Snapshot) []snapshot.Process {
 	allPIDs := getSamplingProcessIDs(ops)
 
 	pIDCount := len(allPIDs)
@@ -58,7 +58,7 @@ func sampleProcesses(ops *options.Options) []snapshot.Process {
 	defer close(processChan)
 
 	for _, pID := range allPIDs {
-		go sampleOneProcessSnapshot(ops, pID, processChan)
+		go sampleOneProcessSnapshot(ops, pID, spshot, processChan)
 	}
 
 	processes := []snapshot.Process{}
@@ -71,7 +71,7 @@ func sampleProcesses(ops *options.Options) []snapshot.Process {
 }
 
 func sampleOneProcessSnapshot(ops *options.Options, pID int,
-	processChan chan<- snapshot.Process) {
+	spshot snapshot.Snapshot, processChan chan<- snapshot.Process) {
 
 	if ops == nil {
 		processChan <- snapshot.Process{}
@@ -80,16 +80,19 @@ func sampleOneProcessSnapshot(ops *options.Options, pID int,
 
 	cmdChan, cpuChan := make(chan string), make(chan snapshot.CPUStat)
 	threadsChan, memoryChan := make(chan snapshot.ThreadsStat), make(chan snapshot.MemoryStat)
+	networkChan := make(chan snapshot.ProcessNetworkStat)
 
 	defer close(cmdChan)
 	defer close(cpuChan)
 	defer close(threadsChan)
 	defer close(memoryChan)
+	defer close(networkChan)
 
 	go sampleCmdLine(pID, cmdChan)
 	go sampleCPUStat(pID, cpuChan)
 	go sampleThreadsStat(pID, threadsChan)
 	go sampleMemoryStat(pID, memoryChan)
+	go sampleProcessNetworkStat(pID, spshot, networkChan)
 
 	processChan <- snapshot.Process{
 		PID:         pID,
@@ -97,5 +100,6 @@ func sampleOneProcessSnapshot(ops *options.Options, pID int,
 		CPUStat:     <-cpuChan,
 		ThreadsStat: <-threadsChan,
 		MemoryStat:  <-memoryChan,
+		NetworkStat: <-networkChan,
 	}
 }
