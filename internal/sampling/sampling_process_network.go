@@ -58,7 +58,7 @@ func getEmptyProcessNetworkStat() snapshot.ProcessNetworkStat {
 	return snapshot.ProcessNetworkStat{
 		TCP4Stat: snapshot.ProcessTCPStat{
 			ConnectionCount: 0,
-		ConnectionCountByState: map[string]int{
+			ConnectionCountByState: map[string]int{
 				snapshot.TCPEstablished: 0,
 				snapshot.TCPSynSent:     0,
 				snapshot.TCPSynRecv:     0,
