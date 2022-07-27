@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/Incarnation-p-lee/cachalot/pkg/snapshot"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -109,7 +108,6 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 	files, err := ioutil.ReadDir(filepath.Clean(fdDir))
 
 	if err != nil {
-		log.Printf("Failed to read dir from %s due to %+v\n", fdDir, err)
 		networkStatChan <- invalidProcessNetworkStat
 		return
 	}
@@ -120,19 +118,19 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 		filename := fmt.Sprintf("/proc/%d/fd/%s", pID, file.Name())
 		targetFilename, err := os.Readlink(filepath.Clean(filename))
 
-		if err != nil {
-			log.Printf("Failed to read link from file %s due to %+v\n", filename, err)
-		} else if iNode, err := getSocketFileINode(targetFilename); err == nil {
-			iNodeToTCP4, iNodeToTCP6 := spshot.Network.INodeToTCP4, spshot.Network.INodeToTCP6
+		if err == nil {
+			if iNode, err := getSocketFileINode(targetFilename); err == nil {
+				iNodeToTCP4, iNodeToTCP6 := spshot.Network.INodeToTCP4, spshot.Network.INodeToTCP6
 
-			if tcp4, has := iNodeToTCP4[iNode]; has {
-				networkStat.TCP4Stat.ConnectionCountByState[tcp4.State]++
-				tcp4Count++
-			}
+				if tcp4, has := iNodeToTCP4[iNode]; has {
+					networkStat.TCP4Stat.ConnectionCountByState[tcp4.State]++
+					tcp4Count++
+				}
 
-			if tcp6, has := iNodeToTCP6[iNode]; has {
-				networkStat.TCP6Stat.ConnectionCountByState[tcp6.State]++
-				tcp6Count++
+				if tcp6, has := iNodeToTCP6[iNode]; has {
+					networkStat.TCP6Stat.ConnectionCountByState[tcp6.State]++
+					tcp6Count++
+				}
 			}
 		}
 	}
