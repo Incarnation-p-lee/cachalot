@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	invalidINode           = "-1"
-	socketFilePrefix       = "socket:["
+	invalidINode     = "-1"
+	socketFilePrefix = "socket:["
 )
 
 func getSocketFileINode(targetFile string) (iNode string, err error) {
