@@ -10,88 +10,9 @@ import (
 )
 
 const (
-	invalidConnectionCount = -1
 	invalidINode           = "-1"
 	socketFilePrefix       = "socket:["
 )
-
-func getInvalidProcessNetworkStat() snapshot.NetworkStat {
-	return snapshot.NetworkStat{
-		TCP4Stat: snapshot.ProcessTCPStat{
-			ConnectionCount: invalidConnectionCount,
-			ConnectionCountByState: map[string]int{
-				snapshot.TCPEstablished: invalidConnectionCount,
-				snapshot.TCPSynSent:     invalidConnectionCount,
-				snapshot.TCPSynRecv:     invalidConnectionCount,
-				snapshot.TCPFinWait1:    invalidConnectionCount,
-				snapshot.TCPFinWait2:    invalidConnectionCount,
-				snapshot.TCPTimeWait:    invalidConnectionCount,
-				snapshot.TCPClose:       invalidConnectionCount,
-				snapshot.TCPCloseWait:   invalidConnectionCount,
-				snapshot.TCPLastACK:     invalidConnectionCount,
-				snapshot.TCPListen:      invalidConnectionCount,
-				snapshot.TCPClosing:     invalidConnectionCount,
-				snapshot.TCPNewSynRecv:  invalidConnectionCount,
-			},
-		},
-		TCP6Stat: snapshot.ProcessTCPStat{
-			ConnectionCount: invalidConnectionCount,
-			ConnectionCountByState: map[string]int{
-				snapshot.TCPEstablished: invalidConnectionCount,
-				snapshot.TCPSynSent:     invalidConnectionCount,
-				snapshot.TCPSynRecv:     invalidConnectionCount,
-				snapshot.TCPFinWait1:    invalidConnectionCount,
-				snapshot.TCPFinWait2:    invalidConnectionCount,
-				snapshot.TCPTimeWait:    invalidConnectionCount,
-				snapshot.TCPClose:       invalidConnectionCount,
-				snapshot.TCPCloseWait:   invalidConnectionCount,
-				snapshot.TCPLastACK:     invalidConnectionCount,
-				snapshot.TCPListen:      invalidConnectionCount,
-				snapshot.TCPClosing:     invalidConnectionCount,
-				snapshot.TCPNewSynRecv:  invalidConnectionCount,
-			},
-		},
-	}
-}
-
-func getEmptyProcessNetworkStat() snapshot.NetworkStat {
-	return snapshot.NetworkStat{
-		TCP4Stat: snapshot.ProcessTCPStat{
-			ConnectionCount: 0,
-			ConnectionCountByState: map[string]int{
-				snapshot.TCPEstablished: 0,
-				snapshot.TCPSynSent:     0,
-				snapshot.TCPSynRecv:     0,
-				snapshot.TCPFinWait1:    0,
-				snapshot.TCPFinWait2:    0,
-				snapshot.TCPTimeWait:    0,
-				snapshot.TCPClose:       0,
-				snapshot.TCPCloseWait:   0,
-				snapshot.TCPLastACK:     0,
-				snapshot.TCPListen:      0,
-				snapshot.TCPClosing:     0,
-				snapshot.TCPNewSynRecv:  0,
-			},
-		},
-		TCP6Stat: snapshot.ProcessTCPStat{
-			ConnectionCount: 0,
-			ConnectionCountByState: map[string]int{
-				snapshot.TCPEstablished: 0,
-				snapshot.TCPSynSent:     0,
-				snapshot.TCPSynRecv:     0,
-				snapshot.TCPFinWait1:    0,
-				snapshot.TCPFinWait2:    0,
-				snapshot.TCPTimeWait:    0,
-				snapshot.TCPClose:       0,
-				snapshot.TCPCloseWait:   0,
-				snapshot.TCPLastACK:     0,
-				snapshot.TCPListen:      0,
-				snapshot.TCPClosing:     0,
-				snapshot.TCPNewSynRecv:  0,
-			},
-		},
-	}
-}
 
 func getSocketFileINode(targetFile string) (iNode string, err error) {
 	iNode, err = invalidINode, nil
@@ -112,11 +33,11 @@ func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
 	files, err := ioutil.ReadDir(filepath.Clean(fdDir))
 
 	if err != nil {
-		networkStatChan <- getInvalidProcessNetworkStat()
+		networkStatChan <- getInvalidNetworkStat()
 		return
 	}
 
-	tcp4Count, tcp6Count, networkStat := 0, 0, getEmptyProcessNetworkStat()
+	tcp4Count, tcp6Count, networkStat := 0, 0, getEmptyNetworkStat()
 
 	for _, file := range files {
 		filename := fmt.Sprintf("/proc/%d/fd/%s", pID, file.Name())

@@ -20,6 +20,15 @@ func TestSampleNetwork(t *testing.T) {
 	for _, tcpConnect := range network.INodeToTCP6 {
 		assert.IsTrue(t, len(tcpConnect.INode) > 0, "inode of tcp6 connection cannot be empty")
 	}
+
+	assert.IsNotNil(t, network.NetworkStat, "network stat should not be nil")
+	assert.IsNotNil(t, network.NetworkStat.TCP4Stat, "tcp4 stat should not be nil")
+	assert.IsNotNil(t, network.NetworkStat.TCP6Stat, "tcp6 stat should not be nil")
+
+	assert.IsTrue(t, network.NetworkStat.TCP4Stat.ConnectionCount > 0,
+		"tcp4 stat connection count should be greater than 0")
+	assert.IsTrue(t, network.NetworkStat.TCP6Stat.ConnectionCount > 0,
+		"tcp6 stat connection count should be greater than 0")
 }
 
 func TestGetTCPStateUnknown(t *testing.T) {
