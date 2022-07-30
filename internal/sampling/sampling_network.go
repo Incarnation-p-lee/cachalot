@@ -22,8 +22,8 @@ const (
 	tcpStatusIndex        = 3
 	tcpRemoteAddressIndex = 2
 
-	invalidAddress = "invalid address"
-	invalidPort    = -1
+	invalidAddress         = "invalid address"
+	invalidPort            = -1
 	invalidConnectionCount = -1
 
 	tcpCodeDefaultIndex = 0
@@ -48,7 +48,7 @@ func getInvalidTCPConnectionCountByState() map[string]int {
 
 func getInvalidTCPStat() snapshot.TCPStat {
 	return snapshot.TCPStat{
-		ConnectionCount: invalidConnectionCount,
+		ConnectionCount:        invalidConnectionCount,
 		ConnectionCountByState: getInvalidTCPConnectionCountByState(),
 	}
 }
@@ -79,7 +79,7 @@ func getEmptyTCPConnectionCountByState() map[string]int {
 
 func getEmptyTCPStat() snapshot.TCPStat {
 	return snapshot.TCPStat{
-		ConnectionCount: 0,
+		ConnectionCount:        0,
 		ConnectionCountByState: getEmptyTCPConnectionCountByState(),
 	}
 }
