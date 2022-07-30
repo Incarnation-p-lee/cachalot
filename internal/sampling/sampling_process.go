@@ -80,7 +80,7 @@ func sampleOneProcessSnapshot(ops *options.Options, pID int,
 
 	cmdChan, cpuChan := make(chan string), make(chan snapshot.CPUStat)
 	threadsChan, memoryChan := make(chan snapshot.ThreadsStat), make(chan snapshot.MemoryStat)
-	networkChan := make(chan snapshot.ProcessNetworkStat)
+	networkChan := make(chan snapshot.NetworkStat)
 
 	defer close(cmdChan)
 	defer close(cpuChan)

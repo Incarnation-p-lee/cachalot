@@ -15,6 +15,7 @@ type Snapshot struct {
 type Network struct {
 	INodeToTCP4 map[string]TCPConnection
 	INodeToTCP6 map[string]TCPConnection
+	NetworkStat NetworkStat
 }
 
 // TCPConnection indicates the connection information of tcp4.
@@ -33,11 +34,11 @@ type Process struct {
 	CPUStat     CPUStat
 	ThreadsStat ThreadsStat
 	MemoryStat  MemoryStat
-	NetworkStat ProcessNetworkStat
+	NetworkStat NetworkStat
 }
 
-// ProcessNetworkStat indicates the process related network data.
-type ProcessNetworkStat struct {
+// NetworkStat indicates the process related network data.
+type NetworkStat struct {
 	TCP4Stat ProcessTCPStat
 	TCP6Stat ProcessTCPStat
 }

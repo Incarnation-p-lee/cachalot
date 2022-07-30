@@ -15,8 +15,8 @@ const (
 	socketFilePrefix       = "socket:["
 )
 
-func getInvalidProcessNetworkStat() snapshot.ProcessNetworkStat {
-	return snapshot.ProcessNetworkStat{
+func getInvalidProcessNetworkStat() snapshot.NetworkStat {
+	return snapshot.NetworkStat{
 		TCP4Stat: snapshot.ProcessTCPStat{
 			ConnectionCount: invalidConnectionCount,
 			ConnectionCountByState: map[string]int{
@@ -54,8 +54,8 @@ func getInvalidProcessNetworkStat() snapshot.ProcessNetworkStat {
 	}
 }
 
-func getEmptyProcessNetworkStat() snapshot.ProcessNetworkStat {
-	return snapshot.ProcessNetworkStat{
+func getEmptyProcessNetworkStat() snapshot.NetworkStat {
+	return snapshot.NetworkStat{
 		TCP4Stat: snapshot.ProcessTCPStat{
 			ConnectionCount: 0,
 			ConnectionCountByState: map[string]int{
@@ -107,7 +107,7 @@ func getSocketFileINode(targetFile string) (iNode string, err error) {
 }
 
 func sampleProcessNetworkStat(pID int, spshot snapshot.Snapshot,
-	networkStatChan chan<- snapshot.ProcessNetworkStat) {
+	networkStatChan chan<- snapshot.NetworkStat) {
 	fdDir := fmt.Sprintf("/proc/%d/fd", pID)
 	files, err := ioutil.ReadDir(filepath.Clean(fdDir))
 
