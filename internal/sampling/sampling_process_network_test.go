@@ -31,7 +31,7 @@ func TestGetSocketFileINode(t *testing.T) {
 }
 
 func TestSampleProcessNetworkStatInvalid(t *testing.T) {
-	testStatChan := make(chan snapshot.ProcessNetworkStat)
+	testStatChan := make(chan snapshot.NetworkStat)
 
 	go sampleProcessNetworkStat(1000000, snapshot.Snapshot{}, testStatChan)
 
@@ -85,7 +85,7 @@ func TestSampleProcessNetworkStat(t *testing.T) {
 	time.Sleep(time.Duration(2) * time.Second)
 
 	testPID := cmd.Process.Pid
-	testStatChan := make(chan snapshot.ProcessNetworkStat)
+	testStatChan := make(chan snapshot.NetworkStat)
 	testINode := getProcessFirstSocketFileINode(testPID)
 	testSnapshot := getTestSnapShot(testINode)
 
