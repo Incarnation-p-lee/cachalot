@@ -21,7 +21,7 @@ func createSnapshot(timestamp time.Time, processes []snapshot.Process,
 
 func getTestSnapshotNetwork() snapshot.Network {
 	return snapshot.Network{
-		NetworkStat: snapshot.NetworkStat {
+		NetworkStat: snapshot.NetworkStat{
 			TCP4Stat: snapshot.TCPStat{
 				ConnectionCount: 1,
 				ConnectionCountByState: map[string]int{
