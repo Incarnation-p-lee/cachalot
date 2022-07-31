@@ -15,7 +15,11 @@ const (
 	jsonPrefix                  = ""
 	jsonIndent                  = "  "
 	printSeparatedLine          = "========================================================================="
+	printSubTitleLine           = "-------------------------------------------------------------------------"
 	tcpStateNoIndentMinimalSize = 11
+
+	tcp4TypeName = "TCP4"
+	tcp6TypeName = "TCP6"
 )
 
 func printSnapshotTitle(title string) {
@@ -25,11 +29,53 @@ func printSnapshotTitle(title string) {
 
 	fmt.Println(printSeparatedLine)
 	fmt.Printf("%s\n", title)
+	fmt.Println(printSubTitleLine)
 }
 
 func printSnapshotTimestamp(timestamp time.Time) {
 	fmt.Printf("Timestamp: %v\n", timestamp)
 	fmt.Println(printSeparatedLine)
+}
+
+func printSnapshotNetworkTCPConnections(tcpStat snapshot.TCPStat, tcpType string) {
+	fmt.Printf("%s-Connections\t%d\n", tcpType, tcpStat.ConnectionCount)
+}
+
+func printSnapshotNetworkTCPConnectionsByState(tcpStat snapshot.TCPStat, state, tcpType string) {
+	printSnapshotConnetionState(tcpType, state)
+
+	countByState := tcpStat.ConnectionCountByState
+
+	if count, has := countByState[state]; has {
+		fmt.Printf("\t%d", count)
+	}
+
+	fmt.Printf("\n")
+}
+
+func printSnapshotNetworkTCPConnectionsStates(tcpStat snapshot.TCPStat, tcpType string) {
+	states := snapshot.GetTCPStates()
+
+	for _, state := range states {
+		printSnapshotNetworkTCPConnectionsByState(tcpStat, state, tcpType)
+	}
+}
+
+func printSnapshotNetworkStat(networkStat snapshot.NetworkStat) {
+	fmt.Println("Print snapshot network stat:")
+	fmt.Println(printSubTitleLine)
+
+	printSnapshotNetworkTCPConnections(networkStat.TCP4Stat, tcp4TypeName)
+	printSnapshotNetworkTCPConnectionsStates(networkStat.TCP4Stat, tcp4TypeName)
+
+	printSnapshotNetworkTCPConnections(networkStat.TCP6Stat, tcp6TypeName)
+	printSnapshotNetworkTCPConnectionsStates(networkStat.TCP6Stat, tcp6TypeName)
+
+	fmt.Println(printSeparatedLine)
+}
+
+func printSnapshotStat(spshot snapshot.Snapshot) {
+	printSnapshotNetworkStat(spshot.Network.NetworkStat)
 }
 
 func printSnapshotProcessesPID(processes []snapshot.Process) {
@@ -152,7 +198,7 @@ func printSnapshotProcessesTCP4Connections(processes []snapshot.Process) {
 	fmt.Printf("\n")
 }
 
-func printSnapshotProcessConnetionState(prefix string, state string) {
+func printSnapshotConnetionState(prefix string, state string) {
 	fmt.Printf("%v-%v", prefix, state)
 
 	if len(state) < tcpStateNoIndentMinimalSize {
@@ -161,7 +207,7 @@ func printSnapshotProcessConnetionState(prefix string, state string) {
 }
 
 func printSnapshotProcessesTCP4ConnectionsByState(processes []snapshot.Process, state string) {
-	printSnapshotProcessConnetionState("TCP4", state)
+	printSnapshotConnetionState("TCP4", state)
 
 	for _, process := range processes {
 		countByState := process.NetworkStat.TCP4Stat.ConnectionCountByState
@@ -193,7 +239,7 @@ func printSnapshotProcessesTCP6Connections(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesTCP6ConnectionsByState(processes []snapshot.Process, state string) {
-	printSnapshotProcessConnetionState("TCP6", state)
+	printSnapshotConnetionState("TCP6", state)
 
 	for _, process := range processes {
 		countByState := process.NetworkStat.TCP6Stat.ConnectionCountByState
@@ -238,7 +284,7 @@ func printSnapshotProcessesMemory(processes []snapshot.Process) {
 	printSnapshotProcessesMemoryVMLib(processes)
 }
 
-func printSnapshotProcesses(processes []snapshot.Process) {
+func printSnapshotProcessesStat(processes []snapshot.Process) {
 	printSnapshotProcessesCmdLine(processes)
 	printSnapshotProcessesCPU(processes)
 	printSnapshotProcessesMemory(processes)
@@ -253,7 +299,8 @@ func printTextSnapshot(snapshot snapshot.Snapshot, title string) {
 	printSnapshotTitle(title)
 
 	printSnapshotTimestamp(snapshot.Timestamp)
-	printSnapshotProcesses(snapshot.Processes)
+	printSnapshotStat(snapshot)
+	printSnapshotProcessesStat(snapshot.Processes)
 
 	printSnapshotFoot()
 }

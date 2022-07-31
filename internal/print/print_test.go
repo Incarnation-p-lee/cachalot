@@ -10,10 +10,43 @@ import (
 	"time"
 )
 
-func createSnapshot(timestamp time.Time, processes []snapshot.Process) snapshot.Snapshot {
+func createSnapshot(timestamp time.Time, processes []snapshot.Process,
+	network snapshot.Network) snapshot.Snapshot {
 	return snapshot.Snapshot{
 		Timestamp: timestamp,
 		Processes: processes,
+		Network:   network,
+	}
+}
+
+func getTestSnapshotNetwork() snapshot.Network {
+	return snapshot.Network{
+		NetworkStat: snapshot.NetworkStat{
+			TCP4Stat: snapshot.TCPStat{
+				ConnectionCount: 1,
+				ConnectionCountByState: map[string]int{
+					snapshot.TCPCloseWait: 1,
+				},
+			},
+			TCP6Stat: snapshot.TCPStat{
+				ConnectionCount: 1,
+				ConnectionCountByState: map[string]int{
+					snapshot.TCPSynSent: 1,
+				},
+			},
+		},
+		INodeToTCP4: map[string]snapshot.TCPConnection{
+			"1": snapshot.TCPConnection{
+				State: snapshot.TCPCloseWait,
+				INode: "1",
+			},
+		},
+		INodeToTCP6: map[string]snapshot.TCPConnection{
+			"2": snapshot.TCPConnection{
+				State: snapshot.TCPSynSent,
+				INode: "2",
+			},
+		},
 	}
 }
 
@@ -22,7 +55,7 @@ func TestPrintSnapshotDefault(t *testing.T) {
 	testProcesses := []snapshot.Process{
 		snapshot.Process{},
 	}
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, getTestSnapshotNetwork())
 
 	assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print empty title snapshot should have nil error")
 	assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print text title snapshot should have nil error")
@@ -38,7 +71,7 @@ func TestPrintTextSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, getTestSnapshotNetwork())
 	ops.AppendOption(options.Option{
 		Key: options.OutputFormat,
 		Val: options.TextOutput,
@@ -53,7 +86,7 @@ func TestPrintJsonSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, snapshot.Network{})
 	ops.AppendOption(options.Option{
 		Key: options.OutputFormat,
 		Val: options.JSONOutput,
@@ -75,7 +108,7 @@ func TestReconcileSnapshot(t *testing.T) {
 		snapshot.Process{},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, snapshot.Network{})
 	reconcileSnapshot(&testSnapshot, ops)
 
 	assert.IsEqual(t, topCount, len(testSnapshot.Processes),
@@ -98,7 +131,7 @@ func TestReconcileSnapshotSortedByCPU(t *testing.T) {
 		},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, snapshot.Network{})
 	reconcileSnapshotSortedBy(&testSnapshot, "cpu")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
@@ -124,7 +157,7 @@ func TestReconcileSnapshotSortedByMemory(t *testing.T) {
 		},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, snapshot.Network{})
 	reconcileSnapshotSortedBy(&testSnapshot, "memory")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
@@ -150,7 +183,7 @@ func TestReconcileSnapshotSortedByThreadsCount(t *testing.T) {
 		},
 	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, snapshot.Network{})
 	reconcileSnapshotSortedBy(&testSnapshot, "threads")
 
 	for i := 1; i < len(testSnapshot.Processes); i++ {
