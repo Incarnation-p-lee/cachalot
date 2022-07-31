@@ -18,8 +18,8 @@ const (
 	printSubTitleLine           = "-------------------------------------------------------------------------"
 	tcpStateNoIndentMinimalSize = 11
 
-	tcp4TypeName                = "TCP4"
-	tcp6TypeName                = "TCP6"
+	tcp4TypeName = "TCP4"
+	tcp6TypeName = "TCP6"
 )
 
 func printSnapshotTitle(title string) {
