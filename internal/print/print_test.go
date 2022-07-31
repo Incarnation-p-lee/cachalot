@@ -19,12 +19,8 @@ func createSnapshot(timestamp time.Time, processes []snapshot.Process,
 	}
 }
 
-func TestPrintSnapshotDefault(t *testing.T) {
-	ops := options.CreateOptions()
-	testProcesses := []snapshot.Process{
-		snapshot.Process{},
-	}
-	testNetwork := snapshot.Network{
+func getTestSnapshotNetwork() snapshot.Network {
+	return snapshot.Network{
 		INodeToTCP4: map[string]snapshot.TCPConnection{
 			"1": snapshot.TCPConnection{
 				State: snapshot.TCPCloseWait,
@@ -38,7 +34,14 @@ func TestPrintSnapshotDefault(t *testing.T) {
 			},
 		},
 	}
-	testSnapshot := createSnapshot(time.Now(), testProcesses, testNetwork)
+}
+
+func TestPrintSnapshotDefault(t *testing.T) {
+	ops := options.CreateOptions()
+	testProcesses := []snapshot.Process{
+		snapshot.Process{},
+	}
+	testSnapshot := createSnapshot(time.Now(), testProcesses, getTestSnapshotNetwork())
 
 	assert.IsNil(t, Snapshot(testSnapshot, "", ops), "print empty title snapshot should have nil error")
 	assert.IsNil(t, Snapshot(testSnapshot, "abc", ops), "print text title snapshot should have nil error")
@@ -53,22 +56,8 @@ func TestPrintTextSnapshot(t *testing.T) {
 	testProcesses := []snapshot.Process{
 		snapshot.Process{},
 	}
-	testNetwork := snapshot.Network{
-		INodeToTCP4: map[string]snapshot.TCPConnection{
-			"1": snapshot.TCPConnection{
-				State: snapshot.TCPCloseWait,
-				INode: "1",
-			},
-		},
-		INodeToTCP6: map[string]snapshot.TCPConnection{
-			"2": snapshot.TCPConnection{
-				State: snapshot.TCPSynSent,
-				INode: "2",
-			},
-		},
-	}
 
-	testSnapshot := createSnapshot(time.Now(), testProcesses, testNetwork)
+	testSnapshot := createSnapshot(time.Now(), testProcesses, getTestSnapshotNetwork())
 	ops.AppendOption(options.Option{
 		Key: options.OutputFormat,
 		Val: options.TextOutput,
