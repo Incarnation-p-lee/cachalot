@@ -15,7 +15,7 @@ func createSnapshot(timestamp time.Time, processes []snapshot.Process,
 	return snapshot.Snapshot{
 		Timestamp: timestamp,
 		Processes: processes,
-		Network: network,
+		Network:   network,
 	}
 }
 
