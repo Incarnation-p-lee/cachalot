@@ -21,6 +21,20 @@ func createSnapshot(timestamp time.Time, processes []snapshot.Process,
 
 func getTestSnapshotNetwork() snapshot.Network {
 	return snapshot.Network{
+		NetworkStat: snapshot.NetworkStat {
+			TCP4Stat: snapshot.TCPStat{
+				ConnectionCount: 1,
+				ConnectionCountByState: map[string]int{
+					snapshot.TCPCloseWait: 1,
+				},
+			},
+			TCP6Stat: snapshot.TCPStat{
+				ConnectionCount: 1,
+				ConnectionCountByState: map[string]int{
+					snapshot.TCPSynSent: 1,
+				},
+			},
+		},
 		INodeToTCP4: map[string]snapshot.TCPConnection{
 			"1": snapshot.TCPConnection{
 				State: snapshot.TCPCloseWait,
