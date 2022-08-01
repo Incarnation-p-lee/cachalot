@@ -53,7 +53,7 @@ func printSnapshotNetworkTCPConnectionsByState(tcpStat snapshot.TCPStat, state, 
 		fmt.Printf("\t%d", count)
 	}
 
-	fmt.Printf("\n")
+	fmt.Println("")
 }
 
 func printSnapshotNetworkTCPConnectionsStates(tcpStat snapshot.TCPStat, tcpType string) {
@@ -182,6 +182,9 @@ func printSnapshotProcessesMemoryVMLib(processes []snapshot.Process) {
 }
 
 func printSnapshotProcessesCmdLine(processes []snapshot.Process) {
+	fmt.Println("Print snapshot PID cmdline:")
+	fmt.Println(printSubTitleLine)
+
 	fmt.Printf("PID\t\tCmdLine\n")
 
 	for _, process := range processes {
@@ -276,15 +279,22 @@ func printSnapshotProcessesMemory(processes []snapshot.Process) {
 	printSnapshotProcessesMemoryVMLib(processes)
 }
 
+func printSnapshotProcessesHeader() {
+	fmt.Println("Print snapshot processes details:")
+	fmt.Println(printSubTitleLine)
+}
+
 func printSnapshotProcessesStat(processes []snapshot.Process) {
 	printSnapshotProcessesCmdLine(processes)
+	printSnapshotProcessesHeader()
 	printSnapshotProcessesCPU(processes)
 	printSnapshotProcessesMemory(processes)
 	printSnapshotProcessesNetwork(processes)
 }
 
 func printSnapshotFoot() {
-	fmt.Printf("\n\n")
+	fmt.Println("")
+	fmt.Println("")
 }
 
 func printTextSnapshot(snapshot snapshot.Snapshot, title string) {
