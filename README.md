@@ -36,44 +36,174 @@ The output may look like below.
 ```
 =========================================================================
 Print snapshot with iteration count 0
-Timestamp: 2022-07-19 01:10:47.539437005 +0000 UTC m=+0.000394432
+-------------------------------------------------------------------------
+Timestamp: 2022-08-01 02:47:38.007390324 +0000 UTC m=+0.000308004
 =========================================================================
+Print snapshot network stat:
+-------------------------------------------------------------------------
+TCP4-Connections        0
+TCP4-Unknown
+TCP4-Established        0
+TCP4-SynSent            0
+TCP4-SynRecv            0
+TCP4-FinWait1           0
+TCP4-FinWait2           0
+TCP4-TimeWait           0
+TCP4-Close              0
+TCP4-CloseWait          0
+TCP4-LastACK            0
+TCP4-Listen             0
+TCP4-Closing            0
+TCP4-NewSynRecv         0
+TCP6-Connections        2
+TCP6-Unknown
+TCP6-Established        1
+TCP6-SynSent            0
+TCP6-SynRecv            0
+TCP6-FinWait1           0
+TCP6-FinWait2           0
+TCP6-TimeWait           0
+TCP6-Close              0
+TCP6-CloseWait          0
+TCP6-LastACK            0
+TCP6-Listen             1
+TCP6-Closing            0
+TCP6-NewSynRecv         0
+=========================================================================
+Print snapshot PID cmdline:
+-------------------------------------------------------------------------
 PID             CmdLine
 7               java-jarapp.jar
-723             /tmp/cachalot
-715             bash
+2534            ./cachalot
+1               /bin/bash./start.sh
+2525            bash
 =========================================================================
-PID             7       723     715
-Threads         25      7       1
-CPUUsage        0.1%    0.0%    0.0%
-MemoryUsage     14.6%   2.1%    0.0%
-VmSize          4700MB  687MB   7MB
-VmRss           673MB   5MB     3MB
-VmData          1668MB  40MB    1MB
-VmStk           0MB     0MB     0MB
-VmExe           0MB     0MB     0MB
-VmLib           20MB    0MB     1MB
+Print snapshot processes details:
+-------------------------------------------------------------------------
+PID                     7       2534    1       2525
+Threads                 25      5       1       1
+CPUUsage                0.0%    0.0%    0.0%    0.0%
+MemoryUsage             14.6%   2.1%    0.0%    0.0%
+VmSize                  4700MB  687MB   0MB     7MB
+VmRss                   675MB   5MB     0MB     3MB
+VmData                  1669MB  40MB    0MB     1MB
+VmStk                   0MB     0MB     0MB     0MB
+VmExe                   0MB     0MB     0MB     0MB
+VmLib                   20MB    0MB     0MB     1MB
+TCP4-Connections        0       0       0       0
+TCP4-Unknown
+TCP4-Established        0       0       0       0
+TCP4-SynSent            0       0       0       0
+TCP4-SynRecv            0       0       0       0
+TCP4-FinWait1           0       0       0       0
+TCP4-FinWait2           0       0       0       0
+TCP4-TimeWait           0       0       0       0
+TCP4-Close              0       0       0       0
+TCP4-CloseWait          0       0       0       0
+TCP4-LastACK            0       0       0       0
+TCP4-Listen             0       0       0       0
+TCP4-Closing            0       0       0       0
+TCP4-NewSynRecv         0       0       0       0
+TCP6-Connections        2       0       0       0
+TCP6-Unknown
+TCP6-Established        1       0       0       0
+TCP6-SynSent            0       0       0       0
+TCP6-SynRecv            0       0       0       0
+TCP6-FinWait1           0       0       0       0
+TCP6-FinWait2           0       0       0       0
+TCP6-TimeWait           0       0       0       0
+TCP6-Close              0       0       0       0
+TCP6-CloseWait          0       0       0       0
+TCP6-LastACK            0       0       0       0
+TCP6-Listen             1       0       0       0
+TCP6-Closing            0       0       0       0
+TCP6-NewSynRecv         0       0       0       0
 
 
 =========================================================================
 Print snapshot with iteration count 1
-Timestamp: 2022-07-19 01:11:02.557790989 +0000 UTC m=+15.018748516
+-------------------------------------------------------------------------
+Timestamp: 2022-08-01 02:47:53.02793989 +0000 UTC m=+15.020857570
 =========================================================================
+Print snapshot network stat:
+-------------------------------------------------------------------------
+TCP4-Connections        0
+TCP4-Unknown
+TCP4-Established        0
+TCP4-SynSent            0
+TCP4-SynRecv            0
+TCP4-FinWait1           0
+TCP4-FinWait2           0
+TCP4-TimeWait           0
+TCP4-Close              0
+TCP4-CloseWait          0
+TCP4-LastACK            0
+TCP4-Listen             0
+TCP4-Closing            0
+TCP4-NewSynRecv         0
+TCP6-Connections        2
+TCP6-Unknown
+TCP6-Established        1
+TCP6-SynSent            0
+TCP6-SynRecv            0
+TCP6-FinWait1           0
+TCP6-FinWait2           0
+TCP6-TimeWait           0
+TCP6-Close              0
+TCP6-CloseWait          0
+TCP6-LastACK            0
+TCP6-Listen             1
+TCP6-Closing            0
+TCP6-NewSynRecv         0
+=========================================================================
+Print snapshot PID cmdline:
+-------------------------------------------------------------------------
 PID             CmdLine
+2534            ./cachalot
 7               java-jarapp.jar
-715             bash
-723             /tmp/cachalot
+2525            bash
+1               /bin/bash./start.sh
 =========================================================================
-PID             7       715     723
-Threads         25      1       9
-CPUUsage        0.1%    0.0%    0.0%
-MemoryUsage     14.6%   0.0%    2.1%
-VmSize          4700MB  7MB     687MB
-VmRss           673MB   3MB     6MB
-VmData          1668MB  1MB     41MB
-VmStk           0MB     0MB     0MB
-VmExe           0MB     0MB     0MB
-VmLib           20MB    1MB     0MB
+Print snapshot processes details:
+-------------------------------------------------------------------------
+PID                     2534    7       2525    1
+Threads                 9       25      1       1
+CPUUsage                0.0%    0.0%    0.0%    0.0%
+MemoryUsage             2.1%    14.6%   0.0%    0.0%
+VmSize                  688MB   4700MB  7MB     0MB
+VmRss                   9MB     675MB   3MB     0MB
+VmData                  45MB    1669MB  1MB     0MB
+VmStk                   0MB     0MB     0MB     0MB
+VmExe                   0MB     0MB     0MB     0MB
+VmLib                   0MB     20MB    1MB     0MB
+TCP4-Connections        0       0       0       0
+TCP4-Unknown
+TCP4-Established        0       0       0       0
+TCP4-SynSent            0       0       0       0
+TCP4-SynRecv            0       0       0       0
+TCP4-FinWait1           0       0       0       0
+TCP4-FinWait2           0       0       0       0
+TCP4-TimeWait           0       0       0       0
+TCP4-Close              0       0       0       0
+TCP4-CloseWait          0       0       0       0
+TCP4-LastACK            0       0       0       0
+TCP4-Listen             0       0       0       0
+TCP4-Closing            0       0       0       0
+TCP4-NewSynRecv         0       0       0       0
+TCP6-Connections        0       2       0       0
+TCP6-Unknown
+TCP6-Established        0       1       0       0
+TCP6-SynSent            0       0       0       0
+TCP6-SynRecv            0       0       0       0
+TCP6-FinWait1           0       0       0       0
+TCP6-FinWait2           0       0       0       0
+TCP6-TimeWait           0       0       0       0
+TCP6-Close              0       0       0       0
+TCP6-CloseWait          0       0       0       0
+TCP6-LastACK            0       0       0       0
+TCP6-Listen             0       1       0       0
+TCP6-Closing            0       0       0       0
+TCP6-NewSynRecv         0       0       0       0
 
 ...
 ```
