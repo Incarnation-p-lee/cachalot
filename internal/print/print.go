@@ -11,6 +11,9 @@ import (
 	"time"
 )
 
+type getConnectionCount func(process snapshot.Process) int
+type getConnectionCountByState func(process snapshot.Process) map[string]int
+
 const (
 	jsonPrefix                  = ""
 	jsonIndent                  = "  "
@@ -188,11 +191,12 @@ func printSnapshotProcessesCmdLine(processes []snapshot.Process) {
 	fmt.Println(printSeparatedLine)
 }
 
-func printSnapshotProcessesTCP4Connections(processes []snapshot.Process) {
-	fmt.Printf("TCP4-Connections")
+func printSnapshotProcessesTCPConnections(tcpType string, processes []snapshot.Process,
+	getCount getConnectionCount) {
+	fmt.Printf("%s-Connections", tcpType)
 
 	for _, process := range processes {
-		fmt.Printf("\t%d", process.NetworkStat.TCP4Stat.ConnectionCount)
+		fmt.Printf("\t%d", getCount(process))
 	}
 
 	fmt.Printf("\n")
@@ -206,11 +210,12 @@ func printSnapshotConnetionState(prefix string, state string) {
 	}
 }
 
-func printSnapshotProcessesTCP4ConnectionsByState(processes []snapshot.Process, state string) {
-	printSnapshotConnetionState("TCP4", state)
+func printSnapshotProcessesTCPConnectionsByState(processes []snapshot.Process,
+	state, tcpType string, getCount getConnectionCountByState) {
+	printSnapshotConnetionState(tcpType, state)
 
 	for _, process := range processes {
-		countByState := process.NetworkStat.TCP4Stat.ConnectionCountByState
+		countByState := getCount(process)
 
 		if count, has := countByState[state]; has {
 			fmt.Printf("\t%d", count)
@@ -220,52 +225,39 @@ func printSnapshotProcessesTCP4ConnectionsByState(processes []snapshot.Process, 
 	fmt.Printf("\n")
 }
 
-func printSnapshotProcessesTCP4ConnectionsStates(processes []snapshot.Process) {
+func printSnapshotProcessesTCPConnectionsStates(processes []snapshot.Process,
+	tcpType string, getCount getConnectionCountByState) {
 	states := snapshot.GetTCPStates()
 
 	for _, state := range states {
-		printSnapshotProcessesTCP4ConnectionsByState(processes, state)
+		printSnapshotProcessesTCPConnectionsByState(processes, state, tcpType, getCount)
 	}
 }
 
-func printSnapshotProcessesTCP6Connections(processes []snapshot.Process) {
-	fmt.Printf("TCP6-Connections")
-
-	for _, process := range processes {
-		fmt.Printf("\t%d", process.NetworkStat.TCP6Stat.ConnectionCount)
-	}
-
-	fmt.Printf("\n")
+func getTCP4ConnectionCount(process snapshot.Process) int {
+	return process.NetworkStat.TCP4Stat.ConnectionCount
 }
 
-func printSnapshotProcessesTCP6ConnectionsByState(processes []snapshot.Process, state string) {
-	printSnapshotConnetionState("TCP6", state)
-
-	for _, process := range processes {
-		countByState := process.NetworkStat.TCP6Stat.ConnectionCountByState
-
-		if count, has := countByState[state]; has {
-			fmt.Printf("\t%d", count)
-		}
-	}
-
-	fmt.Printf("\n")
+func getTCP6ConnectionCount(process snapshot.Process) int {
+	return process.NetworkStat.TCP6Stat.ConnectionCount
 }
 
-func printSnapshotProcessesTCP6ConnectionsStates(processes []snapshot.Process) {
-	states := snapshot.GetTCPStates()
+func getTCP4ConnectionCountByState(process snapshot.Process) map[string]int {
+	return process.NetworkStat.TCP4Stat.ConnectionCountByState
+}
 
-	for _, state := range states {
-		printSnapshotProcessesTCP6ConnectionsByState(processes, state)
-	}
+func getTCP6ConnectionCountByState(process snapshot.Process) map[string]int {
+	return process.NetworkStat.TCP6Stat.ConnectionCountByState
 }
 
 func printSnapshotProcessesNetwork(processes []snapshot.Process) {
-	printSnapshotProcessesTCP4Connections(processes)
-	printSnapshotProcessesTCP4ConnectionsStates(processes)
+	printSnapshotProcessesTCPConnections(tcp4TypeName, processes, getTCP4ConnectionCount)
+	printSnapshotProcessesTCPConnectionsStates(processes, tcp4TypeName,
+		getTCP4ConnectionCountByState)
 
-	printSnapshotProcessesTCP6Connections(processes)
-	printSnapshotProcessesTCP6ConnectionsStates(processes)
+	printSnapshotProcessesTCPConnections(tcp6TypeName, processes, getTCP6ConnectionCount)
+	printSnapshotProcessesTCPConnectionsStates(processes, tcp6TypeName,
+		getTCP6ConnectionCountByState)
 }
 
 func printSnapshotProcessesCPU(processes []snapshot.Process) {
